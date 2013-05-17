@@ -1614,56 +1614,71 @@ class Gerrie {
 
 		// Loop over projects to proceed every single project
 		foreach($projects as $name => $info) {
-			$this->output('Project "' . $name . '"');
-
-			$row = $this->existsGerritProject($name, $this->getServerId());
-
-			$projectRow = array(
-				'server_id' => $this->getServerId(),
-				'name' => $name,
-				'description' => ((isset($info['description']) === true) ? $info['description']: '')
-			);
-
-			// If we don`t know this project, save this!
-			if($row === false) {
-				$projectRow['parent'] = 0;
-				$id = $this->insertRecord(Database::TABLE_PROJECT, $projectRow);
-
-				$this->output('=> Inserted (ID: ' . $id . ')');
-
-			// If we know this project, lets check if there something new
-			} else {
-
-				$this->checkIfServersFirstRun('Projects', 1363893021, $row);
-
-				$id = $row['id'];
-				unset($row['id']);
-
-				$diff = array_diff($projectRow, $row);
-
-				// If there some new data for us, update it.
-				if (count($diff) > 0) {
-					$this->updateRecord(Database::TABLE_PROJECT, $diff, $id);
-
-					$this->output('=> Updated (ID: ' . $id . ')');
-
-				} else {
-					$this->output('=> Nothing new. Skip it');
-				}
-			}
-
-			// We have to save the parent / child relations of projects to execute bulk updates afterwards
-			if (isset($info['parent']) === true) {
-				$parentMapping[$info['parent']][] = intval($id);
-			}
-
-			$info = $this->unsetKeys($info, array('description', 'parent'));
-			$this->checkIfAllValuesWereProceeded($info, 'Project');
+			$this->importProject($name, $info, $parentMapping);
 		}
 
 		// Correct parent / child relation of projects
 		$this->proceedProjectParentChildRelations($parentMapping);
 	}
+
+    /**
+     * Imports a single project.
+     * We save name, description and parent project.
+     *
+     * @param string $name Project name
+     * @param array $info Project info like description or parent project
+     * @param array $parentMapping Array where parent / child releation will be saved
+     * @return int
+     */
+    public function importProject($name, array $info, array &$parentMapping) {
+        $this->output('Project "' . $name . '"');
+
+        $row = $this->existsGerritProject($name, $this->getServerId());
+
+        $projectRow = array(
+            'server_id' => $this->getServerId(),
+            'name' => $name,
+            'description' => ((isset($info['description']) === true) ? $info['description']: '')
+        );
+
+        // If we don`t know this project, save this!
+        if($row === false) {
+            $projectRow['parent'] = 0;
+            $id = $this->insertRecord(Database::TABLE_PROJECT, $projectRow);
+
+            $this->output('=> Inserted (ID: ' . $id . ')');
+
+            // If we know this project, lets check if there something new
+        } else {
+
+            $this->checkIfServersFirstRun('Projects', 1363893021, $row);
+
+            $id = $row['id'];
+            unset($row['id']);
+
+            $diff = array_diff($projectRow, $row);
+
+            // If there some new data for us, update it.
+            if (count($diff) > 0) {
+                $this->updateRecord(Database::TABLE_PROJECT, $diff, $id);
+
+                $this->output('=> Updated (ID: ' . $id . ')');
+
+            } else {
+                $this->output('=> Nothing new. Skip it');
+            }
+        }
+
+        // We have to save the parent / child relations of projects to execute bulk updates afterwards
+        if (isset($info['parent']) === true) {
+            $parentMapping[$info['parent']][] = intval($id);
+        }
+
+        $info = $this->unsetKeys($info, array('description', 'parent'));
+        $this->checkIfAllValuesWereProceeded($info, 'Project');
+
+        return $id;
+    }
 
 	/**
 	 * Set correct parent / child relation of projects in database
@@ -1671,7 +1686,7 @@ class Gerrie {
 	 * @param array $parentMapping
 	 * @return void
 	 */
-	protected function proceedProjectParentChildRelations(array $parentMapping) {
+	public function proceedProjectParentChildRelations(array $parentMapping) {
 		// If there are no parent / child relations for projects, skip it.
 		if (count($parentMapping) == 0) {
 			return;
