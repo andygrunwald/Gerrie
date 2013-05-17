@@ -2,7 +2,6 @@
 
 namespace Gerrie\Command;
 
-use Gerrie\DataService\HTTP;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -12,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Gerrie\Helper\Configuration;
 use Gerrie\Helper\Database;
-use Gerrie\Helper\SSH;
+use Gerrie\Helper\Factory;
 use Gerrie\Export\Gerrit;
 
 class ExportCommand extends Command {
@@ -70,7 +69,7 @@ class ExportCommand extends Command {
 		foreach ($gerritSystems as $name => $gerritSystem) {
 			$gerritSystem['Name'] = $name;
 
-			$dataService = $this->getDataService($gerritSystem);
+			$dataService = Factory::getDataService($this->configuration, $name);
 
 			// Bootstrap the importer
 			$gerrit = new Gerrit($this->database, $dataService, $gerritSystem);
@@ -81,39 +80,6 @@ class ExportCommand extends Command {
 		}
 
 		$this->outputEndMessage($output);
-	}
-
-	protected function getDataService(array $config) {
-		$dataServiceConfig = strtoupper($config['DataService']);
-
-		switch (strtoupper($config['DataService'])) {
-			case 'SSH':
-				$dataService = $this->bootstrapSSHDataService($config);
-				break;
-			case 'HTTP':
-				$dataService = $this->bootstrapHTTPDataService($config);
-				break;
-			default:
-				throw new \Exception('Data service "' . $dataServiceConfig . '" not supported', 1364130057);
-		}
-
-		return $dataService;
-	}
-
-	protected function bootstrapSSHDataService(array $config) {
-		$sshExec = $this->configuration->getConfigurationValue('Executable.SSH');
-		$ssh = new SSH($sshExec, $config['SSH']);
-
-		$dataService = new \Gerrie\DataService\SSH($ssh, $config['SSH']);
-
-		return $dataService;
-	}
-
-	protected function bootstrapHTTPDataService(array $config) {
-		$restClient = \Gerrie\Helper\Factory::getHTTPClientInstance($config);
-		$dataService = new \Gerrie\DataService\HTTP($restClient, $config['HTTP']);
-
-		return $dataService;
 	}
 
 	protected function outputStartMessage(OutputInterface $output) {

@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'vendor/autoload.php';
 
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 
@@ -14,7 +14,7 @@ function GerrieErrrorHandler($code, $message, $file, $line) {
 set_error_handler('GerrieErrrorHandler');
 
 $loader = new UniversalClassLoader();
-$loader->registerNamespace('Gerrie', __DIR__);
+$loader->registerNamespace('Gerrie', 'src');
 $loader->register();
 
-define('CONFIG_FILE', __DIR__ . '/../Config.yml');
+define('CONFIG_FILE', __DIR__ . DIRECTORY_SEPARATOR . 'Config.yml');
