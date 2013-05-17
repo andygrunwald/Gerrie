@@ -258,7 +258,7 @@ class Database {
 				`tstamp` int(11) unsigned NOT NULL DEFAULT 0,
 				`crdate` int(11) unsigned NOT NULL DEFAULT 0,
 				PRIMARY KEY (`id`),
-				UNIQUE KEY `label_per_record` (`submit_records`, `label`)
+				UNIQUE KEY `label_per_record` (`submit_record`, `label`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
 
 		'gerrie_file_comments' => "
