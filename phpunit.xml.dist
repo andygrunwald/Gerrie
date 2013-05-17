@@ -3,7 +3,7 @@
 <phpunit backupGlobals="false" colors="true" bootstrap="vendor/autoload.php">
     <testsuites>
         <testsuite name="Gerrie Test Suite">
-            <directory suffix="Test.php">./test/Gerrie/</directory>
+            <directory suffix="Test.php">./tests/Gerrie/</directory>
         </testsuite>
     </testsuites>
 
