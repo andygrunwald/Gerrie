@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Gerrie\Helper\Configuration;
 use Gerrie\Helper\Database;
 use Gerrie\Helper\Factory;
-use Gerrie\Export\Gerrit;
+use Gerrie\Gerrie;
 
 class ExportCommand extends Command {
 
@@ -72,7 +72,7 @@ class ExportCommand extends Command {
 			$dataService = Factory::getDataService($this->configuration, $name);
 
 			// Bootstrap the importer
-			$gerrit = new Gerrit($this->database, $dataService, $gerritSystem);
+			$gerrit = new Gerrie($this->database, $dataService, $gerritSystem);
 			$gerrit->setOutput($output);
 
 			// Start the export action
