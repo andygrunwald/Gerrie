@@ -7,7 +7,8 @@
     "authors": [
         {
             "name": "Andy Grunwald",
-            "email": "andygrunwald@gmail.com"
+            "email": "andygrunwald@gmail.com",
+            "homepage": "http://andygrunwald.com"
         }
     ],
     "require": {
@@ -16,5 +17,8 @@
         "symfony/console": "v2.2.1",
         "symfony/yaml": "v2.2.1",
         "kriswallsmith/buzz": "v0.9"
+    },
+    "autoload": {
+        "psr-0": {"Gerrie": "src/"}
     }
 }
