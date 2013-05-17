@@ -1,6 +1,15 @@
 <?php
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'vendor/autoload.php';
+$vendorFilePath = __DIR__ . DIRECTORY_SEPARATOR . 'vendor/autoload.php';
+if (file_exists($vendorFilePath) === false) {
+    $vendorFilePath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'autoload.php';
+}
+
+if (file_exists($vendorFilePath) === false) {
+    throw new \Exception('No autoload.php ca be found', 1368817443);
+}
+
+require_once $vendorFilePath;
 
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 
