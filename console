@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/src/Bootstrap.php';
+
+use Gerrie\Command\CreateDatabaseCommand;
+use Gerrie\Command\ExportCommand;
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+$application->add(new CreateDatabaseCommand());
+$application->add(new ExportCommand());
+$application->run();
