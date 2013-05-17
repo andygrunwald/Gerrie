@@ -37,11 +37,12 @@ class CreateDatabaseCommand extends Command {
 	protected function configure() {
 		$this
 			->setName('gerrie:create-database')
-			->setDescription('Creates the required database scheme');
+			->setDescription('Creates the required database scheme')
+            ->addOption('configFile', 'c', InputOption::VALUE_REQUIRED, 'Path to configuration file', CONFIG_FILE);
 	}
 
 	protected function initialize(InputInterface $input, OutputInterface $output) {
-		$this->configuration = new Configuration();
+		$this->configuration = new Configuration($input->getOption('configFile'));
 		$databaseConfig = $this->configuration->getConfigurationValue('Database');
 
 		$this->database = new Database($databaseConfig);
