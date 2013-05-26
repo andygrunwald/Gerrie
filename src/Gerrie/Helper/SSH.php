@@ -16,7 +16,7 @@ class SSH {
 
 	public function __construct($executable, array $config) {
 		$this->setExecutable($executable);
-		$this->setKeyFile($config['Private-Key']);
+		$this->setKeyFile($config['KeyFile']);
 		$this->setPort($config['Port']);
 	}
 
