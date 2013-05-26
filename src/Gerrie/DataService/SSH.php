@@ -64,7 +64,11 @@ class SSH extends Base {
 
 		$connector->reset();
 
-		$connector->addCommandPart($config['Host']);
+		$host = $config['Host'];
+		if (isset($config['Username']) === true) {
+			$host = $config['Username'] . '@' . $host;
+		}
+		$connector->addCommandPart($host);
 		$connector->addCommandPart('gerrit');
 
 		return $connector;

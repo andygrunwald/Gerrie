@@ -52,6 +52,9 @@ Gerrit:
       # Port of the Gerrit server
       # Required
       Port: 29418
+      # Username of the Gerrit account
+      # Required
+      Username:
       # SSH-Key which will be used for the SSH-API
       # Optional
       Private-Key:
