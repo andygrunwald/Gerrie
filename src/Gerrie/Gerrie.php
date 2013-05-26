@@ -1261,7 +1261,10 @@ class Gerrie {
 		// If "Gerrit Code Review" posted some problems, e.g. path conflicts (e.g. https://review.typo3.org/#/c/4553/)
 		// there is no person information.
 		// Set it here, because otherwise we got empty persons ;)
-		if(!$person['name'] && !$person['email'] && !$person['username']) {
+		if(array_key_exists('name', $person) === false &&
+			array_key_exists('email', $person) === false &&
+			array_key_exists('username', $person) === false) {
+
 			$person['name'] = 'Unknown (Exporter)';
 			$person['email'] = 'mail@example.org';
 			$person['username'] = 'Unknown_export_username';
