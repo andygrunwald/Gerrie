@@ -1193,6 +1193,10 @@ class Gerrie {
 	 * @return void
 	 */
 	protected function proceedFiles(array $patchset) {
+		if (array_key_exists('files', $patchset) === false || is_array($patchset['files']) === false) {
+			return;
+		}
+
 		foreach ($patchset['files'] as $file) {
 			// Take care of file action
 			$type = $this->proceedLookupTable(Database::TABLE_FILEACTION, 'id', 'name', $file['type']);
