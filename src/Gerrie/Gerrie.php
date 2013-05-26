@@ -24,6 +24,20 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Gerrie {
 
 	/**
+	 * Base interface of PSR Logging
+	 *
+	 * @var string
+	 */
+	const PSR_LOG_BASE = 'Psr\Log\LoggerInterface';
+
+	/**
+	 * Base interface of Symfony console output
+	 *
+	 * @var string
+	 */
+	const SYMFONY_CONSOLE_BASE = 'Symfony\Component\Console\Output\OutputInterface';
+
+	/**
 	 * Database helper object
 	 *
 	 * @var \Gerrie\Helper\Database
@@ -171,10 +185,19 @@ class Gerrie {
 	/**
 	 * Sets the output object for CLI output
 	 *
-	 * @param \Symfony\Component\Console\Output\OutputInterface $output The output object
+	 * @param \Symfony\Component\Console\Output\OutputInterface|\Monolog\Logger $output The output object
 	 * @return void
 	 */
-	public function setOutput(OutputInterface $output) {
+	public function setOutput($output) {
+		$psrLogBase = self::PSR_LOG_BASE;
+		$consoleBase = self::SYMFONY_CONSOLE_BASE;
+
+		if (($output instanceof $psrLogBase) === false && ($output instanceof $consoleBase) === false) {
+			$className = get_class($output);
+			$message = 'Output class "%s" not supported. Only "%s" or "%s"';
+			throw new \Exception(sprintf($message, $className, $psrLogBase, $consoleBase), 1369595109);
+		}
+
 		$this->output = $output;
 	}
 
@@ -223,23 +246,35 @@ class Gerrie {
 		// Chose color type of message
 		switch($type) {
 			case self::OUTPUT_COMMENT:
+				$logMethod = 'info';
 				$prefix = '<comment>';
 				$postfix = '</comment>';
 				break;
 
 			case self::OUTPUT_ERROR:
+				$logMethod = 'critical';
 				$prefix = '<error>';
 				$postfix = '</error>';
 				break;
 
 			case self::OUTPUT_INFO:
 			default:
+				$logMethod = 'info';
 				$prefix = '<info>';
 				$postfix = '</info>';
 				break;
 		}
 
-		$output->writeln($prefix . $message . $postfix);
+		$psrLogBase = self::PSR_LOG_BASE;
+		$consoleBase = self::SYMFONY_CONSOLE_BASE;
+
+		if ($output instanceof $psrLogBase) {
+			$output->$logMethod($prefix . $message . $postfix);
+
+		} else if ($output instanceof $consoleBase) {
+			$output->writeln($prefix . $message . $postfix);
+		}
+
 	}
 
 	/**
@@ -415,7 +450,7 @@ class Gerrie {
 	 * @param array $project The current project
 	 * @return void
 	 */
-	protected function proceedChangesetsOfProject($host, array $project) {
+	public function proceedChangesetsOfProject($host, array $project) {
 
 		// Clear the temp tables first
 		$this->cleanupTempTables();
@@ -617,8 +652,8 @@ class Gerrie {
 		$query = 'SELECT `id`, `changeset`, `system`, `number`
 				  FROM ' . Database::TABLE_TRACKING_ID . '
 				  WHERE `changeset` = :changeset
-				  		AND `system` = :system
-				  		AND `number` = :number';
+						AND `system` = :system
+						AND `number` = :number';
 		$statement = $dbHandle->prepare($query);
 
 		$statement->bindParam(':changeset', $changeSetId, \PDO::PARAM_INT);
@@ -799,61 +834,71 @@ class Gerrie {
 	 */
 	protected function proceedSubmitRecords(array $changeSet) {
 		#print_r(($changeSet['submitRecords']));
-		print_r($changeSet);
-		die();
+		#print_r($changeSet);
+		#die();
 
-		$submitRecordData = array(
-			'changeset' => $changeSet['id'],
-			'status' => $changeSet['submitRecords']['status'],
-		);
-		$wherePart = array('changeset' => $changeSet['id']);
-		$submitRecordRow = $this->getLookupTableValues(Database::TABLE_SUBMIT_RECORDS, array('id'), $wherePart);
-		if ($submitRecordRow === false) {
+		if (is_array($changeSet['submitRecords'] === false)) {
+			return;
+		}
+
+		foreach ($changeSet['submitRecords'] as $submitRecord) {
 			$submitRecordData = array(
 				'changeset' => $changeSet['id'],
-				'status' => $changeSet['submitRecords']['status'],
+				'status' => $submitRecord['status'],
 			);
-			$id = $this->insertRecord(Database::TABLE_SUBMIT_RECORDS, $submitRecordData);
+			$wherePart = array('changeset' => $changeSet['id']);
+			$submitRecordRow = $this->getLookupTableValues(Database::TABLE_SUBMIT_RECORDS, array('id'), $wherePart);
+			if ($submitRecordRow === false) {
+				$submitRecordData = array(
+					'changeset' => $changeSet['id'],
+					'status' => $submitRecord['status'],
+				);
+				$id = $this->insertRecord(Database::TABLE_SUBMIT_RECORDS, $submitRecordData);
 
-		} else {
-			$id = $submitRecordRow['id'];
-		}
+			} else {
+				$id = $submitRecordRow['id'];
+			}
 
-		$database = $this->getDatabase()->getDatabaseConnection();
-		$labelTable = Database::TABLE_SUBMIT_RECORD_LABELS;
-		$query = '
-			INSERT INTO `' . $labelTable . '` (`submit_record`, `label`, `status`, `tstamp`, `crdate`)
-			VALUES (:submit_record, :label, :status, :tstamp, :crdate)
-			ON DUPLICATE KEY UPDATE
-				' . $labelTable . '.`status` = :status,
-				' . $labelTable . '.`tstamp` = :tstamp';
+			$database = $this->getDatabase()->getDatabaseConnection();
+			$labelTable = Database::TABLE_SUBMIT_RECORD_LABELS;
+			$query = '
+				INSERT INTO `' . $labelTable . '` (`submit_record`, `label`, `status`, `tstamp`, `crdate`)
+				VALUES (:submit_record, :label, :status, :tstamp, :crdate)
+				ON DUPLICATE KEY UPDATE
+					' . $labelTable . '.`status` = :status,
+					' . $labelTable . '.`tstamp` = :tstamp';
 
-		$labels = $changeSet['submitRecords']['labels'];
-		foreach ($labels as $labelInfo) {
-			// @todo hier weitermachen!!!!
-			$statement = $dbHandle->prepare($query);
+			$labels = $submitRecord['labels'];
+			foreach ($labels as $labelInfo) {
+				/*
+				// @todo hier weitermachen!!!!
+				$dbHandle = $this->getDatabase()->getDatabaseConnection();
+				$statement = $dbHandle->prepare($query);
 
-			$statement->bindParam(':value', $value, \PDO::PARAM_STR);
-			$executeResult = $statement->execute();
+				$statement->bindParam(':value', $value, \PDO::PARAM_STR);
+				$executeResult = $statement->execute();
 
-			$this->database->checkQueryError($statement, $executeResult);
-		}
+				$this->database->checkQueryError($statement, $executeResult);
+				*/
+			}
 
-		/*
-		 array(2) {
-		 		'status' => string(9) "NOT_READY"
-		 		'labels' => array(2) {
-					[0] => array(2) {
-						'label' => string(8) "Verified"
-						'status' => string(4) "NEED"
-					}
-					[1] => array(2) {
-						'label' => string(11) "Code-Review"
-						'status' => string(4) "NEED"
+			/*
+			 array(2) {
+					'status' => string(9) "NOT_READY"
+					'labels' => array(2) {
+						[0] => array(2) {
+							'label' => string(8) "Verified"
+							'status' => string(4) "NEED"
+						}
+						[1] => array(2) {
+							'label' => string(11) "Code-Review"
+							'status' => string(4) "NEED"
+						}
 					}
 				}
-			}
-		*/
+			*/
+		}
+
 	}
 
 	/**
@@ -1302,7 +1347,7 @@ class Gerrie {
 					email.`email`
 				  FROM ' . Database::TABLE_EMAIL . ' email
 				  INNER JOIN ' . Database::TABLE_PERSON . ' person ON (
-				  	email.`person` = person.`id`
+					email.`person` = person.`id`
 				  )
 				  WHERE email.`email` = :value';
 				break;
@@ -1368,6 +1413,28 @@ class Gerrie {
 	}
 
 	/**
+	 * Return a single project from our database for given server id with given project id.
+	 *
+	 * @param int $serverId Gerrit server id
+	 * @param int $projectId Id of Gerrit project
+	 * @return array
+	 */
+	public function getGerritProjectById($serverId, $projectId) {
+		$dbHandle = $this->getDatabase()->getDatabaseConnection();
+
+		$query = 'SELECT `id`, `name` FROM ' . Database::TABLE_PROJECT . '
+				  WHERE `server_id` = :server_id AND `id` = :id';
+		$statement = $dbHandle->prepare($query);
+
+		$statement->bindParam(':server_id', $serverId, \PDO::PARAM_INT);
+		$statement->bindParam(':id', $projectId, \PDO::PARAM_INT);
+		$executeResult = $statement->execute();
+
+		$this->database->checkQueryError($statement, $executeResult);
+		return $statement->fetch(\PDO::FETCH_ASSOC);
+	}
+
+	/**
 	 * Returns a approval by the unique identifier
 	 *
 	 * @param int $patchSetId ID of a record from the patchset table
@@ -1381,8 +1448,8 @@ class Gerrie {
 		$query = 'SELECT `id`, `patchset`, `type`, `description`, `value`, `granted_on`, `by`
 				  FROM ' . Database::TABLE_APPROVAL . '
 				  WHERE `patchset` = :patchset
-				  		AND `type` = :type
-				  		AND `by` = :by';
+						AND `type` = :type
+						AND `by` = :by';
 		$statement = $dbHandle->prepare($query);
 
 		$statement->bindParam(':patchset', $patchSetId, \PDO::PARAM_INT);
@@ -1409,9 +1476,9 @@ class Gerrie {
 		$query = 'SELECT `id`, `changeset`, `number`, `revision`, `ref`, `uploader`, `created_on`
 				  FROM ' . Database::TABLE_PATCHSET . '
 				  WHERE `changeset` = :changeset
-				  		AND `number` = :number
-				  		AND `revision` = :revision
-				  		AND `created_on` = :created_on';
+						AND `number` = :number
+						AND `revision` = :revision
+						AND `created_on` = :created_on';
 		$statement = $dbHandle->prepare($query);
 
 		$statement->bindParam(':changeset', $changeSetId, \PDO::PARAM_INT);
@@ -1431,9 +1498,9 @@ class Gerrie {
 		$query = 'SELECT `id`, `patchset`, `file`, `line`, `reviewer`, `message`
 				  FROM ' . Database::TABLE_FILE_COMMENTS . '
 				  WHERE `patchset` = :patchset
-				  		AND `file` = :file
-				  		AND `line` = :line
-				  		AND `reviewer` = :reviewer';
+						AND `file` = :file
+						AND `line` = :line
+						AND `reviewer` = :reviewer';
 		$statement = $dbHandle->prepare($query);
 
 		$statement->bindParam(':patchset', $patchSetId, \PDO::PARAM_INT);
@@ -1461,9 +1528,9 @@ class Gerrie {
 		$query = 'SELECT `id`, `changeset`, `timestamp`, `reviewer`, `message`
 				  FROM ' . Database::TABLE_COMMENT . '
 				  WHERE `changeset` = :changeset
-				  		AND `timestamp` = :timestamp
-				  		AND `reviewer` = :reviewer
-				  		AND `number` = :number';
+						AND `timestamp` = :timestamp
+						AND `reviewer` = :reviewer
+						AND `number` = :number';
 		$statement = $dbHandle->prepare($query);
 
 		$statement->bindParam(':changeset', $changeSetId, \PDO::PARAM_INT);
@@ -1492,9 +1559,9 @@ class Gerrie {
 						 `created_on`, `last_updated`, `sort_key`, `open`, `status`, `current_patchset`
 				  FROM ' . Database::TABLE_CHANGESET . '
 				  WHERE `project` = :project
-				  		AND `branch` = :branch
-				  		AND `id` = :id
-				  		AND `created_on` = :created_on';
+						AND `branch` = :branch
+						AND `identifier` = :id
+						AND `created_on` = :created_on';
 		$statement = $dbHandle->prepare($query);
 
 		$statement->bindParam(':project', $project, \PDO::PARAM_INT);
@@ -1571,7 +1638,7 @@ class Gerrie {
 
 		$this->setServerId($serverId);
 
-        return $serverId;
+		return $serverId;
 	}
 
 	protected function outputHeadline($message) {
@@ -1621,64 +1688,64 @@ class Gerrie {
 		$this->proceedProjectParentChildRelations($parentMapping);
 	}
 
-    /**
-     * Imports a single project.
-     * We save name, description and parent project.
-     *
-     * @param string $name Project name
-     * @param array $info Project info like description or parent project
-     * @param array $parentMapping Array where parent / child releation will be saved
-     * @return int
-     */
-    public function importProject($name, array $info, array &$parentMapping) {
-        $this->output('Project "' . $name . '"');
+	/**
+	 * Imports a single project.
+	 * We save name, description and parent project.
+	 *
+	 * @param string $name Project name
+	 * @param array $info Project info like description or parent project
+	 * @param array $parentMapping Array where parent / child releation will be saved
+	 * @return int
+	 */
+	public function importProject($name, array $info, array &$parentMapping) {
+		$this->output('Project "' . $name . '"');
 
-        $row = $this->existsGerritProject($name, $this->getServerId());
+		$row = $this->existsGerritProject($name, $this->getServerId());
 
-        $projectRow = array(
-            'server_id' => $this->getServerId(),
-            'name' => $name,
-            'description' => ((isset($info['description']) === true) ? $info['description']: '')
-        );
+		$projectRow = array(
+			'server_id' => $this->getServerId(),
+			'name' => $name,
+			'description' => ((isset($info['description']) === true) ? $info['description']: '')
+		);
 
-        // If we don`t know this project, save this!
-        if($row === false) {
-            $projectRow['parent'] = 0;
-            $id = $this->insertRecord(Database::TABLE_PROJECT, $projectRow);
+		// If we don`t know this project, save this!
+		if($row === false) {
+			$projectRow['parent'] = 0;
+			$id = $this->insertRecord(Database::TABLE_PROJECT, $projectRow);
 
-            $this->output('=> Inserted (ID: ' . $id . ')');
+			$this->output('=> Inserted (ID: ' . $id . ')');
 
-            // If we know this project, lets check if there something new
-        } else {
+			// If we know this project, lets check if there something new
+		} else {
 
-            $this->checkIfServersFirstRun('Projects', 1363893021, $row);
+			$this->checkIfServersFirstRun('Projects', 1363893021, $row);
 
-            $id = $row['id'];
-            unset($row['id']);
+			$id = $row['id'];
+			unset($row['id']);
 
-            $diff = array_diff($projectRow, $row);
+			$diff = array_diff($projectRow, $row);
 
-            // If there some new data for us, update it.
-            if (count($diff) > 0) {
-                $this->updateRecord(Database::TABLE_PROJECT, $diff, $id);
+			// If there some new data for us, update it.
+			if (count($diff) > 0) {
+				$this->updateRecord(Database::TABLE_PROJECT, $diff, $id);
 
-                $this->output('=> Updated (ID: ' . $id . ')');
+				$this->output('=> Updated (ID: ' . $id . ')');
 
-            } else {
-                $this->output('=> Nothing new. Skip it');
-            }
-        }
+			} else {
+				$this->output('=> Nothing new. Skip it');
+			}
+		}
 
-        // We have to save the parent / child relations of projects to execute bulk updates afterwards
-        if (isset($info['parent']) === true) {
-            $parentMapping[$info['parent']][] = intval($id);
-        }
+		// We have to save the parent / child relations of projects to execute bulk updates afterwards
+		if (isset($info['parent']) === true) {
+			$parentMapping[$info['parent']][] = intval($id);
+		}
 
-        $info = $this->unsetKeys($info, array('description', 'parent'));
-        $this->checkIfAllValuesWereProceeded($info, 'Project');
+		$info = $this->unsetKeys($info, array('description', 'parent'));
+		$this->checkIfAllValuesWereProceeded($info, 'Project');
 
-        return $id;
-    }
+		return $id;
+	}
 
 	/**
 	 * Set correct parent / child relation of projects in database
