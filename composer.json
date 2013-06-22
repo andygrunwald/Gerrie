@@ -1,9 +1,11 @@
 {
-    "name": "andygrunwald/Gerrie",
+    "name": "andygrunwald/gerrie",
     "description": "An data exporter for Google`s review system 'Gerrit'",
     "keywords": ["Gerrit", "Google", "Git", "Review"],
     "homepage": "http://github.com/andygrunwald/Gerrie",
-    "minimum-stability": "stable",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Andy Grunwald",
@@ -11,12 +13,15 @@
             "homepage": "http://andygrunwald.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/andygrunwald/Gerrie/issues"
+    },
     "require": {
         "php": ">=5.3.0",
-        "symfony/class-loader": "v2.2.3",
-        "symfony/console": "v2.2.3",
-        "symfony/yaml": "v2.2.3",
-        "kriswallsmith/buzz": "v0.10"
+        "symfony/class-loader": "2.2.*",
+        "symfony/console": "2.2.*",
+        "symfony/yaml": "2.2.*",
+        "kriswallsmith/buzz": ">=v0.10"
     },
     "autoload": {
         "psr-0": {"Gerrie": "src/"}
