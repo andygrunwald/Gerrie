@@ -16,7 +16,7 @@
         "symfony/class-loader": "v2.2.1",
         "symfony/console": "v2.2.1",
         "symfony/yaml": "v2.2.1",
-        "kriswallsmith/buzz": "v0.9"
+        "kriswallsmith/buzz": "v0.10"
     },
     "autoload": {
         "psr-0": {"Gerrie": "src/"}
