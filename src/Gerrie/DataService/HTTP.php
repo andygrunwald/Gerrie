@@ -9,11 +9,12 @@ class HTTP extends Base {
 	 *
 	 * @param \Buzz\Browser $connector
 	 * @param array $config
-	 * @return void
+	 * @return \Gerrie\DataService\HTTP
 	 */
 	public function __construct(\Buzz\Browser $connector, array $config) {
 		$this->setConnector($connector);
 		$this->setConfig($config);
+		$this->setName('HTTP');
 	}
 
 	/**

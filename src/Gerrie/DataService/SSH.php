@@ -9,11 +9,12 @@ class SSH extends Base {
 	 *
 	 * @param \Gerrie\Helper\SSH $connector
 	 * @param array $config
-	 * @return void
+	 * @return \Gerrie\DataService\SSH
 	 */
 	public function __construct(\Gerrie\Helper\SSH $connector, array $config) {
 		$this->setConnector($connector);
 		$this->setConfig($config);
+		$this->setName('SSH');
 	}
 
 	/**

@@ -5,6 +5,13 @@ namespace Gerrie\DataService;
 abstract class Base {
 
 	/**
+	 * Name of data service
+	 *
+	 * @var string
+	 */
+	private $name = '';
+
+	/**
 	 * API connector like HTTP or SSH
 	 *
 	 * @var object
@@ -24,6 +31,25 @@ abstract class Base {
 	 * @var array
 	 */
 	protected $config = array();
+
+	/**
+	 * Sets the name of the data service
+	 *
+	 * @param string $name Name of data service
+	 * @return void
+	 */
+	public function setName($name) {
+		$this->name = (string) $name;
+	}
+
+	/**
+	 * Returns the name of the data service
+	 *
+	 * @return string
+	 */
+	public function getName() {
+		return $this->name;
+	}
 
 	/**
 	 * Sets the API connector
