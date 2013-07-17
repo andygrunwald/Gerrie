@@ -452,23 +452,29 @@ class Gerrie {
 	 */
 	public function proceedChangesetsOfProject($host, array $project) {
 
+		$dataService = $this->getDataService();
+		$dataServiceName = $dataService->getName();
+
 		// Clear the temp tables first
 		$this->cleanupTempTables();
 
 		// Query the data till we receive all data
 		$queryRun = $startNum = $endNum = 0;
 		$sortKey = null;
-		$changeSetQueryLimit = $this->getDataService()->getQueryLimit();
+		$changeSetQueryLimit = $dataService->getQueryLimit();
 
 		do {
 			$startNum = $queryRun * $changeSetQueryLimit;
 			$endNum = $startNum + $changeSetQueryLimit;
-			$this->output('Querying ' . $host . ' via SSH for changes ' . $startNum . '...' . $endNum);
 
-			$data = $this->getDataService()->getChangesets($project['name'], $sortKey);
+			$queryMessage = sprintf('Querying %s via %s for changes %d...%s', $host, $dataServiceName, $startNum, $endNum);
+			$this->output($queryMessage);
+
+			$data = $dataService->getChangesets($project['name'], $sortKey);
 			$queryStatus = $this->transferJsonToArray(array_pop($data));
 
-			$this->output('Received ' . $queryStatus['rowCount'] . ' changes to process');
+			$receivedMessage = sprintf('Received %d changes to process', $queryStatus['rowCount']);
+			$this->output($receivedMessage);
 
 			// One project can get n changesets. So lets do the same as one level above (the project loop)
 			// Loop over all changesets and proceed (import / update) them ;)
