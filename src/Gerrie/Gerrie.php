@@ -186,6 +186,7 @@ class Gerrie {
 	 * Sets the output object for CLI output
 	 *
 	 * @param \Symfony\Component\Console\Output\OutputInterface|\Monolog\Logger $output The output object
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function setOutput($output) {
@@ -1717,8 +1718,10 @@ class Gerrie {
 
 		$projectRow = array(
 			'server_id' => $this->getServerId(),
+			'identifier' => ((isset($info['id']) === true) ? $info['id']: ''),
 			'name' => $name,
-			'description' => ((isset($info['description']) === true) ? $info['description']: '')
+			'description' => ((isset($info['description']) === true) ? $info['description']: ''),
+			'kind' => ((isset($info['kind']) === true) ? $info['kind']: '')
 		);
 
 		// If we don`t know this project, save this!
@@ -1754,7 +1757,7 @@ class Gerrie {
 			$parentMapping[$info['parent']][] = intval($id);
 		}
 
-		$info = $this->unsetKeys($info, array('description', 'parent'));
+		$info = $this->unsetKeys($info, array('description', 'parent', 'id', 'kind'));
 		$this->checkIfAllValuesWereProceeded($info, 'Project');
 
 		return $id;
@@ -1796,6 +1799,7 @@ class Gerrie {
 	 *
 	 * @param string $table Table to insert
 	 * @param array $data Data to insert
+	 * @throws \Exception
 	 * @return int Last inserted id
 	 */
 	protected function insertRecord($table, array $data) {
@@ -1909,7 +1913,17 @@ class Gerrie {
 		return array($updateSet, $prepareSet);
 	}
 
+	/**
+	 * If the incoming $json is a string it will be decoded to an array
+	 *
+	 * @param mixed $json JSON String to be decoded
+	 * @return array
+	 */
 	protected function transferJsonToArray($json) {
+		if (is_array($json) === true) {
+			return $json;
+		}
+
 		return json_decode($json, true);
 	}
 

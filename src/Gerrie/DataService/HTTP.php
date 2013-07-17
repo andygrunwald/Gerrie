@@ -129,13 +129,76 @@ class HTTP extends Base {
 	 * If Gerrit 2.6 is released, the HTTP DataService will be extended and fully implemented.
 	 * Maybe, you want to help me?
 	 *
+	 * SSH commands:
+	 * /usr/bin/ssh -p 29418 review.typo3.org gerrit query --format 'JSON' --current-patch-set
+	 *                                                     --all-approvals --files --comments
+	 *                                                     --commit-message --dependencies --submit-records
+	 *                                                     'project:Documentation/ApiTypo3Org' limit:'500' 2>&1
+	 * /usr/bin/ssh -p 29418 review.typo3.org gerrit query --format 'JSON' --current-patch-set
+	 *                                                     --all-approvals --files --comments
+	 *                                                     --commit-message --dependencies --submit-records
+	 *                                                     'project:Documentation/ApiTypo3Org' limit:'500'
+	 *                                                     resume_sortkey:'00215ec7000041b3' 2>&1
+	 *
 	 * @param string $projectName The project name
 	 * @param string $resumeKey The key where the request will be resumed
 	 * @throws \Exception
 	 */
 	public function getChangesets($projectName, $resumeKey = null) {
-		throw new \Exception('Not implemented yet', 1364127762);
-		// /usr/bin/ssh -p 29418 review.typo3.org gerrit query --format 'JSON' --current-patch-set  --all-approvals --files --comments --commit-message --dependencies --submit-records 'project:Documentation/ApiTypo3Org' limit:'500' 2>&1"
-		// /usr/bin/ssh -p 29418 review.typo3.org gerrit query --format 'JSON' --current-patch-set  --all-approvals --files --comments --commit-message --dependencies --submit-records 'project:Documentation/ApiTypo3Org' limit:'500' resume_sortkey:'00215ec7000041b3' 2>&1
+		$projectName = 'Packages/TYPO3.CMS';
+		$urlParts = array(
+			'q' => sprintf('project:%s', $projectName),
+			'n' => $this->getQueryLimit()
+		);
+
+		// The "o" parameter can be applied more than one time
+		// This parameter defines how detailed the answer will be
+		$oOptions = array(
+			'LABELS',
+			'DETAILED_LABELS',
+			'CURRENT_REVISION',
+			'ALL_REVISIONS',
+			'CURRENT_COMMIT',
+			'ALL_COMMITS',
+			'CURRENT_FILES',
+			'ALL_FILES',
+			'DETAILED_ACCOUNTS',
+			'MESSAGES'
+		);
+		$additionalFields = $this->buildQueryStringWithSameParameterName('o', $oOptions);
+		$url = $this->getBaseUrl() . 'changes/?' . http_build_query($urlParts) . '&' . $additionalFields;
+
+		$response = $this->getConnector()->get($url);
+		$response = $this->verifyResult($response, $url);
+
+		$content = $this->transformJsonResponse($response->getContent());
+
+		return $content;
+	}
+
+	/**
+	 * This function build a url query string with a parameter which can be applied more than one time.
+	 * E.g. http://www.google.de/?q=5&q=6&q=7&q=8&q=9...
+	 *
+	 * This method is used to apply the parameter "o" in GET /changes/ command for REST-API.
+	 *
+	 * @see https://review.typo3.org/Documentation/rest-api-changes.html#list-changes
+	 *
+	 * @param string $parameterName Parametername which should be used more than one time
+	 * @param array $values Various of values
+	 * @return string
+	 */
+	private function buildQueryStringWithSameParameterName($parameterName, array $values) {
+		$queryString = '';
+
+		foreach ($values as $value) {
+			if ($queryString) {
+				$queryString .= '&';
+			}
+
+			$queryString .= http_build_query(array($parameterName => $value));
+		}
+
+		return $queryString;
 	}
 }

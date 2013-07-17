@@ -79,8 +79,10 @@ class Database {
 			CREATE TABLE `gerrie_project` (
 				`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 				`server_id` int(11) unsigned NOT NULL,
+				`identifier` varchar(255) NOT NULL DEFAULT '',
 				`name` varchar(255) NOT NULL DEFAULT '',
 				`description` TEXT NOT NULL DEFAULT '',
+				`kind` varchar(255) NOT NULL DEFAULT '',
 				`parent` int(11) unsigned NOT NULL DEFAULT 0,
 				`tstamp` int(11) unsigned NOT NULL DEFAULT 0,
 				`crdate` int(11) unsigned NOT NULL DEFAULT 0,
