@@ -142,6 +142,7 @@ class HTTP extends Base {
 	 *
 	 * @param string $projectName The project name
 	 * @param string $resumeKey The key where the request will be resumed
+	 * @return array|null
 	 * @throws \Exception
 	 */
 	public function getChangesets($projectName, $resumeKey = null) {
