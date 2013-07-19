@@ -146,7 +146,7 @@ class HTTP extends Base {
 	 * @throws \Exception
 	 */
 	public function getChangesets($projectName, $resumeKey = null) {
-		$projectName = 'Packages/TYPO3.CMS';
+		throw new \Exception(__METHOD__ . ' not implemented yet. Will you help me?', 1374257295);
 		$urlParts = array(
 			'q' => sprintf('project:%s', $projectName),
 			'n' => $this->getQueryLimit()
