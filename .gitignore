@@ -1,4 +1,5 @@
 .idea
 .DS_STORE
 composer.phar
+Config.yml
 vendor
