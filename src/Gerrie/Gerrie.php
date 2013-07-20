@@ -1057,7 +1057,12 @@ class Gerrie {
 		$patchSetRow = $this->getGerritPatchsetByIdentifier($changeSet['id'], $patchset['number'], $patchset['revision'], $patchset['createdOn']);
 		if($patchSetRow === false) {
 			$uploader = $this->proceedPerson($patchset['uploader']);
-			$author = $this->proceedPerson($patchset['author']);
+
+			$author = array('id' => 0);
+			if (array_key_exists('author', $patchset) === true) {
+				$author = $this->proceedPerson($patchset['author']);
+			}
+
 			$patchSetData = array(
 				'changeset' => $changeSet['id'],
 				'number' => $patchset['number'],
