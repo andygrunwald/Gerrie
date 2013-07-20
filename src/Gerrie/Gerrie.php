@@ -431,7 +431,7 @@ class Gerrie {
 		}
 
 		// Clear the temp tables. The data is not needed anymore
-		//$this->cleanupTempTables();
+		$this->cleanupTempTables();
 
 		$this->setTime('end');
 		$this->outputEndStatistics();
