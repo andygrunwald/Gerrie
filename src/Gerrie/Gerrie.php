@@ -834,16 +834,10 @@ class Gerrie {
 	/**
 	 * Proceeds the 'submitRecords' key of a changeset
 	 *
-	 * @todo implement this!
-	 *
 	 * @param array $changeSet Current changeset
 	 * @return void
 	 */
 	protected function proceedSubmitRecords(array $changeSet) {
-		#print_r(($changeSet['submitRecords']));
-		#print_r($changeSet);
-		#die();
-
 		if (is_array($changeSet['submitRecords'] === false)) {
 			return;
 		}
@@ -853,17 +847,15 @@ class Gerrie {
 				'changeset' => $changeSet['id'],
 				'status' => $submitRecord['status'],
 			);
+
 			$wherePart = array('changeset' => $changeSet['id']);
 			$submitRecordRow = $this->getLookupTableValues(Database::TABLE_SUBMIT_RECORDS, array('id'), $wherePart);
 			if ($submitRecordRow === false) {
-				$submitRecordData = array(
-					'changeset' => $changeSet['id'],
-					'status' => $submitRecord['status'],
-				);
 				$id = $this->insertRecord(Database::TABLE_SUBMIT_RECORDS, $submitRecordData);
 
 			} else {
 				$id = $submitRecordRow['id'];
+				$this->updateRecord(Database::TABLE_SUBMIT_RECORDS, $submitRecordData, $submitRecordRow['id']);
 			}
 
 			$database = $this->getDatabase()->getDatabaseConnection();
@@ -888,24 +880,7 @@ class Gerrie {
 				$this->database->checkQueryError($statement, $executeResult);
 				*/
 			}
-
-			/*
-			 array(2) {
-					'status' => string(9) "NOT_READY"
-					'labels' => array(2) {
-						[0] => array(2) {
-							'label' => string(8) "Verified"
-							'status' => string(4) "NEED"
-						}
-						[1] => array(2) {
-							'label' => string(11) "Code-Review"
-							'status' => string(4) "NEED"
-						}
-					}
-				}
-			*/
 		}
-
 	}
 
 	/**
