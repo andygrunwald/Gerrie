@@ -1549,7 +1549,15 @@ class Gerrie {
 		return $statement->fetch(\PDO::FETCH_ASSOC);
 	}
 
-	// @todo comment
+	/**
+	 * Returns a file comment by unique identifier
+	 *
+	 * @param int $patchSetId Unique identifier of a patchset
+	 * @param int $file Unique identifier of a file
+	 * @param int $line Line no of file
+	 * @param int $reviewer Unique identifier of the reviewer (person)
+	 * @return mixed
+	 */
 	protected function getGerritFileCommentByIdentifier($patchSetId, $file, $line, $reviewer) {
 		$dbHandle = $this->getDatabase()->getDatabaseConnection();
 
@@ -1637,7 +1645,7 @@ class Gerrie {
 	 *
 	 * @param string $table Lookup tablename
 	 * @param array $selectFields Array of fields to select
-	 * @param array $whereParts
+	 * @param array $whereParts Where parts which will be concatted with AND
 	 * @return mixed
 	 */
 	protected function getLookupTableValues($table, array $selectFields, array $whereParts) {
