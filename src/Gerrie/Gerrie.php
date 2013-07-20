@@ -1216,13 +1216,14 @@ class Gerrie {
 			$fileData = array(
 				'patchset' => $patchset['id'],
 				'file' => $file['file'],
+				'file_old' => ((array_key_exists('fileOld', $file) === true) ? $file['fileOld']: ''),
 				'insertions' => $file['insertions'],
 				'deletions' => $file['deletions'],
 				'type' => $type
 			);
 			$this->insertRecord(Database::TABLE_FILES, $fileData);
 
-			$file = $this->unsetKeys($file, array('file', 'type', 'insertions', 'deletions'));
+			$file = $this->unsetKeys($file, array('file', 'fileOld', 'type', 'insertions', 'deletions'));
 			$this->checkIfAllValuesWereProceeded($file, 'File');
 		}
 	}

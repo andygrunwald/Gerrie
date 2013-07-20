@@ -167,6 +167,7 @@ class Database {
 				`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 				`patchset` int(11) unsigned NOT NULL DEFAULT 0,
 				`file` varchar(255) NOT NULL DEFAULT '',
+				`file_old` varchar(255) NOT NULL DEFAULT '',
 				`type` int(11) unsigned NOT NULL DEFAULT 0,
 				`insertions` int(11) unsigned NOT NULL DEFAULT 0,
 				`deletions` int(11) unsigned NOT NULL DEFAULT 0,
