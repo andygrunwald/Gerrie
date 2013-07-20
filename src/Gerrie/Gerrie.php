@@ -1211,11 +1211,13 @@ class Gerrie {
 			$fileData = array(
 				'patchset' => $patchset['id'],
 				'file' => $file['file'],
+				'insertions' => $file['insertions'],
+				'deletions' => $file['deletions'],
 				'type' => $type
 			);
 			$this->insertRecord(Database::TABLE_FILES, $fileData);
 
-			$file = $this->unsetKeys($file, array('file', 'type'));
+			$file = $this->unsetKeys($file, array('file', 'type', 'insertions', 'deletions'));
 			$this->checkIfAllValuesWereProceeded($file, 'File');
 		}
 	}
