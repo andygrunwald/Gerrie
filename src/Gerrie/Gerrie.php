@@ -1280,7 +1280,7 @@ class Gerrie {
 		// If "Gerrit Code Review" posted some problems, e.g. path conflicts (e.g. https://review.typo3.org/#/c/4553/)
 		// there is no person information.
 		// Set it here, because otherwise we got empty persons ;)
-		if(array_key_exists('name', $person) === false &&
+		if (array_key_exists('name', $person) === false &&
 			array_key_exists('email', $person) === false &&
 			array_key_exists('username', $person) === false) {
 
@@ -1298,11 +1298,18 @@ class Gerrie {
 		}
 
 		$emailPerson = $this->getPersonBy('email', $person['email']);
-		if($emailPerson === false) {
-			$usernamePerson = $this->getPersonBy('username', $person['username']);
+		if ($emailPerson === false) {
+
+			$personByName = false;
+			if ($person['username']) {
+				$personByName = $this->getPersonBy('username', $person['username']);
+
+			} elseif ($person['name']) {
+				$personByName = $this->getPersonBy('name', $person['name']);
+			}
 
 			// If a person does not exist, create a new one.
-			if($usernamePerson === false) {
+			if ($personByName === false) {
 				$personData = array(
 					'name' => $person['name'],
 					'username' => $person['username']
@@ -1317,8 +1324,9 @@ class Gerrie {
 
 				// Person exists, but has a new e-mail. Just add the e-mail-address to this person
 			} else {
+				$person['id'] = $personByName['id'];
 				$emailData = array(
-					'person' => $usernamePerson['id'],
+					'person' => $personByName['id'],
 					'email' => $person['email']
 				);
 				$this->insertRecord(Database::TABLE_EMAIL, $emailData);
@@ -1377,6 +1385,11 @@ class Gerrie {
 				$query = 'SELECT `id`, `name`, `username`
 				  FROM ' . Database::TABLE_PERSON . '
 				  WHERE `username` = :value';
+				break;
+			case 'name':
+				$query = 'SELECT `id`, `name`, `username`
+				  FROM ' . Database::TABLE_PERSON . '
+				  WHERE `name` = :value';
 				break;
 			default:
 				throw new \Exception('Wrong mode selected!', 1363897547);
