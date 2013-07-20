@@ -1061,12 +1061,16 @@ class Gerrie {
 		$patchSetRow = $this->getGerritPatchsetByIdentifier($changeSet['id'], $patchset['number'], $patchset['revision'], $patchset['createdOn']);
 		if($patchSetRow === false) {
 			$uploader = $this->proceedPerson($patchset['uploader']);
+			$author = $this->proceedPerson($patchset['author']);
 			$patchSetData = array(
 				'changeset' => $changeSet['id'],
 				'number' => $patchset['number'],
 				'revision' => $patchset['revision'],
 				'ref' => $patchset['ref'],
 				'uploader' => $uploader['id'],
+				'author' => $author['id'],
+				'size_insertions' => $patchset['sizeInsertions'],
+				'size_deletions' => $patchset['sizeDeletions'],
 				'created_on' => $patchset['createdOn'],
 			);
 			$patchset['id'] = $this->insertRecord(Database::TABLE_PATCHSET, $patchSetData);
@@ -1085,7 +1089,8 @@ class Gerrie {
 		$patchset = $this->unsetKeys($patchset, array('files'));
 
 		// Unset not needed keys, because a) memory and b) to check if there are keys which were not imported :)
-		$patchset = $this->unsetKeys($patchset, array('number', 'revision', 'ref', 'uploader', 'createdOn'));
+		$keysToDelete = array('number', 'revision', 'ref', 'uploader', 'author', 'sizeInsertions', 'sizeDeletions', 'createdOn');
+		$patchset = $this->unsetKeys($patchset, $keysToDelete);
 
 		// We need to set all approvals for this patchset as 'voted_earlier' => 1
 		// Because a user can vote both values (Code Review and Verified).
