@@ -858,28 +858,49 @@ class Gerrie {
 				$this->updateRecord(Database::TABLE_SUBMIT_RECORDS, $submitRecordData, $submitRecordRow['id']);
 			}
 
-			$database = $this->getDatabase()->getDatabaseConnection();
-			$labelTable = Database::TABLE_SUBMIT_RECORD_LABELS;
-			$query = '
-				INSERT INTO `' . $labelTable . '` (`submit_record`, `label`, `status`, `tstamp`, `crdate`)
-				VALUES (:submit_record, :label, :status, :tstamp, :crdate)
-				ON DUPLICATE KEY UPDATE
-					' . $labelTable . '.`status` = :status,
-					' . $labelTable . '.`tstamp` = :tstamp';
+			$submitRecord = $this->unsetKeys($submitRecord, array('status'));
 
-			$labels = $submitRecord['labels'];
-			foreach ($labels as $labelInfo) {
-				/*
-				// @todo hier weitermachen!!!!
-				$dbHandle = $this->getDatabase()->getDatabaseConnection();
-				$statement = $dbHandle->prepare($query);
-
-				$statement->bindParam(':value', $value, \PDO::PARAM_STR);
-				$executeResult = $statement->execute();
-
-				$this->database->checkQueryError($statement, $executeResult);
-				*/
+			if (is_array($submitRecord['labels']) === true) {
+				$this->proceedSubmitRecordLabels($id, $submitRecord['labels']);
+				$submitRecord = $this->unsetKeys($submitRecord, array('labels'));
 			}
+
+			$this->checkIfAllValuesWereProceeded($submitRecord, 'Submit record');
+		}
+	}
+
+	/**
+	 * Proceed the labels of a 'submitRecord' key of a changeset
+	 *
+	 * @param int $submitRecordId
+	 * @param array $submitRecordLabels
+	 * @return void
+	 */
+	protected function proceedSubmitRecordLabels($submitRecordId, array $submitRecordLabels) {
+		foreach ($submitRecordLabels as $labelInfo) {
+			// There must be no author of a label, let set a default one
+			$by = array('id' => 0);
+			if (array_key_exists('by', $labelInfo) === true) {
+				$by = $this->proceedPerson($labelInfo['by']);
+			}
+
+			$submitRecordLabelRow = $this->getGerritSubmitRecordLabelByIdentifier($submitRecordId, $labelInfo['label'], $by['id']);
+
+			$submitRecordLabel = array(
+				'submit_record' => $submitRecordId,
+				'label' => $labelInfo['label'],
+				'status' => $labelInfo['status'],
+				'by' => $by['id']
+			);
+			if ($submitRecordLabelRow === false) {
+				$this->insertRecord(Database::TABLE_SUBMIT_RECORD_LABELS, $submitRecordLabel);
+
+			} else {
+				$this->updateRecord(Database::TABLE_SUBMIT_RECORD_LABELS, $submitRecordLabelRow, $submitRecordLabelRow['id']);
+			}
+
+			$labelInfo = $this->unsetKeys($labelInfo, array('label', 'status', 'by'));
+			$this->checkIfAllValuesWereProceeded($labelInfo, 'Submit record label');
 		}
 	}
 
@@ -1495,6 +1516,33 @@ class Gerrie {
 		$statement->bindParam(':number', $number, \PDO::PARAM_INT);
 		$statement->bindParam(':revision', $revision, \PDO::PARAM_STR);
 		$statement->bindParam(':created_on', $createdOn, \PDO::PARAM_INT);
+		$executeResult = $statement->execute();
+
+		$this->database->checkQueryError($statement, $executeResult);
+		return $statement->fetch(\PDO::FETCH_ASSOC);
+	}
+
+	/**
+	 * Returns a submit record label by unique identifier
+	 *
+	 * @param int $submitRecordId ID of submit record
+	 * @param string $label Label of submit record label
+	 * @param int $by Person who created the submit record label
+	 * @return mixed
+	 */
+	protected function getGerritSubmitRecordLabelByIdentifier($submitRecordId, $label, $by) {
+		$dbHandle = $this->getDatabase()->getDatabaseConnection();
+
+		$query = 'SELECT `id`, `submit_record`, `label`, `status`, `by`
+				  FROM ' . Database::TABLE_SUBMIT_RECORD_LABELS . '
+				  WHERE `submit_record` = :submit_record_id
+						AND `label` = :label
+						AND `by` = :by';
+		$statement = $dbHandle->prepare($query);
+
+		$statement->bindParam(':submit_record_id', $submitRecordId, \PDO::PARAM_INT);
+		$statement->bindParam(':label', $label, \PDO::PARAM_STR);
+		$statement->bindParam(':by', $by, \PDO::PARAM_INT);
 		$executeResult = $statement->execute();
 
 		$this->database->checkQueryError($statement, $executeResult);

@@ -263,6 +263,7 @@ class Database {
 				`submit_record` int(11) unsigned NOT NULL DEFAULT 0,
 				`label` varchar(255) NOT NULL DEFAULT '',
 				`status` varchar(255) NOT NULL DEFAULT '',
+				`by` int(11) unsigned NOT NULL DEFAULT 0,
 				`tstamp` int(11) unsigned NOT NULL DEFAULT 0,
 				`crdate` int(11) unsigned NOT NULL DEFAULT 0,
 				PRIMARY KEY (`id`),
