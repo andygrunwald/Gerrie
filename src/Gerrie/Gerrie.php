@@ -1637,8 +1637,7 @@ class Gerrie {
 	 *
 	 * @param string $table Lookup tablename
 	 * @param array $selectFields Array of fields to select
-	 * @param array $whereCondition Array of where parts. Include prepared statement identifiers like :name
-	 * @param array $whereValues Array of prepared statement identifiers like :name and fitted valued
+	 * @param array $whereParts
 	 * @return mixed
 	 */
 	protected function getLookupTableValues($table, array $selectFields, array $whereParts) {
