@@ -1298,7 +1298,14 @@ class Gerrie {
 			$person['username'] = 'Gerrit';
 		}
 
-		$emailPerson = $this->getPersonBy('email', $person['email']);
+		// Sometimes the API does not return an email
+		$email = '';
+		$emailPerson = false;
+		if (array_key_exists('email', $person) !== false) {
+			$email = $person['email'];
+			$emailPerson = $this->getPersonBy('email', $person['email']);
+		}
+
 		if ($emailPerson === false) {
 
 			$personByName = false;
@@ -1319,7 +1326,7 @@ class Gerrie {
 
 				$emailData = array(
 					'person' => $person['id'],
-					'email' => $person['email']
+					'email' => $email
 				);
 				$this->insertRecord(Database::TABLE_EMAIL, $emailData);
 
@@ -1328,7 +1335,7 @@ class Gerrie {
 				$person['id'] = $personByName['id'];
 				$emailData = array(
 					'person' => $personByName['id'],
-					'email' => $person['email']
+					'email' => $email
 				);
 				$this->insertRecord(Database::TABLE_EMAIL, $emailData);
 			}
