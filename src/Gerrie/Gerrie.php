@@ -884,7 +884,7 @@ class Gerrie {
 				$by = $this->proceedPerson($labelInfo['by']);
 			}
 
-			$submitRecordLabelRow = $this->getGerritSubmitRecordLabelByIdentifier($submitRecordId, $labelInfo['label'], $by['id']);
+			$submitRecordLabelRow = $this->getGerritSubmitRecordLabelByIdentifier($submitRecordId, $labelInfo['label']);
 
 			$submitRecordLabel = array(
 				'submit_record' => $submitRecordId,
@@ -1539,22 +1539,19 @@ class Gerrie {
 	 *
 	 * @param int $submitRecordId ID of submit record
 	 * @param string $label Label of submit record label
-	 * @param int $by Person who created the submit record label
 	 * @return mixed
 	 */
-	protected function getGerritSubmitRecordLabelByIdentifier($submitRecordId, $label, $by) {
+	protected function getGerritSubmitRecordLabelByIdentifier($submitRecordId, $label) {
 		$dbHandle = $this->getDatabase()->getDatabaseConnection();
 
 		$query = 'SELECT `id`, `submit_record`, `label`, `status`, `by`
 				  FROM ' . Database::TABLE_SUBMIT_RECORD_LABELS . '
 				  WHERE `submit_record` = :submit_record_id
-						AND `label` = :label
-						AND `by` = :by';
+						AND `label` = :label';
 		$statement = $dbHandle->prepare($query);
 
 		$statement->bindParam(':submit_record_id', $submitRecordId, \PDO::PARAM_INT);
 		$statement->bindParam(':label', $label, \PDO::PARAM_STR);
-		$statement->bindParam(':by', $by, \PDO::PARAM_INT);
 		$executeResult = $statement->execute();
 
 		$this->database->checkQueryError($statement, $executeResult);
