@@ -270,7 +270,7 @@ class Gerrie {
 		$consoleBase = self::SYMFONY_CONSOLE_BASE;
 
 		if ($output instanceof $psrLogBase) {
-			$output->$logMethod($prefix . $message . $postfix);
+			$output->$logMethod($message);
 
 		} else if ($output instanceof $consoleBase) {
 			$output->writeln($prefix . $message . $postfix);
