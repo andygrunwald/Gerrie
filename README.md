@@ -12,7 +12,7 @@ Oh dear, there is so much todo.
 E.g. write some unit tests, test this on some more gerrit server, make the HTTP DataService useable, etc.
 If i got some more time i will create a list of tasks.
 
-## Contributing
+## Contributing + Usage
 
 * Fork it (`git clone git://github.com/andygrunwald/Gerrie.git`)
 * Create your feature branch (`git checkout -b my-new-feature`)
@@ -20,6 +20,10 @@ If i got some more time i will create a list of tasks.
 * Commit your changes (`git commit -am 'Add some feature'`)
 * Push to the branch (`git push origin my-new-feature`)
 * Create new Pull Request
+
+### License
+
+This project is released under the terms of the [MIT license](http://en.wikipedia.org/wiki/MIT_License).
 
 ## Questions / Contact / Feedback
 
