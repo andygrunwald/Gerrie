@@ -14,7 +14,7 @@ if (file_exists($vendorFilePath) === false) {
 }
 
 if (file_exists($vendorFilePath) === false) {
-    throw new \Exception('No autoload.php ca be found', 1368817443);
+    throw new \Exception('File "autoload.php" can`t be found', 1368817443);
 }
 
 require_once $vendorFilePath;
