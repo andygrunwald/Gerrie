@@ -1,7 +1,14 @@
 <?php
 /**
- * @todo more documentation, license and so on ...
+ * This file is part of the TYPO3-Analytics package.
  *
+ * (c) Andreas Grunwald <andygrunwald@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/**
  * @todo further improvement / data mining
  * This Gerrit exporter got lot of potentials.
  * At the moment only the current state of the Gerrit system will be exported / represented in our database.
