@@ -14,12 +14,14 @@ If i got some more time i will create a list of tasks.
 
 ## Contributing + Usage
 
-* Fork it (`git clone git://github.com/andygrunwald/Gerrie.git`)
+* Fork and clone it (`git clone https://github.com/andygrunwald/Gerrie.git`)
 * Create your feature branch (`git checkout -b my-new-feature`)
 * Make your changes (hack hack hack)
 * Commit your changes (`git commit -am 'Add some feature'`)
 * Push to the branch (`git push origin my-new-feature`)
 * Create new Pull Request
+
+A more detailed guide can be found at githubs [Fork A Repo](https://help.github.com/articles/fork-a-repo).
 
 ### License
 
