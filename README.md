@@ -23,6 +23,13 @@ If i got some more time i will create a list of tasks.
 
 A more detailed guide can be found at githubs [Fork A Repo](https://help.github.com/articles/fork-a-repo).
 
+### Coding Styleguide
+
+For convenience we follow the [PSR-1](http://www.php-fig.org/psr/psr-1/) and [PSR-2](http://www.php-fig.org/psr/psr-2/) coding styleguides of [PHP Framework Interop Group](http://www.php-fig.org/).
+
+Please be so nice to take care of this during code contribution (e.g. pull requests).
+To check your code against this standards you can use the tool [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer/) for this.
+
 ### License
 
 This project is released under the terms of the [MIT license](http://en.wikipedia.org/wiki/MIT_License).
