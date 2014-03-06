@@ -22,12 +22,14 @@ require_once $vendorFilePath;
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 
 // Setup own error handler, to throw an exception on any kind of error
-function GerrieErrrorHandler($code, $message, $file, $line) {
-	$message = $file . ' (Line: ' . $line . '): ' . $message . ' (' . $code . ')';
-	throw new \RuntimeException($message, 1364035754);
+function GerrieErrrorHandler($code, $message, $file, $line)
+{
+    $message = $file . ' (Line: ' . $line . '): ' . $message . ' (' . $code . ')';
+    throw new \RuntimeException($message, 1364035754);
 
-	return false;
+    return false;
 }
+
 set_error_handler('GerrieErrrorHandler');
 
 $loader = new UniversalClassLoader();
