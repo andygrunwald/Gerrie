@@ -5,7 +5,6 @@
     "homepage": "http://github.com/andygrunwald/Gerrie",
     "type": "library",
     "license": "MIT",
-    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Andy Grunwald",
@@ -14,14 +13,19 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/andygrunwald/Gerrie/issues"
+        "email": "andygrunwald@gmail.com",
+        "issues": "https://github.com/andygrunwald/Gerrie/issues",
+        "source": "https://github.com/andygrunwald/Gerrie.git"
     },
     "require": {
-        "php": ">=5.3.0",
-        "symfony/class-loader": "2.4.0",
-        "symfony/console": "2.4.0",
-        "symfony/yaml": "2.4.0",
-        "kriswallsmith/buzz": "v0.10"
+        "php": ">=5.4.0",
+        "symfony/class-loader": "2.4.*",
+        "symfony/console": "2.4.*",
+        "symfony/yaml": "2.4.*",
+        "kriswallsmith/buzz": "0.10"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*"
     },
     "autoload": {
         "psr-0": {"Gerrie": "src/"}
