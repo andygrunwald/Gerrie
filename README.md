@@ -1,4 +1,7 @@
-# Gerrie [![Build Status](https://secure.travis-ci.org/andygrunwald/Gerrie.png)](http://travis-ci.org/andygrunwald/Gerrie)
+# Gerrie
+
+[![Build Status](https://secure.travis-ci.org/andygrunwald/Gerrie.png)](http://travis-ci.org/andygrunwald/Gerrie)
+[![Dependency Status](https://www.versioneye.com/user/projects/53554e47fe0d078a76000002/badge.png)](https://www.versioneye.com/user/projects/53554e47fe0d078a76000002)
 
 [Gerrit](https://code.google.com/p/gerrit/) is a great code review tool based on git and written by Google.
 This library is an exporter to get transfer data from Gerrit into a RDBMS.
