@@ -84,7 +84,9 @@ class CreateDatabaseCommand extends Command
 
             if ($createTableResult === false) {
                 $databaseError = $databaseHandle->errorInfo();
-                throw new \Exception('Table "' . $tableName . '" could not be created. ' . $databaseError[2] . ' (' . $databaseError[1] . ')');
+                $message = 'Table "%s" could not be created. %s (%s)';
+                $message = sprintf($message, $tableName, $databaseError[2], $databaseError[1]);
+                throw new \Exception($message, 1398100879);
 
             } else {
                 $output->writeln('<info>Not exists. Created</info>');

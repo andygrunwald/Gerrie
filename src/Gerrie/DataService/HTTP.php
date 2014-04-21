@@ -38,9 +38,9 @@ class HTTP extends Base
         $config = $this->getConfig();
         $baseUrl = rtrim($config['Host'], '/') . '/';
 
-        if ($withAuthentication === true && $this->getConnector()->getListener(
-            ) instanceof \Buzz\Listener\BasicAuthListener
-        ) {
+        if ($withAuthentication === true
+            && $this->getConnector()->getListener() instanceof \Buzz\Listener\BasicAuthListener) {
+
             $baseUrl .= 'a/';
         }
 

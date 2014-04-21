@@ -8,9 +8,10 @@
  * file that was distributed with this source code.
  */
 
-$vendorFilePath = __DIR__ . DIRECTORY_SEPARATOR . 'vendor/autoload.php';
+$currentDir = __DIR__ . DIRECTORY_SEPARATOR;
+$vendorFilePath = $currentDir . 'vendor/autoload.php';
 if (file_exists($vendorFilePath) === false) {
-    $vendorFilePath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'autoload.php';
+    $vendorFilePath = $currentDir . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'autoload.php';
 }
 
 if (file_exists($vendorFilePath) === false) {

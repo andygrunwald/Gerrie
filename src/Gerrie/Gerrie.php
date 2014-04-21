@@ -858,7 +858,10 @@ class Gerrie
         $changeSet = $this->unsetKeys($changeSet, array('patchSets'));
 
         // Take care of current patch set
-        $currentPatchSetId = ((isset($changeSetRow['current_patchset']) === true) ? $changeSetRow['current_patchset'] : 0);
+        $currentPatchSetId = 0;
+        if (isset($changeSetRow['current_patchset']) === true) {
+            $currentPatchSetId = $changeSetRow['current_patchset'];
+        }
         $this->proceedCurrentPatchSet($changeSet, $currentPatchSetId);
         $changeSet = $this->unsetKeys($changeSet, array('currentPatchSet'));
 
@@ -1301,7 +1304,8 @@ class Gerrie
     {
         if (count($data) > 0) {
             var_dump($data);
-            throw new \Exception('Not all values were proceeded / exported. Please have a look at "' . $level . '"', 1363894644);
+            $message = 'Not all values were proceeded / exported. Please have a look at "' . $level . '"';
+            throw new \Exception($message, 1363894644);
         }
     }
 
