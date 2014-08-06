@@ -4,10 +4,10 @@
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'Bootstrap.php';
 
 use Gerrie\Command\CreateDatabaseCommand;
-use Gerrie\Command\ExportCommand;
+use Gerrie\Command\CrawlCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
 $application->add(new CreateDatabaseCommand());
-$application->add(new ExportCommand());
+$application->add(new CrawlCommand());
 $application->run();

@@ -19,7 +19,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ExportCommand extends Command
+class CrawlCommand extends Command
 {
 
     /**
@@ -27,7 +27,7 @@ class ExportCommand extends Command
      *
      * @var string
      */
-    const COMMAND_NAME = 'Export';
+    const COMMAND_NAME = 'Crawl';
 
     /**
      * Database object
@@ -46,8 +46,8 @@ class ExportCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('gerrie:export')
-            ->setDescription('Exports data from a Gerrit review system into a database');
+            ->setName('gerrie:crawl')
+            ->setDescription('Crawls a Gerrit review system and stores the into a database');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
@@ -84,8 +84,8 @@ class ExportCommand extends Command
             $gerrit = new Gerrie($this->database, $dataService, $gerritSystem);
             $gerrit->setOutput($output);
 
-            // Start the export action
-            $gerrit->export();
+            // Start the crawling action
+            $gerrit->crawl();
         }
 
         $this->outputEndMessage($output);
