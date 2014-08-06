@@ -1290,13 +1290,19 @@ class Gerrie
             );
             if ($fileCommentRow === false) {
                 $this->insertRecord(Database::TABLE_FILE_COMMENTS, $commentRow);
-
-            } else {
-                // Normally we would update the comment here.
-                // But in this data we got from the API there is nothing to update.
-                // But the first run check is valid to detect duplicates
-                $this->checkIfServersFirstRun('File comment', 1363903827, array($commentRow, $fileCommentRow));
             }
+
+            // Normally we would update the comment here (in a else part).
+            // But in this data we got from the API there is nothing to update.
+            // Sometimes the same comment in the same file in the same line by the same person was created
+            // Sadly we do not get a timestamp or something.
+            // This is the reason why there is no else part + no checkIfServersFirstRun check
+            // We just ignore duplicates here.
+            // I know that this might be dangerous, because we can miss comments, but until there is no additional
+            // identifier this can be difficult
+            // One idea is that the number of comment will be introduces in the select check (with a simple $i var)
+            // But this needs further testing if the order of the comments is always the same
+            // TODO check this
 
             $comment = $this->unsetKeys($comment, array('file', 'line', 'reviewer', 'message'));
 
@@ -1887,8 +1893,10 @@ class Gerrie
         if ($this->isServersFirstRun() === true) {
             var_dump($debugInformation);
 
+            $host = $this->getDataService()->getHost();
+
             $exceptionMessage = 'UPDATE DETECTED! ';
-            $exceptionMessage .= 'This is the first run of server "' . $this->config['Host'] . '". ';
+            $exceptionMessage .= 'This is the first run of server "' . $host . '". ';
             $exceptionMessage .= 'There must not be an update in level ' . $level . '.';
             throw new \Exception($exceptionMessage, $exceptionCode);
         }
