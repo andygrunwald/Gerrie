@@ -159,6 +159,7 @@ class Database
 				`author` int(11) unsigned NOT NULL DEFAULT 0,
 				`size_insertions` int(11) NOT NULL DEFAULT 0,
 				`size_deletions` int(11) NOT NULL DEFAULT 0,
+				`is_draft` TINYINT unsigned NOT NULL DEFAULT 0,
 				`created_on` int(11) unsigned NOT NULL DEFAULT 0,
 				`tstamp` int(11) unsigned NOT NULL DEFAULT 0,
 				`crdate` int(11) unsigned NOT NULL DEFAULT 0,

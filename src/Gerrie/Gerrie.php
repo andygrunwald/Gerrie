@@ -1165,6 +1165,7 @@ class Gerrie
                 'author' => $author['id'],
                 'size_insertions' => $patchset['sizeInsertions'],
                 'size_deletions' => $patchset['sizeDeletions'],
+                'is_draft' => ((isset($patchset['isDraft']) === true) ? (int) $patchset['isDraft']: 0),
                 'created_on' => $patchset['createdOn'],
             );
             $patchset['id'] = $this->insertRecord(Database::TABLE_PATCHSET, $patchSetData);
@@ -1191,6 +1192,7 @@ class Gerrie
             'author',
             'sizeInsertions',
             'sizeDeletions',
+            'isDraft',
             'createdOn'
         );
         $patchset = $this->unsetKeys($patchset, $keysToDelete);
