@@ -91,6 +91,7 @@ class Database
 				`name` varchar(255) NOT NULL DEFAULT '',
 				`description` TEXT NOT NULL,
 				`kind` varchar(255) NOT NULL DEFAULT '',
+				`state` varchar(255) NOT NULL DEFAULT '',
 				`parent` int(11) unsigned NOT NULL DEFAULT 0,
 				`tstamp` int(11) unsigned NOT NULL DEFAULT 0,
 				`crdate` int(11) unsigned NOT NULL DEFAULT 0,

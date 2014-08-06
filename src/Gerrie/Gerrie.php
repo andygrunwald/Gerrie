@@ -1912,7 +1912,8 @@ class Gerrie
             'identifier' => ((isset($info['id']) === true) ? $info['id'] : ''),
             'name' => $name,
             'description' => ((isset($info['description']) === true) ? $info['description'] : ''),
-            'kind' => ((isset($info['kind']) === true) ? $info['kind'] : '')
+            'kind' => ((isset($info['kind']) === true) ? $info['kind'] : ''),
+            'state' => ((isset($info['state']) === true) ? $info['state'] : '')
         );
 
         // If we don`t know this project, save this!
@@ -1948,7 +1949,7 @@ class Gerrie
             $parentMapping[$info['parent']][] = intval($id);
         }
 
-        $info = $this->unsetKeys($info, array('description', 'parent', 'id', 'kind'));
+        $info = $this->unsetKeys($info, array('description', 'parent', 'id', 'kind', 'state'));
         $this->checkIfAllValuesWereProceeded($info, 'Project');
 
         return $id;
