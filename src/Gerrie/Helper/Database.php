@@ -118,7 +118,7 @@ class Database
 				`subject` varchar(255) NOT NULL DEFAULT '',
 				`owner` int(11) unsigned NOT NULL DEFAULT 0,
 				`url` varchar(255) NOT NULL DEFAULT '',
-				`commit_message` text NOT NULL,
+				`commit_message` MEDIUMTEXT NOT NULL,
 				`created_on` int(11) unsigned NOT NULL DEFAULT 0,
 				`last_updated` int(11) unsigned NOT NULL DEFAULT 0,
 				`sort_key` varchar(255) NOT NULL DEFAULT '',
