@@ -1032,7 +1032,7 @@ class Gerrie
                     'number' => $dependsOn['number'],
                     'revision' => $dependsOn['revision'],
                     'ref' => $dependsOn['ref'],
-                    'is_current_patchset' => $dependsOn['isCurrentPatchSet'],
+                    'is_current_patchset' => (int) $dependsOn['isCurrentPatchSet'],
                     'status' => Database::TMP_DEPENDS_NEEDED_STATUS_DEPENDSON
                 );
                 $this->insertRecord(Database::TABLE_TMP_DEPENDS_NEEDED, $dependsOnData);
