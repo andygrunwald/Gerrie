@@ -17,6 +17,10 @@ Oh dear, there is so much todo.
 E.g. write some unit tests, test this on some more gerrit server, make the HTTP DataService useable, etc.
 If i got some more time i will create a list of tasks.
 
+## How to start
+
+TODO
+
 ## Contributing + Usage
 
 * Fork and clone it (`git clone https://github.com/andygrunwald/Gerrie.git`)
