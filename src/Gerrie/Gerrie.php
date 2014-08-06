@@ -1225,7 +1225,7 @@ class Gerrie
 
         // Take care of comments in files
         if (isset($patchset['comments']) === true) {
-            //$this->proceedFileComments($patchset); @todo comment and implement!!!
+            $this->proceedFileComments($patchset);
             $patchset = $this->unsetKeys($patchset, array('comments'));
         }
 
@@ -1236,14 +1236,28 @@ class Gerrie
         unset($patchset);
     }
 
-    // @todo comment + whole method
+    /**
+     * Proceeds the comments of a single patchset.
+     * One patchset can have n comments.
+     *
+     * @param array $patchset The current patchset
+     * @return void
+     */
     protected function proceedFileComments(array $patchset)
     {
-
-        // @todo maybe we need to add the deleted stuff here, too?
-        // @todo what about "Done" comments?
+        /**
+         * To import the file comments there are (maybe) some data which is not very correct.
+         * For example comments can be deleted later on.
+         * This information is not deliviered by the API.
+         * The same for comments marked as "Done".
+         *
+         * Sad, but true.
+         * But hey! Some comments are better than nothing.
+         * During analysis the comments you have to take care this in mind.
+         */
 
         foreach ($patchset['comments'] as $comment) {
+
             // Take care of reviewer
             $comment['reviewer'] = $this->proceedPerson($comment['reviewer']);
 
@@ -1260,25 +1274,28 @@ class Gerrie
                 'line' => $comment['line'],
                 'reviewer' => $comment['reviewer']['id'],
                 'message' => $comment['message'],
+                'message_crc32' => crc32($comment['message'])
             );
 
             // Attention: One person can comment twice at the same line.
             // We do not get any timestamp :(
             // e.g. see https://review.typo3.org/#/c/11758/1/ExtendingSphinxForTYPO3/build/.gitignore,unified
-            // @todo fix it. how?
+            // To be "unique enough" we add a CRC32 checksum of the message
             $fileCommentRow = $this->getGerritFileCommentByIdentifier(
                 $patchset['id'],
                 $fileRow['id'],
                 $comment['line'],
-                $comment['reviewer']['id']
+                $comment['reviewer']['id'],
+                $commentRow['message_crc32']
             );
             if ($fileCommentRow === false) {
                 $this->insertRecord(Database::TABLE_FILE_COMMENTS, $commentRow);
 
             } else {
+                // Normally we would update the comment here.
+                // But in this data we got from the API there is nothing to update.
+                // But the first run check is valid to detect duplicates
                 $this->checkIfServersFirstRun('File comment', 1363903827, array($commentRow, $fileCommentRow));
-
-                $this->updateRecord(Database::TABLE_FILE_COMMENTS, $comment, $fileCommentRow['id']);
             }
 
             $comment = $this->unsetKeys($comment, array('file', 'line', 'reviewer', 'message'));
@@ -1689,9 +1706,10 @@ class Gerrie
      * @param int $file Unique identifier of a file
      * @param int $line Line no of file
      * @param int $reviewer Unique identifier of the reviewer (person)
+     * @param int $messageCrc32 CRC32 of the comment
      * @return mixed
      */
-    protected function getGerritFileCommentByIdentifier($patchSetId, $file, $line, $reviewer)
+    protected function getGerritFileCommentByIdentifier($patchSetId, $file, $line, $reviewer, $messageCrc32)
     {
         $dbHandle = $this->getDatabase()->getDatabaseConnection();
 
@@ -1700,13 +1718,15 @@ class Gerrie
 				  WHERE `patchset` = :patchset
 						AND `file` = :file
 						AND `line` = :line
-						AND `reviewer` = :reviewer';
+						AND `reviewer` = :reviewer
+						AND `message_crc32` = :message_crc32';
         $statement = $dbHandle->prepare($query);
 
         $statement->bindParam(':patchset', $patchSetId, \PDO::PARAM_INT);
         $statement->bindParam(':file', $file, \PDO::PARAM_INT);
         $statement->bindParam(':line', $line, \PDO::PARAM_INT);
         $statement->bindParam(':reviewer', $reviewer, \PDO::PARAM_INT);
+        $statement->bindParam(':message_crc32', $messageCrc32, \PDO::PARAM_INT);
         $executeResult = $statement->execute();
 
         $this->database->checkQueryError($statement, $executeResult);

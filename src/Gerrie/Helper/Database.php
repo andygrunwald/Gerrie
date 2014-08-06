@@ -273,6 +273,7 @@ class Database
 				`line` int(11) unsigned NOT NULL DEFAULT 0,
 				`reviewer` int(11) unsigned NOT NULL DEFAULT 0,
 				`message` text NOT NULL,
+				`message_crc32` int(11) unsigned NOT NULL DEFAULT 0,
 				`tstamp` int(11) unsigned NOT NULL DEFAULT 0,
 				`crdate` int(11) unsigned NOT NULL DEFAULT 0,
 				PRIMARY KEY (`id`)
