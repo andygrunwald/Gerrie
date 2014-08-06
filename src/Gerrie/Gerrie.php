@@ -569,32 +569,32 @@ class Gerrie
         $patchSetTable = Database::TABLE_PATCHSET;
 
         $query = '
-			INSERT INTO ' . $neededByTable . ' (`changeset`, `needed_by`, `tstamp`, `crdate`)
-			SELECT
-				' . $changeSetTable . '.`id`,
-				neededByChangeset.`id`,
-				UNIX_TIMESTAMP(),
-				UNIX_TIMESTAMP()
-			FROM
-				' . $tmpTable . '
-				INNER JOIN ' . $changeSetTable . ' AS neededByChangeset ON (
-					' . $tmpTable . '.`identifier` = neededByChangeset.`identifier`
-					AND ' . $tmpTable . '.`number` = neededByChangeset.`number`
-				)
-				INNER JOIN gerrit_patchset ON (
-					neededByChangeset.`id` = ' . $patchSetTable . '.`changeset`
-					AND ' . $patchSetTable . '.`revision` = ' . $tmpTable . '.`revision`
-					AND ' . $patchSetTable . '.`ref` = ' . $tmpTable . '.`ref`
-				)
-				INNER JOIN ' . $changeSetTable . ' ON (
-					' . $changeSetTable . '.`id` = ' . $tmpTable . '.`changeset`
-				)
-			WHERE
-				' . $tmpTable . '.`status` = ' . intval(Database::TMP_DEPENDS_NEEDED_STATUS_NEEDEDBY) . '
-			GROUP BY
-				' . $changeSetTable . '.`id`, neededByChangeset.`id`
-			ON DUPLICATE KEY UPDATE
-				' . $neededByTable . '.`tstamp` = UNIX_TIMESTAMP()';
+            INSERT INTO ' . $neededByTable . ' (`changeset`, `needed_by`, `tstamp`, `crdate`)
+            SELECT
+                ' . $changeSetTable . '.`id`,
+                neededByChangeset.`id`,
+                UNIX_TIMESTAMP(),
+                UNIX_TIMESTAMP()
+            FROM
+                ' . $tmpTable . '
+                INNER JOIN ' . $changeSetTable . ' AS neededByChangeset ON (
+                    ' . $tmpTable . '.`identifier` = neededByChangeset.`identifier`
+                    AND ' . $tmpTable . '.`number` = neededByChangeset.`number`
+                )
+                INNER JOIN gerrit_patchset ON (
+                    neededByChangeset.`id` = ' . $patchSetTable . '.`changeset`
+                    AND ' . $patchSetTable . '.`revision` = ' . $tmpTable . '.`revision`
+                    AND ' . $patchSetTable . '.`ref` = ' . $tmpTable . '.`ref`
+                )
+                INNER JOIN ' . $changeSetTable . ' ON (
+                    ' . $changeSetTable . '.`id` = ' . $tmpTable . '.`changeset`
+                )
+            WHERE
+                ' . $tmpTable . '.`status` = ' . intval(Database::TMP_DEPENDS_NEEDED_STATUS_NEEDEDBY) . '
+            GROUP BY
+                ' . $changeSetTable . '.`id`, neededByChangeset.`id`
+            ON DUPLICATE KEY UPDATE
+                ' . $neededByTable . '.`tstamp` = UNIX_TIMESTAMP()';
 
         $dbHandle->exec($query);
     }
@@ -618,24 +618,24 @@ class Gerrie
         $patchSetTable = Database::TABLE_PATCHSET;
 
         $query = '
-			UPDATE
-				' . $tmpTable . '
-				INNER JOIN ' . $changeSetTable . ' AS dependsOnChangeset ON (
-					' . $tmpTable . '.`identifier` = dependsOnChangeset.`identifier`
-					AND ' . $tmpTable . '.`number` = dependsOnChangeset.`number`
-				)
-				INNER JOIN ' . $patchSetTable . ' ON (
-					dependsOnChangeset.`id` = ' . $patchSetTable . '.`changeset`
-					AND ' . $patchSetTable . '.`revision` = ' . $tmpTable . '.`revision`
-					AND ' . $patchSetTable . '.`ref` = ' . $tmpTable . '.`ref`
-				)
-				INNER JOIN ' . $changeSetTable . ' ON (
-					' . $changeSetTable . '.`id` = ' . $tmpTable . '.`changeset`
-				)
-			SET
-				' . $changeSetTable . '.`depends_on` = dependsOnChangeset.`id`
-			WHERE
-				' . $tmpTable . '.`status` = ' . intval(Database::TMP_DEPENDS_NEEDED_STATUS_DEPENDSON);
+            UPDATE
+                ' . $tmpTable . '
+                INNER JOIN ' . $changeSetTable . ' AS dependsOnChangeset ON (
+                    ' . $tmpTable . '.`identifier` = dependsOnChangeset.`identifier`
+                    AND ' . $tmpTable . '.`number` = dependsOnChangeset.`number`
+                )
+                INNER JOIN ' . $patchSetTable . ' ON (
+                    dependsOnChangeset.`id` = ' . $patchSetTable . '.`changeset`
+                    AND ' . $patchSetTable . '.`revision` = ' . $tmpTable . '.`revision`
+                    AND ' . $patchSetTable . '.`ref` = ' . $tmpTable . '.`ref`
+                )
+                INNER JOIN ' . $changeSetTable . ' ON (
+                    ' . $changeSetTable . '.`id` = ' . $tmpTable . '.`changeset`
+                )
+            SET
+                ' . $changeSetTable . '.`depends_on` = dependsOnChangeset.`id`
+            WHERE
+                ' . $tmpTable . '.`status` = ' . intval(Database::TMP_DEPENDS_NEEDED_STATUS_DEPENDSON);
 
         $dbHandle->exec($query);
     }
@@ -702,10 +702,10 @@ class Gerrie
         $dbHandle = $this->database->getDatabaseConnection();
 
         $query = 'SELECT `id`, `changeset`, `system`, `number`
-				  FROM ' . Database::TABLE_TRACKING_ID . '
-				  WHERE `changeset` = :changeset
-						AND `system` = :system
-						AND `number` = :number';
+                  FROM ' . Database::TABLE_TRACKING_ID . '
+                  WHERE `changeset` = :changeset
+                        AND `system` = :system
+                        AND `number` = :number';
         $statement = $dbHandle->prepare($query);
 
         $statement->bindParam(':changeset', $changeSetId, \PDO::PARAM_INT);
@@ -1519,26 +1519,26 @@ class Gerrie
         switch ($mode) {
             case 'email':
                 $query = '
-				SELECT
-					person.`id`,
-					person.`name`,
-					person.`username`,
-					email.`email`
-				  FROM ' . Database::TABLE_EMAIL . ' email
-				  INNER JOIN ' . Database::TABLE_PERSON . ' person ON (
-					email.`person` = person.`id`
-				  )
-				  WHERE email.`email` = :value';
+                SELECT
+                    person.`id`,
+                    person.`name`,
+                    person.`username`,
+                    email.`email`
+                  FROM ' . Database::TABLE_EMAIL . ' email
+                  INNER JOIN ' . Database::TABLE_PERSON . ' person ON (
+                    email.`person` = person.`id`
+                  )
+                  WHERE email.`email` = :value';
                 break;
             case 'username':
                 $query = 'SELECT `id`, `name`, `username`
-				  FROM ' . Database::TABLE_PERSON . '
-				  WHERE `username` = :value';
+                  FROM ' . Database::TABLE_PERSON . '
+                  WHERE `username` = :value';
                 break;
             case 'name':
                 $query = 'SELECT `id`, `name`, `username`
-				  FROM ' . Database::TABLE_PERSON . '
-				  WHERE `name` = :value';
+                  FROM ' . Database::TABLE_PERSON . '
+                  WHERE `name` = :value';
                 break;
             default:
                 throw new \Exception('Wrong mode selected!', 1363897547);
@@ -1564,7 +1564,7 @@ class Gerrie
         $dbHandle = $this->getDatabase()->getDatabaseConnection();
 
         $query = 'SELECT `id`, `name` FROM ' . Database::TABLE_PROJECT . '
-				  WHERE `server_id` = :server_id';
+                  WHERE `server_id` = :server_id';
         $statement = $dbHandle->prepare($query);
 
         $statement->bindParam(':server_id', $serverId, \PDO::PARAM_INT);
@@ -1587,7 +1587,7 @@ class Gerrie
         $nameList = implode(',', $names);
 
         $query = 'SELECT `id`, `name` FROM ' . Database::TABLE_PROJECT . '
-				  WHERE `server_id` = :server_id AND FIND_IN_SET(`name`, :names) > 0';
+                  WHERE `server_id` = :server_id AND FIND_IN_SET(`name`, :names) > 0';
         $statement = $dbHandle->prepare($query);
 
         $statement->bindParam(':server_id', $serverId, \PDO::PARAM_INT);
@@ -1610,7 +1610,7 @@ class Gerrie
         $dbHandle = $this->getDatabase()->getDatabaseConnection();
 
         $query = 'SELECT `id`, `name` FROM ' . Database::TABLE_PROJECT . '
-				  WHERE `server_id` = :server_id AND `id` = :id';
+                  WHERE `server_id` = :server_id AND `id` = :id';
         $statement = $dbHandle->prepare($query);
 
         $statement->bindParam(':server_id', $serverId, \PDO::PARAM_INT);
@@ -1634,10 +1634,10 @@ class Gerrie
         $dbHandle = $this->getDatabase()->getDatabaseConnection();
 
         $query = 'SELECT `id`, `patchset`, `type`, `description`, `value`, `granted_on`, `by`
-				  FROM ' . Database::TABLE_APPROVAL . '
-				  WHERE `patchset` = :patchset
-						AND `type` = :type
-						AND `by` = :by';
+                  FROM ' . Database::TABLE_APPROVAL . '
+                  WHERE `patchset` = :patchset
+                        AND `type` = :type
+                        AND `by` = :by';
         $statement = $dbHandle->prepare($query);
 
         $statement->bindParam(':patchset', $patchSetId, \PDO::PARAM_INT);
@@ -1663,11 +1663,11 @@ class Gerrie
         $dbHandle = $this->getDatabase()->getDatabaseConnection();
 
         $query = 'SELECT `id`, `changeset`, `number`, `revision`, `ref`, `uploader`, `created_on`
-				  FROM ' . Database::TABLE_PATCHSET . '
-				  WHERE `changeset` = :changeset
-						AND `number` = :number
-						AND `revision` = :revision
-						AND `created_on` = :created_on';
+                  FROM ' . Database::TABLE_PATCHSET . '
+                  WHERE `changeset` = :changeset
+                        AND `number` = :number
+                        AND `revision` = :revision
+                        AND `created_on` = :created_on';
         $statement = $dbHandle->prepare($query);
 
         $statement->bindParam(':changeset', $changeSetId, \PDO::PARAM_INT);
@@ -1692,9 +1692,9 @@ class Gerrie
         $dbHandle = $this->getDatabase()->getDatabaseConnection();
 
         $query = 'SELECT `id`, `submit_record`, `label`, `status`, `by`
-				  FROM ' . Database::TABLE_SUBMIT_RECORD_LABELS . '
-				  WHERE `submit_record` = :submit_record_id
-						AND `label` = :label';
+                  FROM ' . Database::TABLE_SUBMIT_RECORD_LABELS . '
+                  WHERE `submit_record` = :submit_record_id
+                        AND `label` = :label';
         $statement = $dbHandle->prepare($query);
 
         $statement->bindParam(':submit_record_id', $submitRecordId, \PDO::PARAM_INT);
@@ -1720,12 +1720,12 @@ class Gerrie
         $dbHandle = $this->getDatabase()->getDatabaseConnection();
 
         $query = 'SELECT `id`, `patchset`, `file`, `line`, `reviewer`, `message`
-				  FROM ' . Database::TABLE_FILE_COMMENTS . '
-				  WHERE `patchset` = :patchset
-						AND `file` = :file
-						AND `line` = :line
-						AND `reviewer` = :reviewer
-						AND `message_crc32` = :message_crc32';
+                  FROM ' . Database::TABLE_FILE_COMMENTS . '
+                  WHERE `patchset` = :patchset
+                        AND `file` = :file
+                        AND `line` = :line
+                        AND `reviewer` = :reviewer
+                        AND `message_crc32` = :message_crc32';
         $statement = $dbHandle->prepare($query);
 
         $statement->bindParam(':patchset', $patchSetId, \PDO::PARAM_INT);
@@ -1753,11 +1753,11 @@ class Gerrie
         $dbHandle = $this->getDatabase()->getDatabaseConnection();
 
         $query = 'SELECT `id`, `changeset`, `timestamp`, `reviewer`, `message`
-				  FROM ' . Database::TABLE_COMMENT . '
-				  WHERE `changeset` = :changeset
-						AND `timestamp` = :timestamp
-						AND `reviewer` = :reviewer
-						AND `number` = :number';
+                  FROM ' . Database::TABLE_COMMENT . '
+                  WHERE `changeset` = :changeset
+                        AND `timestamp` = :timestamp
+                        AND `reviewer` = :reviewer
+                        AND `number` = :number';
         $statement = $dbHandle->prepare($query);
 
         $statement->bindParam(':changeset', $changeSetId, \PDO::PARAM_INT);
@@ -1784,12 +1784,12 @@ class Gerrie
         $dbHandle = $this->getDatabase()->getDatabaseConnection();
 
         $query = 'SELECT `id`, `project`, `branch`, `topic`, `identifier`, `number`, `subject`, `owner`, `url`, `commit_message`,
-						 `created_on`, `last_updated`, `sort_key`, `open`, `status`, `current_patchset`
-				  FROM ' . Database::TABLE_CHANGESET . '
-				  WHERE `project` = :project
-						AND `branch` = :branch
-						AND `identifier` = :id
-						AND `created_on` = :created_on';
+                         `created_on`, `last_updated`, `sort_key`, `open`, `status`, `current_patchset`
+                  FROM ' . Database::TABLE_CHANGESET . '
+                  WHERE `project` = :project
+                        AND `branch` = :branch
+                        AND `identifier` = :id
+                        AND `created_on` = :created_on';
         $statement = $dbHandle->prepare($query);
 
         $statement->bindParam(':project', $project, \PDO::PARAM_INT);
@@ -1821,9 +1821,9 @@ class Gerrie
         }
 
         $query = 'SELECT `' . implode('`,`', $selectFields) . '`
-				  FROM ' . $table . '
-				  WHERE ' . implode(' AND ', $whereCondition) . '
-				  LIMIT 1';
+                  FROM ' . $table . '
+                  WHERE ' . implode(' AND ', $whereCondition) . '
+                  LIMIT 1';
 
         $statement = $dbHandle->prepare($query);
         $executeResult = $statement->execute($whereValues);
@@ -2050,7 +2050,7 @@ class Gerrie
         $valueSet[':crdate'] = time();
 
         $query = 'INSERT INTO ' . $table . ' (`' . implode('`,`', $fieldSet) . '`)
-				  VALUES (' . implode(', ', array_keys($valueSet)) . ')';
+                  VALUES (' . implode(', ', array_keys($valueSet)) . ')';
 
         $statement = $dbHandle->prepare($query);
         $executeResult = $statement->execute($valueSet);
@@ -2075,8 +2075,8 @@ class Gerrie
         $prepareSet[':id'] = $id;
 
         $query = 'UPDATE ' . $table . '
-				  SET ' . implode(', ', $updateSet) . '
-				  WHERE `id` = :id';
+                  SET ' . implode(', ', $updateSet) . '
+                  WHERE `id` = :id';
 
         $statement = $dbHandle->prepare($query);
         $executeResult = $statement->execute($prepareSet);
@@ -2099,8 +2099,8 @@ class Gerrie
         list($updateSet, $prepareSet) = $this->prepareUpdateData($data);
 
         $query = 'UPDATE ' . $table . '
-				  SET ' . implode(', ', $updateSet) . '
-				  WHERE ' . $where;
+                  SET ' . implode(', ', $updateSet) . '
+                  WHERE ' . $where;
 
         $statement = $dbHandle->prepare($query);
         $executeResult = $statement->execute($prepareSet);
@@ -2169,8 +2169,8 @@ class Gerrie
         $dbHandle = $this->getDatabase()->getDatabaseConnection();
 
         $query = 'SELECT `id`
-				  FROM ' . Database::TABLE_SERVER . '
-				  WHERE `name` = :name AND `host` = :host LIMIT 1';
+                  FROM ' . Database::TABLE_SERVER . '
+                  WHERE `name` = :name AND `host` = :host LIMIT 1';
 
         $statement = $dbHandle->prepare($query);
         $executeResult = $statement->execute(array(':name' => $name, ':host' => $host));
@@ -2192,9 +2192,9 @@ class Gerrie
 
         // We use BINARY here, because we need a case sensitive check
         $query = 'SELECT `id`, `server_id`, `name`, `description`
-				  FROM ' . Database::TABLE_PROJECT . '
-				  WHERE `server_id` = :server_id
-				  AND BINARY `name` = :name LIMIT 1';
+                  FROM ' . Database::TABLE_PROJECT . '
+                  WHERE `server_id` = :server_id
+                  AND BINARY `name` = :name LIMIT 1';
 
         $statement = $dbHandle->prepare($query);
         $statement->bindParam(':name', $name, \PDO::PARAM_STR);
