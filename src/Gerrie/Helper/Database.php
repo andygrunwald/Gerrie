@@ -173,7 +173,7 @@ class Database
 				`file_old` varchar(255) NOT NULL DEFAULT '',
 				`type` int(11) unsigned NOT NULL DEFAULT 0,
 				`insertions` int(11) unsigned NOT NULL DEFAULT 0,
-				`deletions` int(11) unsigned NOT NULL DEFAULT 0,
+				`deletions` int(11) NOT NULL DEFAULT 0,
 				`tstamp` int(11) unsigned NOT NULL DEFAULT 0,
 				`crdate` int(11) unsigned NOT NULL DEFAULT 0,
 				PRIMARY KEY (`id`)
