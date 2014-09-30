@@ -1429,6 +1429,12 @@ class Gerrie
             $person['username'] = 'Unknown_export_username';
         }
 
+        // Sometimes the person got no name.
+        // We have to set a default one
+        if (array_key_exists('name', $person) === false) {
+            $person['name'] = 'Unknown (Exporter)';
+        }
+
         // Sometimes you got an action by "Gerrit Code Review".
         // This "system user" does not have a username. Sad, isn`t ?
         // We got a present for him / her. A default username :)
