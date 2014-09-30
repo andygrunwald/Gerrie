@@ -495,12 +495,12 @@ class Gerrie
         $this->cleanupTempTables();
 
         // Query the data till we receive all data
-        $queryRun = $startNum = $endNum = 0;
+        $startNum = $endNum = 0;
+
         $sortKey = null;
         $changeSetQueryLimit = $dataService->getQueryLimit();
 
         do {
-            $startNum = $queryRun * $changeSetQueryLimit;
             $endNum = $startNum + $changeSetQueryLimit;
 
             $queryMessage = sprintf(
@@ -512,8 +512,10 @@ class Gerrie
             );
             $this->output($queryMessage);
 
-            $data = $dataService->getChangesets($project['name'], $sortKey);
+            $data = $dataService->getChangesets($project['name'], $sortKey, $startNum);
             $queryStatus = $this->transferJsonToArray(array_pop($data));
+
+            $startNum += $queryStatus['rowCount'];
 
             $receivedMessage = sprintf('Received %d changes to process', $queryStatus['rowCount']);
             $this->output($receivedMessage);
@@ -540,8 +542,6 @@ class Gerrie
             // We need to determine the last sortkey to continue the data reading for the next command.
             // How does it work? See the API documentation of Gerrit mentioned in the doc block
             $sortKey = $this->getLastSortKey($data);
-
-            $queryRun++;
         } while ($queryStatus['rowCount'] > 0);
 
         // Take care of 'dependsOn' relations in changesets

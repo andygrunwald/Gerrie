@@ -14,6 +14,13 @@ class SSH extends Base
 {
 
     /**
+     * Version of the Gerrit Server
+     *
+     * @var string
+     */
+    protected $version;
+
+    /**
      * Constructor
      *
      * @param \Gerrie\Helper\SSH $connector
@@ -93,11 +100,16 @@ class SSH extends Base
      *
      * @param string $projectName The project name
      * @param string $resumeKey The key where the request will be resumed
+     * @param integer $start Number of changesets which will be skipped
      * @return array
      * @throws \Exception
      */
-    public function getChangesets($projectName, $resumeKey = null)
+    public function getChangesets($projectName, $resumeKey = null, $start = 0)
     {
+        if (!$this->version) {
+            $this->version = $this->getVersion();
+        }
+
         $connector = $this->getBaseQuery();
 
         $connector->addCommandPart('query');
@@ -112,7 +124,25 @@ class SSH extends Base
         $connector->addArgument('', 'project:' . $projectName, '');
         $connector->addArgument('limit', $this->getQueryLimit(), ':');
 
-        if ($resumeKey) {
+        /**
+         * We have to compare the current version, because Gerrit got
+         * a breaking change in v2.9.0. They removed the "resume_sortkey" parameter,
+         * without offering a alternative for SSH API.
+         * "--start" was added in v2.9.1
+         *
+         *  = v2.9.0 is not supported, because resume_sortkey was removed and --start not implemented
+         * >= v2.9.1 is needed for --start parameter
+         *
+         * @link https://github.com/andygrunwald/Gerrie/issues/4
+         * @link https://groups.google.com/forum/#!searchin/repo-discuss/Andy$20Grunwald/repo-discuss/yQgRR5hlS3E/xTAZWXOSklsJ
+         */
+        if ((version_compare($this->version, '2.9.1') >= 0) && $start > 0) {
+            $connector->addArgument('--start', $start, ' ');
+
+        } else if (version_compare($this->version, '2.9.0') == 0) {
+            throw new \RuntimeException('Version v2.9.0 of Gerrit is not supported with SSH API. See #4 in andygrunwald/Gerrie on Github.', 1412027367);
+
+        } else if ((version_compare($this->version, '2.9.0') == -1) && $resumeKey) {
             $connector->addArgument('resume_sortkey', $resumeKey, ':');
         }
 
@@ -129,5 +159,26 @@ class SSH extends Base
     {
         // @todo implement! Idea: Config OR try to get query limit over HTTP with HTTP dataservice
         return 500;
+    }
+
+    /**
+     * Returns the version of the Gerrit server
+     *
+     * @link https://review.typo3.org/Documentation/cmd-version.html
+     *
+     * @return string
+     */
+    public function getVersion()
+    {
+        $connector = $this->getBaseQuery();
+        $connector->addCommandPart('version');
+        $content = $connector->execute(false);
+
+        if (is_array($content) && count($content) > 0) {
+            $content = array_shift($content);
+            $content = str_replace('gerrit version ', '', $content);
+        }
+
+        return $content;
     }
 }

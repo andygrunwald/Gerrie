@@ -163,7 +163,17 @@ abstract class Base
      *
      * @param string $projectName The project name
      * @param string $resumeKey The key where the request will be resumed
+     * @param integer $start Number of changesets which will be skipped
      * @throws \Exception
      */
-    abstract public function getChangesets($projectName, $resumeKey = null);
+    abstract public function getChangesets($projectName, $resumeKey = null, $start = 0);
+
+    /**
+     * Returns the version of the Gerrit server
+     *
+     * @link https://review.typo3.org/Documentation/cmd-version.html
+     *
+     * @return string
+     */
+    abstract public function getVersion();
 }

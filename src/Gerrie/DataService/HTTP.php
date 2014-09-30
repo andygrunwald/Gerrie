@@ -160,10 +160,11 @@ class HTTP extends Base
      *
      * @param string $projectName The project name
      * @param string $resumeKey The key where the request will be resumed
+     * @param integer $start Number of changesets which will be skipped
      * @return array|null
      * @throws \Exception
      */
-    public function getChangesets($projectName, $resumeKey = null)
+    public function getChangesets($projectName, $resumeKey = null, $start = 0)
     {
         throw new \Exception(__METHOD__ . ' not implemented yet. Will you help me?', 1374257295);
         $urlParts = array(
@@ -221,5 +222,18 @@ class HTTP extends Base
         }
 
         return $queryString;
+    }
+
+    /**
+     * Returns the version of the Gerrit server
+     *
+     * @link https://review.typo3.org/Documentation/cmd-version.html
+     *
+     * @throws \Exception
+     * @return string
+     */
+    public function getVersion()
+    {
+        throw new \Exception(__METHOD__ . ' not implemented yet. Will you help me?', 1412026240);
     }
 }
