@@ -1268,6 +1268,36 @@ class Gerrie
             );
             $fileRow = $this->getLookupTableValues(Database::TABLE_FILES, array('id'), $whereParts);
 
+            // Sometimes we got comments to files, which are not part of the current patchset.
+            // See https://review.typo3.org/#/c/22107/3 for example.
+            // File "Classes/BackEnd/Ajax.php" is not part of the 3rd patchset.
+            // But Oliver Klee commented this file, because this file was part of the 1st patchset.
+            // This file was not part of the 2nd patchset either.
+            // In this case "file" would be NULL during database insert and an exception would be thrown:
+            // [Exception] Column 'file' cannot be null (1048)
+            //
+            // Okay we got two options to solve this.
+            // 1. We ignore the comment and loss the information
+            // 2. Create a new file action "COMMENTED", insert this file with the new type and insert the comment
+            // We will choose option 2, because we do not accept data loss if we can store it.
+            //
+            // If you are reading this and got a better solution, contact us
+            // We would be happy to see your way
+            if ($fileRow === false) {
+                // Take care of file action
+                $type = $this->proceedLookupTable(Database::TABLE_FILEACTION, 'id', 'name', 'COMMENTED');
+
+                $fileData = array(
+                    'patchset' => $patchset['id'],
+                    'file' => $comment['file'],
+                    'file_old' => '',
+                    'insertions' => 0,
+                    'deletions' => 0,
+                    'type' => $type
+                );
+                $fileRow['id'] = $this->insertRecord(Database::TABLE_FILES, $fileData);
+            }
+
             $commentRow = array(
                 'patchset' => $patchset['id'],
                 'file' => $fileRow['id'],
