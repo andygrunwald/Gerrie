@@ -2020,7 +2020,7 @@ class Gerrie
             $updatedRows = $this->updateRecords(Database::TABLE_PROJECT, $dataToUpdate, $where);
 
             $this->output(
-                '=> ' . $updatedRows . ' projects updated (with "' . $parentProject['name'] . '" as parent project'
+                '=> ' . $updatedRows . ' projects updated (with "' . $parentProject['name'] . '" as parent project)'
             );
         }
     }
