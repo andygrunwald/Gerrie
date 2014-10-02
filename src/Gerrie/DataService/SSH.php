@@ -124,6 +124,10 @@ class SSH extends Base
         $connector->addArgument('', 'project:' . $projectName, '');
         $connector->addArgument('limit', $this->getQueryLimit(), ':');
 
+        // TODO Implement "--all-reviewers"
+        // Show the name and email of all reviewers which are added to a change (irrespective of whether they have been voting on that change or not).
+        // See https://review.typo3.org/Documentation/cmd-query.html
+
         /**
          * We have to compare the current version, because Gerrit got
          * a breaking change in v2.9.0. They removed the "resume_sortkey" parameter,
