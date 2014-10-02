@@ -21,6 +21,13 @@ class Database
     protected $handle = null;
 
     /**
+     * Database credentials
+     *
+     * @var array
+     */
+    private $config = array();
+
+    /**
      * Table constants
      *
      * @var string
@@ -308,6 +315,11 @@ class Database
 
     public function __construct(array $config)
     {
+        $this->config = $config;
+        $this->connect($config);
+    }
+
+    private function connect($config) {
         // Build the port part of DSN
         $portPart = (isset($config['Port']) === true) ? intval($config['Port']) : null;
         if ($portPart > 0) {
@@ -329,13 +341,28 @@ class Database
         return $this->tableDefinition;
     }
 
-    public function checkQueryError(\PDOStatement $statement, $lastQueryResult)
+    public function checkQueryError(\PDOStatement $statement, $lastQueryResult, $prepareSet = array())
     {
         if ($lastQueryResult === true) {
-            return;
+            return $statement;
         }
 
+        // MySQL server has gone away ... automatic reconnect
+        // The connection can be lost if the mysql.connection_timeout or default_socket_timeout is to low.
+        // Here we try to reconnect to the database and execute the statement again
         $errorInfo = $statement->errorInfo();
-        throw new \Exception($errorInfo[2] . ' (' . $errorInfo[1] . ')', 1367873943);
+        if ($errorInfo[1] && $errorInfo[1] == 2006) {
+            $this->connect($this->config);
+            if (count($prepareSet) > 0) {
+                $statement->execute($prepareSet);
+            } else {
+                $statement->execute();
+            }
+
+        } elseif ($errorInfo[1]) {
+            throw new \Exception($errorInfo[2] . ' (' . $errorInfo[1] . ')', 1367873943);
+        }
+
+        return $statement;
     }
 }
