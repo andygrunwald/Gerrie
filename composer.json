@@ -1,8 +1,8 @@
 {
     "name": "andygrunwald/gerrie",
-    "description": "An data exporter for Google`s review system 'Gerrit'",
+    "description": "A data crawler for Googles code review tool 'Gerrit'",
     "keywords": ["Gerrit", "Google", "Git", "Review"],
-    "homepage": "http://github.com/andygrunwald/Gerrie",
+    "homepage": "http://andygrunwald.github.io/Gerrie",
     "type": "library",
     "license": "MIT",
     "authors": [
