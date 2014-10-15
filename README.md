@@ -4,6 +4,7 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/53554e47fe0d078a76000002/badge.png)](https://www.versioneye.com/user/projects/53554e47fe0d078a76000002)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/andygrunwald/Gerrie/badges/quality-score.png?s=8f10d347018a564f6dacc1b8a796f0150941691b)](https://scrutinizer-ci.com/g/andygrunwald/Gerrie/)
 [![Code Coverage](https://scrutinizer-ci.com/g/andygrunwald/Gerrie/badges/coverage.png?s=ab1ccbb607ee2d00f97c32e87b7395ef5d6daa72)](https://scrutinizer-ci.com/g/andygrunwald/Gerrie/)
+[![Documentation Status](https://readthedocs.org/projects/gerrie/badge/?version=latest)](https://readthedocs.org/projects/gerrie/?badge=latest)
 
 [Gerrit](https://code.google.com/p/gerrit/) is a great code review tool based on git and written by Google.
 This library is an exporter to get transfer data from Gerrit into a RDBMS.
