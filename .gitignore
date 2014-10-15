@@ -3,3 +3,6 @@
 composer.phar
 Config.yml
 vendor
+
+# Docs
+docs/_build
