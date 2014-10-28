@@ -8,16 +8,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Gerrie\Tests\Helper;
+namespace Gerrie\Tests\Component\DataService;
 
-use Gerrie\Helper\Factory;
+use Gerrie\Component\DataService\DataServiceFactory;
 
-class FactoryTest extends \PHPUnit_Framework_TestCase
+class DataServiceFactoryTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testGetHTTPClientInstanceWithoutCredentials()
     {
-        $httpClient = Factory::getHTTPClientInstance(array());
+        $httpClient = DataServiceFactory::getHTTPClientInstance(array());
 
         $this->assertInstanceOf('\Buzz\Browser', $httpClient);
         $this->assertInstanceOf('\Buzz\Client\Curl', $httpClient->getClient());

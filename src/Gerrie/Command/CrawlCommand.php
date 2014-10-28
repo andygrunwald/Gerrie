@@ -13,7 +13,7 @@ namespace Gerrie\Command;
 use Gerrie\Gerrie;
 use Gerrie\Component\Configuration\Configuration;
 use Gerrie\Component\Database\Database;
-use Gerrie\Helper\Factory;
+use Gerrie\Component\DataService\DataServiceFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -79,7 +79,7 @@ class CrawlCommand extends Command
         foreach ($gerritSystems as $name => $gerritSystem) {
             $gerritSystem['Name'] = $name;
 
-            $dataService = Factory::getDataService($this->configuration, $name);
+            $dataService = DataServiceFactory::getDataService($this->configuration, $name);
 
             // Bootstrap the importer
             $gerrit = new Gerrie($this->database, $dataService, $gerritSystem);

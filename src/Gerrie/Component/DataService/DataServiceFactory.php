@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Gerrie\Helper;
+namespace Gerrie\Component\DataService;
 
-class Factory
+class DataServiceFactory
 {
 
     public static function getHTTPClientInstance(array $config)
