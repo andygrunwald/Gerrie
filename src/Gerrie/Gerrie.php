@@ -561,7 +561,7 @@ class Gerrie
      */
     protected function proceedChangeSetsNeededByRelation()
     {
-        $dbHandle = $this->database->getDatabaseConnection();
+        $dbHandle = $this->getDatabase()->getDatabaseConnection();
 
         $tmpTable = Database::TABLE_TMP_DEPENDS_NEEDED;
         $neededByTable = Database::TABLE_CHANGESET_NEEDEDBY;
@@ -611,7 +611,7 @@ class Gerrie
      */
     protected function proceedChangeSetsDependsOnRelation()
     {
-        $dbHandle = $this->database->getDatabaseConnection();
+        $dbHandle = $this->getDatabase()->getDatabaseConnection();
 
         $tmpTable = Database::TABLE_TMP_DEPENDS_NEEDED;
         $changeSetTable = Database::TABLE_CHANGESET;
@@ -699,7 +699,7 @@ class Gerrie
      */
     protected function getGerritTrackingIdByIdentifier($changeSetId, $system, $trackingId)
     {
-        $dbHandle = $this->database->getDatabaseConnection();
+        $dbHandle = $this->getDatabase()->getDatabaseConnection();
 
         $query = 'SELECT `id`, `changeset`, `system`, `number`
                   FROM ' . Database::TABLE_TRACKING_ID . '
@@ -713,7 +713,7 @@ class Gerrie
         $statement->bindParam(':number', $trackingId, \PDO::PARAM_STR);
         $executeResult = $statement->execute();
 
-        $statement = $this->database->checkQueryError($statement, $executeResult);
+        $statement = $this->getDatabase()->checkQueryError($statement, $executeResult);
         return $statement->fetch(\PDO::FETCH_ASSOC);
     }
 
@@ -1585,7 +1585,7 @@ class Gerrie
         $statement->bindParam(':value', $value, \PDO::PARAM_STR);
         $executeResult = $statement->execute();
 
-        $statement = $this->database->checkQueryError($statement, $executeResult);
+        $statement = $this->getDatabase()->checkQueryError($statement, $executeResult);
         return $statement->fetch(\PDO::FETCH_ASSOC);
     }
 
@@ -1606,7 +1606,7 @@ class Gerrie
         $statement->bindParam(':server_id', $serverId, \PDO::PARAM_INT);
         $executeResult = $statement->execute();
 
-        $statement = $this->database->checkQueryError($statement, $executeResult);
+        $statement = $this->getDatabase()->checkQueryError($statement, $executeResult);
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }
 
@@ -1630,7 +1630,7 @@ class Gerrie
         $statement->bindParam(':names', $nameList, \PDO::PARAM_STR);
         $executeResult = $statement->execute();
 
-        $statement = $this->database->checkQueryError($statement, $executeResult);
+        $statement = $this->getDatabase()->checkQueryError($statement, $executeResult);
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }
 
@@ -1653,7 +1653,7 @@ class Gerrie
         $statement->bindParam(':id', $projectId, \PDO::PARAM_INT);
         $executeResult = $statement->execute();
 
-        $statement = $this->database->checkQueryError($statement, $executeResult);
+        $statement = $this->getDatabase()->checkQueryError($statement, $executeResult);
         return $statement->fetch(\PDO::FETCH_ASSOC);
     }
 
@@ -1681,7 +1681,7 @@ class Gerrie
         $statement->bindParam(':by', $by, \PDO::PARAM_INT);
         $executeResult = $statement->execute();
 
-        $statement = $this->database->checkQueryError($statement, $executeResult);
+        $statement = $this->getDatabase()->checkQueryError($statement, $executeResult);
         return $statement->fetch(\PDO::FETCH_ASSOC);
     }
 
@@ -1712,7 +1712,7 @@ class Gerrie
         $statement->bindParam(':created_on', $createdOn, \PDO::PARAM_INT);
         $executeResult = $statement->execute();
 
-        $statement = $this->database->checkQueryError($statement, $executeResult);
+        $statement = $this->getDatabase()->checkQueryError($statement, $executeResult);
         return $statement->fetch(\PDO::FETCH_ASSOC);
     }
 
@@ -1737,7 +1737,7 @@ class Gerrie
         $statement->bindParam(':label', $label, \PDO::PARAM_STR);
         $executeResult = $statement->execute();
 
-        $statement = $this->database->checkQueryError($statement, $executeResult);
+        $statement = $this->getDatabase()->checkQueryError($statement, $executeResult);
         return $statement->fetch(\PDO::FETCH_ASSOC);
     }
 
@@ -1771,7 +1771,7 @@ class Gerrie
         $statement->bindParam(':message_crc32', $messageCrc32, \PDO::PARAM_INT);
         $executeResult = $statement->execute();
 
-        $statement = $this->database->checkQueryError($statement, $executeResult);
+        $statement = $this->getDatabase()->checkQueryError($statement, $executeResult);
         return $statement->fetch(\PDO::FETCH_ASSOC);
     }
 
@@ -1802,7 +1802,7 @@ class Gerrie
         $statement->bindParam(':number', $number, \PDO::PARAM_STR);
         $executeResult = $statement->execute();
 
-        $statement = $this->database->checkQueryError($statement, $executeResult);
+        $statement = $this->getDatabase()->checkQueryError($statement, $executeResult);
         return $statement->fetch(\PDO::FETCH_ASSOC);
     }
 
@@ -1834,7 +1834,7 @@ class Gerrie
         $statement->bindParam(':created_on', $createdOn, \PDO::PARAM_INT);
         $executeResult = $statement->execute();
 
-        $statement = $this->database->checkQueryError($statement, $executeResult);
+        $statement = $this->getDatabase()->checkQueryError($statement, $executeResult);
         return $statement->fetch(\PDO::FETCH_ASSOC);
     }
 
@@ -1864,7 +1864,7 @@ class Gerrie
         $statement = $dbHandle->prepare($query);
         $executeResult = $statement->execute($whereValues);
 
-        $statement = $this->database->checkQueryError($statement, $executeResult, $whereValues);
+        $statement = $this->getDatabase()->checkQueryError($statement, $executeResult, $whereValues);
         return $statement->fetch(\PDO::FETCH_ASSOC);
     }
 
@@ -2094,7 +2094,7 @@ class Gerrie
         $statement = $dbHandle->prepare($query);
         $executeResult = $statement->execute($values);
 
-        $statement = $this->database->checkQueryError($statement, $executeResult, $values);
+        $statement = $this->getDatabase()->checkQueryError($statement, $executeResult, $values);
         return $statement->fetchColumn();
     }
 
@@ -2120,7 +2120,7 @@ class Gerrie
         $statement->bindParam(':server_id', $serverId, \PDO::PARAM_INT);
         $executeResult = $statement->execute();
 
-        $statement = $this->database->checkQueryError($statement, $executeResult);
+        $statement = $this->getDatabase()->checkQueryError($statement, $executeResult);
         return $statement->fetch(\PDO::FETCH_ASSOC);
     }
 
