@@ -23,11 +23,11 @@ class SSHDataService extends BaseDataService
     /**
      * Constructor
      *
-     * @param \Gerrie\Helper\SSH $connector
+     * @param \Gerrie\Component\Connection\SSH $connector
      * @param array $config
      * @return \Gerrie\Component\DataService\SSHDataService
      */
-    public function __construct(\Gerrie\Helper\SSH $connector, array $config)
+    public function __construct(\Gerrie\Component\Connection\SSH $connector, array $config)
     {
         $this->setConnector($connector);
         $this->setConfig($config);
@@ -76,7 +76,7 @@ class SSHDataService extends BaseDataService
     /**
      * Gets the base ssh query object for all SSH requests.
      *
-     * @return \Gerrie\Helper\SSH
+     * @return \Gerrie\Component\Connection\SSH
      */
     protected function getBaseQuery()
     {

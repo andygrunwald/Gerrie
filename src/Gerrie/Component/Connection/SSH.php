@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Gerrie\Helper;
+namespace Gerrie\Component\Connection;
 
 class SSH
 {
