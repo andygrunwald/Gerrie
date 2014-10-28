@@ -25,7 +25,7 @@
  */
 namespace Gerrie;
 
-use Gerrie\Helper\Database;
+use Gerrie\Component\Database\Database;
 
 class Gerrie
 {
@@ -47,7 +47,7 @@ class Gerrie
     /**
      * Database helper object
      *
-     * @var \Gerrie\Helper\Database
+     * @var \Gerrie\Component\Database\Database
      */
     protected $database = null;
 
@@ -123,7 +123,7 @@ class Gerrie
     /**
      * Constructor
      *
-     * @param \Gerrie\Helper\Database $database The database helper object
+     * @param \Gerrie\Component\Database\Database $database The database helper object
      * @param \Gerrie\DataService\Base $dataService The data service object
      * @param array $config The configuration array
      * @return void
@@ -158,7 +158,7 @@ class Gerrie
     /**
      * Sets the database object
      *
-     * @param \Gerrie\Helper\Database $database The database object
+     * @param \Gerrie\Component\Database\Database $database The database object
      */
     public function setDatabase($database)
     {
@@ -168,7 +168,7 @@ class Gerrie
     /**
      * Gets the database object
      *
-     * @return \Gerrie\Helper\Database
+     * @return \Gerrie\Component\Database\Database
      */
     public function getDatabase()
     {

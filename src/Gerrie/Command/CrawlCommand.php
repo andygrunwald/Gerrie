@@ -12,7 +12,7 @@ namespace Gerrie\Command;
 
 use Gerrie\Gerrie;
 use Gerrie\Helper\Configuration;
-use Gerrie\Helper\Database;
+use Gerrie\Component\Database\Database;
 use Gerrie\Helper\Factory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -32,7 +32,7 @@ class CrawlCommand extends Command
     /**
      * Database object
      *
-     * @var \Gerrie\Helper\Database
+     * @var \Gerrie\Component\Database\Database
      */
     protected $database = null;
 
