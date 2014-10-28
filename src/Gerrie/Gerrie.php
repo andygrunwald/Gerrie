@@ -659,7 +659,7 @@ class Gerrie
             'referenced_earlier' => 1
         );
         $where = 'changeset = ' . intval($changeSetId);
-        $this->updateRecords(Database::TABLE_TRACKING_ID, $dataToUpdate, $where);
+        $this->getDatabase()->updateRecords(Database::TABLE_TRACKING_ID, $dataToUpdate, $where);
 
         foreach ($trackingIds as $trackingId) {
             $system = $this->proceedLookupTable(Database::TABLE_TRACKING_SYSTEM, 'id', 'name', $trackingId['system']);
@@ -681,7 +681,7 @@ class Gerrie
                 $dataToUpdate = array(
                     'referenced_earlier' => 0
                 );
-                $this->updateRecord(Database::TABLE_TRACKING_ID, $dataToUpdate, $trackingIdRow['id']);
+                $this->getDatabase()->updateRecord(Database::TABLE_TRACKING_ID, $dataToUpdate, $trackingIdRow['id']);
             }
 
             $trackingId = $this->unsetKeys($trackingId, array('id', 'system'));
@@ -813,7 +813,7 @@ class Gerrie
             // Calculate the difference and update it :)
             $changeSet['id'] = $changeSetRow['id'];
             $dataDiff = array_diff($changeSetData, $changeSetRow);
-            $this->updateRecord(Database::TABLE_CHANGESET, $dataDiff, $changeSet['id']);
+            $this->getDatabase()->updateRecord(Database::TABLE_CHANGESET, $dataDiff, $changeSet['id']);
 
             $this->output('=> Updated (ID: ' . $changeSet['id'] . ')');
 
@@ -923,7 +923,7 @@ class Gerrie
 
             } else {
                 $id = $submitRecordRow['id'];
-                $this->updateRecord(Database::TABLE_SUBMIT_RECORDS, $submitRecordData, $submitRecordRow['id']);
+                $this->getDatabase()->updateRecord(Database::TABLE_SUBMIT_RECORDS, $submitRecordData, $submitRecordRow['id']);
             }
 
             $submitRecord = $this->unsetKeys($submitRecord, array('status'));
@@ -965,7 +965,7 @@ class Gerrie
                 $this->insertRecord(Database::TABLE_SUBMIT_RECORD_LABELS, $submitRecordLabel);
 
             } else {
-                $this->updateRecord(
+                $this->getDatabase()->updateRecord(
                     Database::TABLE_SUBMIT_RECORD_LABELS,
                     $submitRecordLabelRow,
                     $submitRecordLabelRow['id']
@@ -1065,7 +1065,7 @@ class Gerrie
         // If the current currentPatchSet in database not equal the patchset from Gerrit, update it
         if ($patchSetRow['id'] != $currentPatchSetId) {
             $updateData = array('current_patchset' => $patchSetRow['id']);
-            $this->updateRecord(Database::TABLE_CHANGESET, $updateData, $changeSet['id']);
+            $this->getDatabase()->updateRecord(Database::TABLE_CHANGESET, $updateData, $changeSet['id']);
         }
     }
 
@@ -1205,7 +1205,7 @@ class Gerrie
         // we store approvals which are not active anymore
         $updateData = array('voted_earlier' => 1);
         $where = '`patchset` = ' . intval($patchset['id']);
-        $this->updateRecords(Database::TABLE_APPROVAL, $updateData, $where);
+        $this->getDatabase()->updateRecords(Database::TABLE_APPROVAL, $updateData, $where);
 
         // Sometimes a patchset does not get any approval.
         // In this case, the approvals key does not exist and we can skip it.
@@ -1427,7 +1427,7 @@ class Gerrie
         } else {
             $this->checkIfServersFirstRun('Approval', 1363897318, array($approval, $approvalRow));
 
-            $this->updateRecord(Database::TABLE_APPROVAL, $approvalData, $approvalRow['id']);
+            $this->getDatabase()->updateRecord(Database::TABLE_APPROVAL, $approvalData, $approvalRow['id']);
         }
 
         $approval = $this->unsetKeys($approval, array('type', 'description', 'value', 'grantedOn', 'by'));
@@ -2001,7 +2001,7 @@ class Gerrie
 
             // If there some new data for us, update it.
             if (count($diff) > 0) {
-                $this->updateRecord(Database::TABLE_PROJECT, $diff, $id);
+                $this->getDatabase()->updateRecord(Database::TABLE_PROJECT, $diff, $id);
 
                 $this->output('=> Updated (ID: ' . $id . ')');
 
@@ -2047,7 +2047,7 @@ class Gerrie
             // If anyone has an idea, please let me know.
             $where = 'FIND_IN_SET(`id`, \'' . implode(',', $parentMapping[$parentProject['name']]) . '\') > 0 ';
             $where .= 'AND  parent != ' . $dataToUpdate['parent'];
-            $updatedRows = $this->updateRecords(Database::TABLE_PROJECT, $dataToUpdate, $where);
+            $updatedRows = $this->getDatabase()->updateRecords(Database::TABLE_PROJECT, $dataToUpdate, $where);
 
             $this->output(
                 '=> ' . $updatedRows . ' projects updated (with "' . $parentProject['name'] . '" as parent project)'
@@ -2093,89 +2093,6 @@ class Gerrie
 
         $statement = $this->database->checkQueryError($statement, $executeResult, $valueSet);
         return $dbHandle->lastInsertId();
-    }
-
-    /**
-     * Updates a single record (given $id) in the given $table with the given $data via prepared statements.
-     *
-     * @param string $table Table to update
-     * @param array $data New data
-     * @param int $id ID of record to update
-     * @return int
-     */
-    protected function updateRecord($table, array $data, $id)
-    {
-        $dbHandle = $this->getDatabase()->getDatabaseConnection();
-        list($updateSet, $prepareSet) = $this->prepareUpdateData($data);
-
-        $prepareSet[':id'] = $id;
-
-        $query = 'UPDATE ' . $table . '
-                  SET ' . implode(', ', $updateSet) . '
-                  WHERE `id` = :id';
-
-        $statement = $dbHandle->prepare($query);
-        $executeResult = $statement->execute($prepareSet);
-
-        $statement = $this->database->checkQueryError($statement, $executeResult, $prepareSet);
-        return $statement->rowCount();
-    }
-
-    /**
-     * Updates all records which matches the $where statement in the given $table with the given $data via prepared statements.
-     *
-     * @param string $table Table to update
-     * @param array $data New data
-     * @param string $where Where statement
-     * @return int
-     */
-    protected function updateRecords($table, array $data, $where)
-    {
-        $dbHandle = $this->getDatabase()->getDatabaseConnection();
-        list($updateSet, $prepareSet) = $this->prepareUpdateData($data);
-
-        $query = 'UPDATE ' . $table . '
-                  SET ' . implode(', ', $updateSet) . '
-                  WHERE ' . $where;
-
-        $statement = $dbHandle->prepare($query);
-        $executeResult = $statement->execute($prepareSet);
-
-        $statement = $this->database->checkQueryError($statement, $executeResult, $prepareSet);
-        return $statement->rowCount();
-    }
-
-    /**
-     * Prepared the needed data / structures for prepared statements for our UPDATE queries.
-     *
-     * After this we get two structures:
-     * 1. ($updateSet): array(0 => 'MySQLfield1 = :MySQLfield1', 1 => 'MySQLfield2 = :MySQLfield2', ...);
-     * 2. ($prepareSet): array(':MySQLfield1' => 'valueToUpdate1', ':MySQLfield2' => 'valueToUpdate1', ...);
-     *
-     * @see $this->updateRecord
-     * @see $this->updateRecords
-     *
-     * @param array $data Data to update with fields as keys and related values as values
-     * @return array
-     * @throws \Exception
-     */
-    protected function prepareUpdateData(array $data)
-    {
-        $updateSet = array();
-        $prepareSet = array();
-        foreach ($data as $key => $value) {
-            $updateSet[] = '`' . $key . '` = :' . $key;
-            $prepareSet[':' . $key] = $value;
-        }
-
-        if (count($updateSet) == 0 || count($prepareSet) == 0) {
-            throw new \Exception('Missing data for update query', 1363894675);
-        }
-
-        $updateSet[] = '`tstamp` = :tstamp';
-        $prepareSet[':tstamp'] = time();
-
-        return array($updateSet, $prepareSet);
     }
 
     /**
