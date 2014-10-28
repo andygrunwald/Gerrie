@@ -11,7 +11,7 @@
 namespace Gerrie\Command;
 
 use Gerrie\Gerrie;
-use Gerrie\Helper\Configuration;
+use Gerrie\Component\Configuration\Configuration;
 use Gerrie\Component\Database\Database;
 use Gerrie\Helper\Factory;
 use Symfony\Component\Console\Command\Command;
@@ -39,7 +39,7 @@ class CrawlCommand extends Command
     /**
      * Configuration object
      *
-     * @var \Gerrie\Helper\Configuration
+     * @var \Gerrie\Component\Configuration\Configuration
      */
     protected $configuration = null;
 

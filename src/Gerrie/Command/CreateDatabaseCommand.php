@@ -10,7 +10,7 @@
 
 namespace Gerrie\Command;
 
-use Gerrie\Helper\Configuration;
+use Gerrie\Component\Configuration\Configuration;
 use Gerrie\Component\Database\Database;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,7 +37,7 @@ class CreateDatabaseCommand extends Command
     /**
      * Configuration object
      *
-     * @var \Gerrie\Helper\Configuration
+     * @var \Gerrie\Component\Configuration\Configuration
      */
     protected $configuration = null;
 
