@@ -36,5 +36,3 @@ set_error_handler('GerrieErrrorHandler');
 $loader = new UniversalClassLoader();
 $loader->registerNamespace('Gerrie', 'src');
 $loader->register();
-
-define('CONFIG_FILE', __DIR__ . DIRECTORY_SEPARATOR . 'Config.yml');

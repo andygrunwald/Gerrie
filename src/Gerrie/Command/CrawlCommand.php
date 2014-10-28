@@ -47,12 +47,13 @@ class CrawlCommand extends Command
     {
         $this
             ->setName('gerrie:crawl')
-            ->setDescription('Crawls a Gerrit review system and stores the into a database');
+            ->setDescription('Crawls a Gerrit review system and stores the into a database')
+            ->addOption('configFile', 'c', InputOption::VALUE_REQUIRED, 'Path to configuration file');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->configuration = new Configuration(CONFIG_FILE);
+        $this->configuration = new Configuration($input->getOption('configFile'));
         $databaseConfig = $this->configuration->getConfigurationValue('Database');
 
         $this->database = new Database($databaseConfig);

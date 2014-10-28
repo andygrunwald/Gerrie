@@ -46,7 +46,7 @@ class CreateDatabaseCommand extends Command
         $this
             ->setName('gerrie:create-database')
             ->setDescription('Creates the required database scheme')
-            ->addOption('configFile', 'c', InputOption::VALUE_REQUIRED, 'Path to configuration file', CONFIG_FILE);
+            ->addOption('configFile', 'c', InputOption::VALUE_REQUIRED, 'Path to configuration file');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
