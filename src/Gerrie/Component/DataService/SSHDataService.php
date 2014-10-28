@@ -143,10 +143,10 @@ class SSHDataService extends BaseDataService
         if ((version_compare($this->version, '2.9.1') >= 0) && $start > 0) {
             $connector->addArgument('--start', $start, ' ');
 
-        } else if (version_compare($this->version, '2.9.0') == 0) {
+        } elseif (version_compare($this->version, '2.9.0') == 0) {
             throw new \RuntimeException('Version v2.9.0 of Gerrit is not supported with SSH API. See #4 in andygrunwald/Gerrie on Github.', 1412027367);
 
-        } else if ((version_compare($this->version, '2.9.0') == -1) && $resumeKey) {
+        } elseif ((version_compare($this->version, '2.9.0') == -1) && $resumeKey) {
             $connector->addArgument('resume_sortkey', $resumeKey, ':');
         }
 

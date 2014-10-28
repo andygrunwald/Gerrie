@@ -319,7 +319,8 @@ class Database
         $this->connect($config);
     }
 
-    private function connect($config) {
+    private function connect($config)
+    {
         // Build the port part of DSN
         $portPart = (isset($config['Port']) === true) ? intval($config['Port']) : null;
         if ($portPart > 0) {

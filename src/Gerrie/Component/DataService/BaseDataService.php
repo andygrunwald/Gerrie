@@ -65,7 +65,7 @@ abstract class BaseDataService
     /**
      * Sets the API connector
      *
-     * @param \stdClass $connector API connector like HTTP Client
+     * @param \Buzz\Browser|\Gerrie\Component\Connection\SSH $connector API connector like HTTP Client
      * @return void
      */
     public function setConnector($connector)
