@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Gerrie\DataService;
+namespace Gerrie\Component\DataService;
 
 class SSH extends Base
 {
@@ -25,7 +25,7 @@ class SSH extends Base
      *
      * @param \Gerrie\Helper\SSH $connector
      * @param array $config
-     * @return \Gerrie\DataService\SSH
+     * @return \Gerrie\Component\DataService\SSH
      */
     public function __construct(\Gerrie\Helper\SSH $connector, array $config)
     {

@@ -56,7 +56,7 @@ class Factory
         $sshExec = $config->getConfigurationValue('Executable.SSH');
         $ssh = new SSH($sshExec, $projectConfig['SSH']);
 
-        $dataService = new \Gerrie\DataService\SSH($ssh, $projectConfig['SSH']);
+        $dataService = new \Gerrie\Component\DataService\SSH($ssh, $projectConfig['SSH']);
 
         return $dataService;
     }
@@ -64,7 +64,7 @@ class Factory
     public static function bootstrapHTTPDataService(array $projectConfig)
     {
         $restClient = static::getHTTPClientInstance($projectConfig);
-        $dataService = new \Gerrie\DataService\HTTP($restClient, $projectConfig['HTTP']);
+        $dataService = new \Gerrie\Component\DataService\HTTP($restClient, $projectConfig['HTTP']);
 
         return $dataService;
     }

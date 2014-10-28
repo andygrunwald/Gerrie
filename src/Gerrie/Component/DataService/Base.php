@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Gerrie\DataService;
+namespace Gerrie\Component\DataService;
 
 abstract class Base
 {

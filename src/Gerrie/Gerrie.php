@@ -54,7 +54,7 @@ class Gerrie
     /**
      * Storage for data services.
      *
-     * @var \Gerrie\DataService\Base
+     * @var \Gerrie\Component\DataService\Base
      */
     protected $dataService = null;
 
@@ -124,11 +124,11 @@ class Gerrie
      * Constructor
      *
      * @param \Gerrie\Component\Database\Database $database The database helper object
-     * @param \Gerrie\DataService\Base $dataService The data service object
+     * @param \Gerrie\Component\DataService\Base $dataService The data service object
      * @param array $config The configuration array
      * @return void
      */
-    public function __construct(Database $database, \Gerrie\DataService\Base $dataService, array $config)
+    public function __construct(Database $database, \Gerrie\Component\DataService\Base $dataService, array $config)
     {
         $this->setDatabase($database);
         $this->setDataService($dataService);
@@ -178,10 +178,10 @@ class Gerrie
     /**
      * Sets the data service
      *
-     * @param \Gerrie\DataService\Base $dataService Data service object
+     * @param \Gerrie\Component\DataService\Base $dataService Data service object
      * @return void
      */
-    public function setDataService(\Gerrie\DataService\Base $dataService)
+    public function setDataService(\Gerrie\Component\DataService\Base $dataService)
     {
         $this->dataService = $dataService;
     }
@@ -189,7 +189,7 @@ class Gerrie
     /**
      * Gets a data service
      *
-     * @return \Gerrie\DataService\Base
+     * @return \Gerrie\Component\DataService\Base
      */
     public function getDataService()
     {
