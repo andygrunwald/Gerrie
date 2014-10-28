@@ -439,11 +439,12 @@ class Gerrie
     {
         $this->setTime('start');
 
+        $config = $this->getConfig();
         $host = $this->getDataService()->getHost();
 
         // Here we go. Lets get the export party started.
         // At first, lets check if the current Gerrit review system is known by the database
-        $this->proceedServer($this->config['Name'], $host);
+        $this->proceedServer($config['Name'], $host);
 
         // After this, lets start to save all projects.
         // We need the projects first, because this is our "entry point" for the data mining.
