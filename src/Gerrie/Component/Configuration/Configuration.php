@@ -17,13 +17,8 @@ class Configuration
 
     protected $config = array();
 
-    public function __construct($configFile = '')
+    public function __construct($configFile)
     {
-
-        if (!$configFile) {
-            $configFile = CONFIG_FILE;
-        }
-
         $this->config = Yaml::parse($configFile);
     }
 

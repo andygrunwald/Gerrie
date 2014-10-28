@@ -52,7 +52,7 @@ class CrawlCommand extends Command
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->configuration = new Configuration();
+        $this->configuration = new Configuration(CONFIG_FILE);
         $databaseConfig = $this->configuration->getConfigurationValue('Database');
 
         $this->database = new Database($databaseConfig);
