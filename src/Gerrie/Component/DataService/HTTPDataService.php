@@ -10,7 +10,7 @@
 
 namespace Gerrie\Component\DataService;
 
-class HTTP extends BaseDataService
+class HTTPDataService extends BaseDataService
 {
 
     /**
@@ -18,7 +18,7 @@ class HTTP extends BaseDataService
      *
      * @param \Buzz\Browser $connector
      * @param array $config
-     * @return \Gerrie\Component\DataService\HTTP
+     * @return \Gerrie\Component\DataService\HTTPDataService
      */
     public function __construct(\Buzz\Browser $connector, array $config)
     {

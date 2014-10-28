@@ -64,7 +64,7 @@ class DataServiceFactory
     public static function bootstrapHTTPDataService(array $projectConfig)
     {
         $restClient = static::getHTTPClientInstance($projectConfig);
-        $dataService = new \Gerrie\Component\DataService\HTTP($restClient, $projectConfig['HTTP']);
+        $dataService = new \Gerrie\Component\DataService\HTTPDataService($restClient, $projectConfig['HTTP']);
 
         return $dataService;
     }
