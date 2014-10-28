@@ -1,7 +1,12 @@
 {
     "name": "andygrunwald/gerrie",
     "description": "A data crawler for Googles code review tool 'Gerrit'",
-    "keywords": ["Gerrit", "Google", "Git", "Review"],
+    "keywords": [
+        "Gerrit",
+        "Google",
+        "Git",
+        "Review"
+    ],
     "homepage": "http://andygrunwald.github.io/Gerrie",
     "type": "library",
     "license": "MIT",
@@ -28,6 +33,11 @@
         "phpunit/phpunit": "4.3.*"
     },
     "autoload": {
-        "psr-0": {"Gerrie": "src/"}
-    }
+        "psr-0": {
+            "Gerrie": "src/"
+        }
+    },
+    "bin": [
+        "gerrie"
+    ]
 }
