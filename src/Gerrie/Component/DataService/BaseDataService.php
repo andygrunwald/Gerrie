@@ -10,7 +10,7 @@
 
 namespace Gerrie\Component\DataService;
 
-abstract class Base
+abstract class BaseDataService
 {
 
     /**

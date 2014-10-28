@@ -10,7 +10,7 @@
 
 namespace Gerrie\Component\DataService;
 
-class HTTP extends Base
+class HTTP extends BaseDataService
 {
 
     /**

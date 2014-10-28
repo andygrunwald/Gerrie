@@ -10,7 +10,7 @@
 
 namespace Gerrie\Component\DataService;
 
-class SSH extends Base
+class SSH extends BaseDataService
 {
 
     /**
