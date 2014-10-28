@@ -420,7 +420,7 @@ class Gerrie
     {
         $this->outputHeadline('Proceed Projects');
 
-        $projects = $this->dataService->getProjects();
+        $projects = $this->getDataService()->getProjects();
 
         if (is_array($projects) === false) {
             throw new \Exception('No projects found on "' . $host . '"!', 1363894633);
