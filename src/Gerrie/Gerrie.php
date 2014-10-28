@@ -126,7 +126,7 @@ class Gerrie
      * @param \Gerrie\Component\Database\Database $database The database helper object
      * @param \Gerrie\Component\DataService\BaseDataService $dataService The data service object
      * @param array $config The configuration array
-     * @return void
+     * @return \Gerrie\Gerrie
      */
     public function __construct(Database $database, \Gerrie\Component\DataService\BaseDataService $dataService, array $config)
     {
