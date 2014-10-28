@@ -56,7 +56,7 @@ class DataServiceFactory
         $sshExec = $config->getConfigurationValue('Executable.SSH');
         $ssh = new SSH($sshExec, $projectConfig['SSH']);
 
-        $dataService = new \Gerrie\Component\DataService\SSH($ssh, $projectConfig['SSH']);
+        $dataService = new \Gerrie\Component\DataService\SSHDataService($ssh, $projectConfig['SSH']);
 
         return $dataService;
     }

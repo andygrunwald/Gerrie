@@ -10,7 +10,7 @@
 
 namespace Gerrie\Component\DataService;
 
-class SSH extends BaseDataService
+class SSHDataService extends BaseDataService
 {
 
     /**
@@ -25,7 +25,7 @@ class SSH extends BaseDataService
      *
      * @param \Gerrie\Helper\SSH $connector
      * @param array $config
-     * @return \Gerrie\Component\DataService\SSH
+     * @return \Gerrie\Component\DataService\SSHDataService
      */
     public function __construct(\Gerrie\Helper\SSH $connector, array $config)
     {
