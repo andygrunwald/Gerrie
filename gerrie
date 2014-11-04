@@ -7,7 +7,11 @@ use Gerrie\Command\CreateDatabaseCommand;
 use Gerrie\Command\CrawlCommand;
 use Symfony\Component\Console\Application;
 
+// Use extended version of ArgvInput,
+// because we need more functionality than offered by ArgvInput ;)
+$argvInputExtended = new Gerrie\Component\Console\ArgvInputExtended();
+
 $application = new Application('Gerrie', '0.2.0-dev');
 $application->add(new CreateDatabaseCommand());
 $application->add(new CrawlCommand());
-$application->run();
+$application->run($argvInputExtended);
