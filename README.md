@@ -64,7 +64,7 @@ To check your code against this standards you can use the tool [PHP_CodeSniffer]
 
 This project is released under the terms of the [MIT license](http://en.wikipedia.org/wiki/MIT_License).
 
-## Questions / Contact / Feedback
+## Support, contact or feedback
 
 If you got questions, got feedback, getting crazy with setting up or using this project or want to drink a :beer: and talk about this project **just contact me**.
 
