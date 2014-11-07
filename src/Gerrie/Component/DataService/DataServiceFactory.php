@@ -38,7 +38,7 @@ class DataServiceFactory
 
         switch ($dataServiceConfig) {
             case 'SSH':
-                $dataService = static::bootstrapSSHDataService($config, $projectConfig);
+                $dataService = static::bootstrapSSHDataService($projectConfig);
                 break;
             case 'HTTP':
                 $dataService = static::bootstrapHTTPDataService($projectConfig);
@@ -51,10 +51,9 @@ class DataServiceFactory
         return $dataService;
     }
 
-    public static function bootstrapSSHDataService(Configuration $config, array $projectConfig)
+    public static function bootstrapSSHDataService(array $projectConfig)
     {
-        $sshExec = $config->getConfigurationValue('Executable.SSH');
-        $ssh = new SSH($sshExec, $projectConfig['SSH']);
+        $ssh = new SSH('ssh', $projectConfig['SSH']);
 
         $dataService = new \Gerrie\Component\DataService\SSHDataService($ssh, $projectConfig['SSH']);
 
