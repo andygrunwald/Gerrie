@@ -50,6 +50,8 @@ class CrawlCommand extends GerrieBaseCommand
             ->setDescription('Crawls a Gerrit review system and stores the into a database');
         $this->addConfigFileOption();
         $this->addDatabaseOptions();
+        $this->addSSHKeyOption();
+        $this->addInstancesArgument();
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
