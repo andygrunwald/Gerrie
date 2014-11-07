@@ -11,16 +11,15 @@
 namespace Gerrie\Command;
 
 use Gerrie\Gerrie;
-use Gerrie\Component\Configuration\Configuration;
+use Gerrie\Component\Configuration\ConfigurationFactory;
 use Gerrie\Component\Database\Database;
 use Gerrie\Component\DataService\DataServiceFactory;
-use Symfony\Component\Console\Command\Command;
+use Gerrie\Component\Console\InputExtendedInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CrawlCommand extends Command
+class CrawlCommand extends GerrieBaseCommand
 {
 
     /**
@@ -48,15 +47,19 @@ class CrawlCommand extends Command
     {
         $this
             ->setName('gerrie:crawl')
-            ->setDescription('Crawls a Gerrit review system and stores the into a database')
-            ->addOption('configFile', 'c', InputOption::VALUE_REQUIRED, 'Path to configuration file');
+            ->setDescription('Crawls a Gerrit review system and stores the into a database');
+        $this->addConfigFileOption();
+        $this->addDatabaseOptions();
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->configuration = new Configuration($input->getOption('configFile'));
-        $databaseConfig = $this->configuration->getConfigurationValue('Database');
+        /** @var InputExtendedInterface $input */
 
+        $configFile = $input->getOption('config-file');
+        $this->configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptions($configFile, $input);
+
+        $databaseConfig = $this->configuration->getConfigurationValue('Database');
         $this->database = new Database($databaseConfig);
     }
 

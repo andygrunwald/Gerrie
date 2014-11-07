@@ -19,14 +19,6 @@ Database:
   Name: gerrit
 
 #
-# Configuration of executables
-#
-Executable:
-  # Path of your ssh executable
-  # Required
-  SSH: /usr/bin/ssh
-
-#
 # Gerrit server
 # n server can be configured
 # Required
