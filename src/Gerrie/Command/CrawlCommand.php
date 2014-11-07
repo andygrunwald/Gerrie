@@ -15,13 +15,11 @@ use Gerrie\Component\Configuration\ConfigurationFactory;
 use Gerrie\Component\Database\Database;
 use Gerrie\Component\DataService\DataServiceFactory;
 use Gerrie\Component\Console\InputExtendedInterface;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CrawlCommand extends Command
+class CrawlCommand extends GerrieBaseCommand
 {
 
     /**
@@ -49,13 +47,9 @@ class CrawlCommand extends Command
     {
         $this
             ->setName('gerrie:crawl')
-            ->setDescription('Crawls a Gerrit review system and stores the into a database')
-            ->addOption('config-file', 'c', InputOption::VALUE_REQUIRED, 'Path to configuration file', 'Config.yml')
-            ->addOption('database-host', 'H', InputOption::VALUE_REQUIRED, 'Name / IP of the host where the database is running')
-            ->addOption('database-user', 'u', InputOption::VALUE_REQUIRED, 'Username to access the database')
-            ->addOption('database-pass', 'p', InputOption::VALUE_REQUIRED, 'Password to access the database')
-            ->addOption('database-port', 'P', InputOption::VALUE_REQUIRED, 'Port where the database is listen')
-            ->addOption('database-name', 'N', InputOption::VALUE_REQUIRED, 'Name of the database which should be used');
+            ->setDescription('Crawls a Gerrit review system and stores the into a database');
+        $this->addConfigFileOption();
+        $this->addDatabaseOptions();
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)

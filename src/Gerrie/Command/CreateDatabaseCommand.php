@@ -10,14 +10,12 @@
 
 namespace Gerrie\Command;
 
-use Gerrie\Component\Configuration\Configuration;
+use Gerrie\Component\Configuration\ConfigurationFactory;
 use Gerrie\Component\Database\Database;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateDatabaseCommand extends Command
+class CreateDatabaseCommand extends GerrieBaseCommand
 {
 
     /**
@@ -45,21 +43,24 @@ class CreateDatabaseCommand extends Command
     {
         $this
             ->setName('gerrie:create-database')
-            ->setDescription('Creates the required database scheme')
-            ->addOption('configFile', 'c', InputOption::VALUE_REQUIRED, 'Path to configuration file');
+            ->setDescription('Creates the required database scheme');
+        $this->addConfigFileOption();
+        $this->addDatabaseOptions();
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->configuration = new Configuration($input->getOption('configFile'));
-        $databaseConfig = $this->configuration->getConfigurationValue('Database');
+        /** @var InputExtendedInterface $input */
 
+        $configFile = $input->getOption('config-file');
+        $this->configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptions($configFile, $input);
+
+        $databaseConfig = $this->configuration->getConfigurationValue('Database');
         $this->database = new Database($databaseConfig);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $this->outputStartMessage($output);
         $output->writeln('');
 
