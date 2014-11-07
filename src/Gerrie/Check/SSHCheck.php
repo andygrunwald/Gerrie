@@ -66,4 +66,14 @@ class SSHCheck implements CheckInterface
         $message = '"ssh" is not installed. Please install "ssh".';
         return $message;
     }
+
+    /**
+     * Returns if this check is optional or required.
+     *
+     * @return bool
+     */
+    public function isOptional()
+    {
+        return false;
+    }
 }

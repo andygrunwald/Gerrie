@@ -121,4 +121,18 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('World', $this->configuration->getConfigurationValue('Foo.Gerrie'));
         $this->assertEquals('Google Google Google', $this->configuration->getConfigurationValue('Awesome.Application.YOLO'));
     }
+
+    public function testHasConfigurationKey()
+    {
+        $dummyConfig = $this->getDummyConfig();
+        $configuration = new Configuration($dummyConfig);
+
+        $this->assertTrue($configuration->hasConfigurationKey('Foo'));
+        $this->assertTrue($configuration->hasConfigurationKey('Bar.Gerrie.Nested'));
+        $this->assertTrue($configuration->hasConfigurationKey('Bar.Gerrie'));
+        $this->assertTrue($configuration->hasConfigurationKey('Bar.Bar'));
+
+        $this->assertFalse($configuration->hasConfigurationKey('Baz.Foo'));
+        $this->assertFalse($configuration->hasConfigurationKey('Gerrie'));
+    }
 }

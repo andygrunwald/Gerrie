@@ -15,6 +15,14 @@ use Gerrie\Component\Configuration\ConfigurationFactory;
 class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
 {
 
+    protected function getPathOfFixtureConfigFile()
+    {
+        $configFile  = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
+        $configFile .= 'Fixture' . DIRECTORY_SEPARATOR . 'Config.yml';
+
+        return $configFile;
+    }
+
     /**
      * @expectedException     \RuntimeException
      * @expectedExceptionCode 1415381521
@@ -26,7 +34,7 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetConfigurationByConfigFileWithValidConfigFile()
     {
-        $configFile = __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'Config.yml';
+        $configFile = $this->getPathOfFixtureConfigFile();
         $configuration = ConfigurationFactory::getConfigurationByConfigFile($configFile);
 
         $this->assertInstanceOf('Gerrie\Component\Configuration\Configuration', $configuration);
@@ -70,7 +78,7 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
                               //$this->returnValue('NAME')
                           );
 
-        $configFile = __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'Config.yml';
+        $configFile = $this->getPathOfFixtureConfigFile();
         $configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptions($configFile, $argvInputExtended);
 
         $this->assertInstanceOf('Gerrie\Component\Configuration\Configuration', $configuration);

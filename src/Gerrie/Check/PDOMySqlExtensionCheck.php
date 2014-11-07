@@ -83,4 +83,14 @@ class PDOMySqlExtensionCheck implements CheckInterface
 
         return $message;
     }
+
+    /**
+     * Returns if this check is optional or required.
+     *
+     * @return bool
+     */
+    public function isOptional()
+    {
+        return false;
+    }
 }

@@ -10,15 +10,18 @@
 
 namespace Gerrie\Command;
 
+use Gerrie\Check\ConfigFileValidationCheck;
 use Gerrie\Check\CurlExtensionCheck;
+use Gerrie\Check\ConfigFileCheck;
 use Gerrie\Check\PDOMySqlExtensionCheck;
 use Gerrie\Check\SSHCheck;
 use Gerrie\Check\CheckInterface;
-use Symfony\Component\Console\Command\Command;
+use Gerrie\Component\Configuration\Configuration;
+use Gerrie\Component\Configuration\ConfigurationFactory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CheckCommand extends Command
+class CheckCommand extends GerrieBaseCommand
 {
     /**
      * OK sign from unicode table
@@ -37,6 +40,14 @@ class CheckCommand extends Command
     const EMOJI_FAILURE = "\xE2\x9D\x8C";
 
     /**
+     * Question mark sign from unicode table
+     *
+     * @link http://apps.timwhitlock.info/emoji/tables/unicode
+     * @var string
+     */
+    const EMOJI_OPTIONAL = "\xE2\x9D\x93";
+
+    /**
      * Stores the overall result of all checks.
      *
      * @var bool
@@ -48,10 +59,14 @@ class CheckCommand extends Command
         $this
             ->setName('gerrie:check')
             ->setDescription('Checks if the setup is working');
+        $this->addConfigFileOption();
+        $this->addDatabaseOptions();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        /** @var InputExtendedInterface $input */
+
         // Run gerrie:create-database-Command
         $output->writeln('<info>Gerrie will check if the current setup will work as expected.</info>');
         $output->writeln('<info>Lets start!</info>');
@@ -72,10 +87,26 @@ class CheckCommand extends Command
         $this->checkProperty($output, $sshCheck);
 
         $output->writeln('');
-        $output->writeln('<comment>Connection:</comment>');
+        $output->writeln('<comment>Configuration:</comment>');
+
+        // Check if the config file exists
+        $configFileCheck = new ConfigFileCheck($input->getOption('config-file'));
+        $this->checkProperty($output, $configFileCheck);
+
+        // Check if the config file is valid
+        $configFile = $input->getOption('config-file');
+        try {
+            $configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptions($configFile, $input);
+        } catch (\Exception $e) {
+            $configuration = new Configuration();
+        }
+
+        $configFileValidationCheck = new ConfigFileValidationCheck($configuration);
+        $this->checkProperty($output, $configFileValidationCheck);
 
         $output->writeln('');
-        $output->writeln('<comment>Config:</comment>');
+        $output->writeln('<comment>Connection:</comment>');
+
         /*
         $output->writeln('');
         $output->writeln("Check mark: \xE2\x9C\x85");
@@ -94,9 +125,6 @@ class CheckCommand extends Command
         // Curl Connection works (only with host, request Gerrie version)
 
         // MySQL Connection works
-
-        // Config file found
-        // Config file correct
     }
 
     /**
@@ -113,6 +141,12 @@ class CheckCommand extends Command
         if($result === false) {
             $outputLevel = 'error';
             $sign = self::EMOJI_FAILURE;
+
+            if ($property->isOptional() === true) {
+                $outputLevel = 'comment';
+                $sign = self::EMOJI_OPTIONAL;
+            }
+
             $message = $property->getFailureMessage();
 
             // The default value from overallResult is true.

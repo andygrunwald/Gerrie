@@ -87,14 +87,14 @@ class Configuration
     /**
      * Returns a single configuration value
      *
-     * @param string $valuePath
+     * @param string $key
      * @return mixed
      */
-    public function getConfigurationValue($valuePath)
+    public function getConfigurationValue($key)
     {
         $configuration = $this->getConfiguration();
 
-        $pathParts = explode(self::DELIMITER, $valuePath);
+        $pathParts = explode(self::DELIMITER, $key);
         foreach ($pathParts as $pathPart) {
             if (isset($configuration[ucfirst($pathPart)]) === true) {
                 $configuration = $configuration[ucfirst($pathPart)];
@@ -104,5 +104,29 @@ class Configuration
         }
 
         return $configuration;
+    }
+
+    /**
+     * Checks if the configuration got the incoming key
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function hasConfigurationKey($key)
+    {
+        $result = true;
+        $configuration = $this->getConfiguration();
+
+        $pathParts = explode(self::DELIMITER, $key);
+        foreach ($pathParts as $pathPart) {
+            if (array_key_exists(ucfirst($pathPart), $configuration) === false) {
+                $result = false;
+                break;
+            } else {
+                $configuration = $configuration[ucfirst($pathPart)];
+            }
+        }
+
+        return $result;
     }
 }

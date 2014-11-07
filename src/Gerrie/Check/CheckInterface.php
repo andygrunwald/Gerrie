@@ -37,4 +37,11 @@ interface CheckInterface
      * @return string
      */
     public function getFailureMessage();
+
+    /**
+     * Returns if this check is optional or required.
+     *
+     * @return bool
+     */
+    public function isOptional();
 }

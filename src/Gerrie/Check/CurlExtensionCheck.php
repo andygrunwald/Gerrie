@@ -64,4 +64,14 @@ class CurlExtensionCheck implements CheckInterface
         $message = 'PHP-Extension "curl" is not installed. Please install PHP-Extension "curl".';
         return $message;
     }
+
+    /**
+     * Returns if this check is optional or required.
+     *
+     * @return bool
+     */
+    public function isOptional()
+    {
+        return false;
+    }
 }
