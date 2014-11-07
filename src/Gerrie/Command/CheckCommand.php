@@ -67,10 +67,16 @@ class CheckCommand extends GerrieBaseCommand
     {
         /** @var InputExtendedInterface $input */
 
+        /**
+         * Welcome message
+         */
         // Run gerrie:create-database-Command
         $output->writeln('<info>Gerrie will check if the current setup will work as expected.</info>');
         $output->writeln('<info>Lets start!</info>');
 
+        /**
+         * Start checking
+         */
         $output->writeln('');
         $output->writeln('<comment>System:</comment>');
 
@@ -106,25 +112,18 @@ class CheckCommand extends GerrieBaseCommand
 
         $output->writeln('');
         $output->writeln('<comment>Connection:</comment>');
-
-        /*
-        $output->writeln('');
-        $output->writeln("Check mark: \xE2\x9C\x85");
-        $output->writeln("Heart: \xE2\x9D\xA4 \xF0\x9F\x92\x93");
-        $output->writeln("Cross mark: \xE2\x9D\x8C");
-        $output->writeln("Coffee: \xE2\x98\x95");
-        $output->writeln("One beer: \xF0\x9F\x8D\xBA");
-        $output->writeln("Two beer: \xF0\x9F\x8D\xBB");
-        $output->writeln("Two beer: \xE2\x9D\x93");
-        $output->writeln('');
-        $output->writeln("Two beer: \xE2\x9D\x93");
-        */
-
         // SSH Connection works (only with host, request Gerrie version)
-
         // Curl Connection works (only with host, request Gerrie version)
-
         // MySQL Connection works
+
+        /**
+         * Message end result
+         */
+        if ($this->overallResult === false) {
+            $this->outputFixMessage($output);
+        } else {
+            $this->outputEverythingIsFineAndIWantABeerMessage($output);
+        }
     }
 
     /**
@@ -164,5 +163,49 @@ class CheckCommand extends GerrieBaseCommand
         $output->writeln($outputMessage);
 
         return $result;
+    }
+
+    /**
+     * If minimum one check fails (optional or not does not matter), this message will be outputted.
+     *
+     * @param OutputInterface $output
+     * @return void
+     */
+    protected function outputFixMessage(OutputInterface $output)
+    {
+        $output->writeln('');
+        $output->writeln("<info>Sadly, not all checks went well \xF0\x9F\x98\xA2</info>");
+        $output->writeln('<info>But this is no reason to give up!</info>');
+        $output->writeln('<info>Remember: This check was to verifiy if Gerrie is working to avoid unnecessary problems.</info>');
+        $output->writeln("<info>So get up, grab a \xE2\x98\x95  and try to fix the failing checks.</info>");
+        $output->writeln('');
+        $output->writeln('<info>If you don`t know how to solve this "problem(s)":</info>');
+        $output->writeln('<info>  * have a look at the documentation</info>');
+        $output->writeln('<info>  * or open an issue on GitHub</info>');
+        $output->writeln('');
+        $output->writeln('<info>Do not be afraid. You can execute this check whenever you want.</info>');
+        $output->writeln('<info>It is for free and breaks nothing :)</info>');
+        $output->writeln("<info>So keep \xF0\x9F\x8E\xB8  and cu next time \xF0\x9F\x91\x8B</info>");
+        $output->writeln('');
+    }
+
+    /**
+     * If everything is fine and all checks went good, this message will be outputted.
+     *
+     * @param OutputInterface $output
+     * @return void
+     */
+    protected function outputEverythingIsFineAndIWantABeerMessage(OutputInterface $output)
+    {
+        $output->writeln('');
+        $output->writeln("<info>Wow! Everything works fine. Gratulations \xF0\x9F\x8E\x81</info>");
+        $output->writeln('');
+        $output->writeln('<info>Now you are ready to use Gerrie with the full featureset. Awesome!</info>');
+
+        $message  = "<info>Grab a \xF0\x9F\x8D\xBA  (better \xF0\x9F\x8D\xBB ) or a \xF0\x9F\x8D\xB7  ";
+        $message .= "and start crawling your Gerrit instances.</info>";
+        $output->writeln($message);
+        $output->writeln("<info>Have fun \xF0\x9F\x98\x83</info>");
+        $output->writeln('');
     }
 }
