@@ -11,9 +11,10 @@
 namespace Gerrie\Command;
 
 use Gerrie\Gerrie;
-use Gerrie\Component\Configuration\Configuration;
+use Gerrie\Component\Configuration\ConfigurationFactory;
 use Gerrie\Component\Database\Database;
 use Gerrie\Component\DataService\DataServiceFactory;
+use Gerrie\Component\Console\InputExtendedInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -49,14 +50,22 @@ class CrawlCommand extends Command
         $this
             ->setName('gerrie:crawl')
             ->setDescription('Crawls a Gerrit review system and stores the into a database')
-            ->addOption('configFile', 'c', InputOption::VALUE_REQUIRED, 'Path to configuration file');
+            ->addOption('config-file', 'c', InputOption::VALUE_REQUIRED, 'Path to configuration file', 'Config.yml')
+            ->addOption('database-host', 'H', InputOption::VALUE_REQUIRED, 'Name / IP of the host where the database is running')
+            ->addOption('database-user', 'u', InputOption::VALUE_REQUIRED, 'Username to access the database')
+            ->addOption('database-pass', 'p', InputOption::VALUE_REQUIRED, 'Password to access the database')
+            ->addOption('database-port', 'P', InputOption::VALUE_REQUIRED, 'Port where the database is listen')
+            ->addOption('database-name', 'N', InputOption::VALUE_REQUIRED, 'Name of the database which should be used');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->configuration = new Configuration($input->getOption('configFile'));
-        $databaseConfig = $this->configuration->getConfigurationValue('Database');
+        /** @var InputExtendedInterface $input */
 
+        $configFile = $input->getOption('config-file');
+        $this->configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptions($configFile, $input);
+
+        $databaseConfig = $this->configuration->getConfigurationValue('Database');
         $this->database = new Database($databaseConfig);
     }
 

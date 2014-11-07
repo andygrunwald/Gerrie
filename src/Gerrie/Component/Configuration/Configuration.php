@@ -10,20 +10,34 @@
 
 namespace Gerrie\Component\Configuration;
 
-use Symfony\Component\Yaml\Yaml;
-
 class Configuration
 {
+    /**
+     * Delimiter for configuration keys
+     *
+     * @var string
+     */
+    const DELIMITER = '.';
 
-    protected $config = array();
+    /**
+     * The configuration storage
+     *
+     * @var array
+     */
+    protected $config = [];
 
-    public function __construct($configFile)
+    /**
+     * Bootstraps the configuration
+     *
+     * @param array $config
+     */
+    public function __construct(array $config = [])
     {
-        $this->config = Yaml::parse($configFile);
+        $this->setConfiguration($config);
     }
 
     /**
-     * Returns the whole configuration
+     * Returns the configuration
      *
      * @return array
      */
@@ -32,15 +46,63 @@ class Configuration
         return $this->config;
     }
 
-    public function getConfigurationValue($valuePath)
+    /**
+     * Sets the configuration
+     *
+     * @param array $config
+     * @return array
+     */
+    public function setConfiguration(array $config = [])
     {
-        $value = $this->getConfiguration();
+        $this->config = $config;
+    }
 
-        $pathParts = explode('.', $valuePath);
+    /**
+     * Sets a single configuration value
+     *
+     * @param string $key
+     * @param string $value
+     * @return void
+     */
+    public function setConfigurationValue($key, $value)
+    {
+        $completeConfiguration = $this->getConfiguration();
+        $configuration = &$completeConfiguration;
+
+        $pathParts = explode(self::DELIMITER, $key);
         foreach ($pathParts as $pathPart) {
-            $value = $value[$pathPart];
+
+            // If the current configuration is not an array,
+            // but the client want to set a value, just overwrite the current value
+            if (is_array($configuration) === false) {
+                $configuration = [];
+            }
+            $configuration = &$configuration[ucfirst($pathPart)];
         }
 
-        return $value;
+        $configuration = $value;
+        $this->setConfiguration($completeConfiguration);
+    }
+
+    /**
+     * Returns a single configuration value
+     *
+     * @param string $valuePath
+     * @return mixed
+     */
+    public function getConfigurationValue($valuePath)
+    {
+        $configuration = $this->getConfiguration();
+
+        $pathParts = explode(self::DELIMITER, $valuePath);
+        foreach ($pathParts as $pathPart) {
+            if (isset($configuration[ucfirst($pathPart)]) === true) {
+                $configuration = $configuration[ucfirst($pathPart)];
+            } else {
+                $configuration = null;
+            }
+        }
+
+        return $configuration;
     }
 }
