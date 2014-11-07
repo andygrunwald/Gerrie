@@ -69,15 +69,7 @@ class CrawlCommand extends GerrieBaseCommand
     {
         $this->outputStartMessage($output);
 
-        // Run gerrie:create-database-Command
-        $output->writeln('<info>Check database ...</info>');
-
-        $command = $this->getApplication()->find('gerrie:create-database');
-        $arguments = array(
-            'command' => 'gerrie:create-database',
-        );
-        $input = new ArrayInput($arguments);
-        $command->run($input, $output);
+        $this->setupDatabaseCommand($output);
 
         // Start the importer for each configured project
         $gerritSystems = $this->configuration->getConfigurationValue('Gerrit');
@@ -96,6 +88,26 @@ class CrawlCommand extends GerrieBaseCommand
         }
 
         $this->outputEndMessage($output);
+    }
+
+    /**
+     * Executed the "gerrie:create-database" command to setup the database.
+     *
+     * @param OutputInterface $output
+     * @throws \Exception
+     * @return void
+     */
+    protected function setupDatabaseCommand(OutputInterface $output)
+    {
+        // Run gerrie:create-database-Command
+        $output->writeln('<info>Check database ...</info>');
+
+        $command = $this->getApplication()->find('gerrie:create-database');
+        $arguments = array(
+            'command' => 'gerrie:create-database',
+        );
+        $input = new ArrayInput($arguments);
+        $command->run($input, $output);
     }
 
     protected function outputStartMessage(OutputInterface $output)
