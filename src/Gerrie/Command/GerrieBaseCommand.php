@@ -12,6 +12,7 @@ namespace Gerrie\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 
 class GerrieBaseCommand extends Command
 {
@@ -23,7 +24,13 @@ class GerrieBaseCommand extends Command
      */
     protected function addConfigFileOption()
     {
-        $this->addOption('config-file', 'c', InputOption::VALUE_REQUIRED, 'Path to configuration file', 'Config.yml');
+        $this->addOption(
+            'config-file',
+            'c',
+            InputOption::VALUE_REQUIRED,
+            'Path to configuration file',
+            'Config.yml'
+        );
     }
 
     /**
@@ -39,5 +46,39 @@ class GerrieBaseCommand extends Command
         ->addOption('database-pass', 'p', InputOption::VALUE_REQUIRED, 'Password to access the database')
         ->addOption('database-port', 'P', InputOption::VALUE_REQUIRED, 'Port where the database is listen')
         ->addOption('database-name', 'N', InputOption::VALUE_REQUIRED, 'Name of the database which should be used');
+    }
+
+    /**
+     * Adds the SSH Key option to the command.
+     *
+     * @return void
+     */
+    protected function addSSHKeyOption()
+    {
+        $this->addOption(
+            'ssh-key',
+            'k',
+            InputOption::VALUE_REQUIRED,
+            'Path to SSH private key for authentication'
+        );
+    }
+
+    /**
+     * Adds a argument of a possible list of instances.
+     *
+     * Format: scheme://username[:password]@host[:port]/
+     * Examples:
+     *  * ssh://max.mustermann@review.typo3.org:29418/';
+     *  * https://max.mustermann:dummyPassword@review.typo3.org/
+     *
+     * @return void
+     */
+    protected function addInstancesArgument()
+    {
+        $this->addArgument(
+            'instances',
+            InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
+            'List of instances to crawl separated by whitespace. Format scheme://username[:password]@host[:port]/'
+        );
     }
 }
