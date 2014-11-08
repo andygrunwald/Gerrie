@@ -41,9 +41,10 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('root', $configuration->getConfigurationValue('Database.Username'));
     }
 
-    public function testGetConfigurationByConfigFileAndCommandOptions()
+    public function testGetConfigurationByConfigFileAndCommandOptionsAndArguments()
     {
-        $argvInputExtended = $this->getMock('Gerrie\Component\Console\ArgvInputExtended', ['isOptionSet', 'getOption']);
+        $mockedMethods = ['isOptionSet', 'getOption', 'getArgument'];
+        $argvInputExtended = $this->getMock('Gerrie\Component\Console\ArgvInputExtended', $mockedMethods);
         $argvInputExtended->expects($this->any())
                           ->method('isOptionSet')
                           ->withConsecutive(
@@ -78,8 +79,13 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
                               //$this->returnValue('NAME')
                           );
 
+        $argvInputExtended->expects($this->any())
+                          ->method('getArgument')
+                          ->with($this->equalTo('instances'))
+                          ->will($this->returnValue(array()));
+
         $configFile = $this->getFixtureConfigFilePath();
-        $configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptions($configFile, $argvInputExtended);
+        $configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptionsAndArguments($configFile, $argvInputExtended);
 
         $this->assertInstanceOf('Gerrie\Component\Configuration\Configuration', $configuration);
 
