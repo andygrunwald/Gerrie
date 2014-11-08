@@ -85,9 +85,9 @@ class SSHDataService extends BaseDataService
 
         $connector->reset();
 
-        $host = $config['Host'];
-        if (isset($config['Username']) === true) {
-            $host = $config['Username'] . '@' . $host;
+        $host = $config['host'];
+        if (isset($config['user']) === true) {
+            $host = $config['user'] . '@' . $host;
         }
         $connector->addCommandPart($host);
         $connector->addCommandPart('gerrit');

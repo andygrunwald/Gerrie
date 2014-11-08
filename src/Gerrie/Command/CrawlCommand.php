@@ -73,18 +73,45 @@ class CrawlCommand extends GerrieBaseCommand
 
         // Start the importer for each configured project
         $gerritSystems = $this->configuration->getConfigurationValue('Gerrit');
+        $defaultSSHKeyFile = $this->configuration->getConfigurationValue('SSH.KeyFile');
 
-        foreach ($gerritSystems as $name => $gerritSystem) {
+        foreach ($gerritSystems as $name => $gerrieProject) {
+
             $gerritSystem['Name'] = $name;
 
-            $dataService = DataServiceFactory::getDataService($this->configuration, $name);
+            foreach ($gerrieProject as $gerritInstance) {
 
-            // Bootstrap the importer
-            $gerrit = new Gerrie($this->database, $dataService, $gerritSystem);
-            $gerrit->setOutput($output);
+                // Get instance url
+                // If the instance is a string, we only got a url path like scheme://user@url:port/
+                if (is_string($gerritInstance)) {
+                    $instanceConfig = [
+                        'Instance' => $gerritInstance,
+                        'KeyFile' => $defaultSSHKeyFile
+                    ];
 
-            // Start the crawling action
-            $gerrit->crawl();
+                // If the instance is an array, we get a key => value structure with an Instance key
+                } elseif (is_array($gerritInstance) && isset($gerritInstance['Instance'])) {
+                    $instanceConfig = [
+                        'Instance' => $gerritInstance['Instance'],
+                        'KeyFile' => $defaultSSHKeyFile
+                    ];
+
+                    if (array_key_exists('KeyFile', $gerritInstance) === true) {
+                        $instanceConfig['KeyFile'] = $gerritInstance['KeyFile'];
+                    }
+                } else {
+                    throw new \RuntimeException('No Gerrit instance config given', 1415451921);
+                }
+
+                $dataService = DataServiceFactory::getDataService($instanceConfig);
+
+                // Bootstrap the importer
+                $gerrit = new Gerrie($this->database, $dataService, $gerritSystem);
+                $gerrit->setOutput($output);
+
+                // Start the crawling action
+                $gerrit->crawl();
+            }
         }
 
         $this->outputEndMessage($output);

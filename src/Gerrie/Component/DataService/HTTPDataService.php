@@ -36,7 +36,7 @@ class HTTPDataService extends BaseDataService
     protected function getBaseUrl($withAuthentication = false)
     {
         $config = $this->getConfig();
-        $baseUrl = rtrim($config['Host'], '/') . '/';
+        $baseUrl = rtrim($config['host'], '/') . '/';
 
         if ($withAuthentication === true
             && $this->getConnector()->getListener() instanceof \Buzz\Listener\BasicAuthListener) {
@@ -108,9 +108,8 @@ class HTTPDataService extends BaseDataService
     public function getHost()
     {
         $config = $this->getConfig();
-        $host = parse_url($config['Host'], PHP_URL_HOST);
 
-        return $host;
+        return $config['host'];
     }
 
     /**
