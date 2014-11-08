@@ -36,25 +36,32 @@ class ConfigurationFactory
     }
 
     /**
-     * Creates a configuration based on a YAML configuration file and command line options.
+     * Creates a configuration based on a YAML configuration file, command line options and command line arguments.
      * The command line options will be merged into the configuration.
+     * The command line arguments will be merged into the configuration as well.
      *
      * The command line options got a higher priority as the configuration file.
+     * The command line arguments will be added to the configuration file and not overwritten.
      *
      * @param string $configFile
      * @param InputExtendedInterface $input
      * @return Configuration
      */
-    public static function getConfigurationByConfigFileAndCommandOptions($configFile, InputExtendedInterface $input)
+    public static function getConfigurationByConfigFileAndCommandOptionsAndArguments($configFile, InputExtendedInterface $input)
     {
         $configuration = self::getConfigurationByConfigFile($configFile);
         $configuration = self::mergeCommandOptionsIntoConfiguration($configuration, $input);
+        $configuration = self::mergeCommandArgumentsIntoConfiguration($configuration, $input);
 
         return $configuration;
     }
 
     /**
      * Merges the command line options into a existing configuration.
+     *
+     * E.g.
+     *  * Database credentials
+     *  * SSH settings
      *
      * @param Configuration $config
      * @param InputExtendedInterface $input
@@ -78,6 +85,30 @@ class ConfigurationFactory
                 $config->setConfigurationValue($configName, $input->getOption($optionName));
             }
         }
+
+        return $config;
+    }
+
+    /**
+     * Merges the command line arguments into a existing configuration.
+     *
+     * E.g.
+     *  * Instances
+     *
+     * @param Configuration $config
+     * @param InputExtendedInterface $input
+     * @return Configuration
+     */
+    protected static function mergeCommandArgumentsIntoConfiguration(Configuration $config, InputExtendedInterface $input)
+    {
+        $argumentInstances = $input->getArgument('instances');
+
+        if (count($argumentInstances) === 0) {
+            return $config;
+        }
+
+        // Gerrie is a reserved keyword for project names
+        $config->setConfigurationValue('Gerrit.Gerrie', $argumentInstances);
 
         return $config;
     }
