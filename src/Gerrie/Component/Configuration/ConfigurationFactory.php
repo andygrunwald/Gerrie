@@ -63,11 +63,14 @@ class ConfigurationFactory
     protected static function mergeCommandOptionsIntoConfiguration(Configuration $config, InputExtendedInterface $input)
     {
         $configurationMapping = [
+            // Database credentials
             'database-host' => 'Database.Host',
             'database-user' => 'Database.Username',
             'database-pass' => 'Database.Password',
             'database-port' => 'Database.Port',
             'database-name' => 'Database.Name',
+            // SSH settings
+            'ssh-key'       => 'SSH.KeyFile',
         ];
 
         foreach ($configurationMapping as $optionName => $configName) {
