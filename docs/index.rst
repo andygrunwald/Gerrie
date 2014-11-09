@@ -11,6 +11,13 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   introduction/index
+   getting_started/index
+   configuration/index
+   commands/index
+   database/index
+   contributing/index
+   license/index
 
 
 Indices and tables
