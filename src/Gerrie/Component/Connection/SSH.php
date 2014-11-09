@@ -161,9 +161,15 @@ class SSH
      */
     public function setExecutable($executable)
     {
+        /*
+         * TODO This executable check works not as expected :( Fix this
+         * is_executable('ssh') => false
+         * is_executable('/usr/bin/ssh') => true
+         *
         if (is_executable($executable) === false) {
             throw new \Exception('SSH executable is not executable!', 1364032483);
         }
+        */
 
         $this->executable = $executable;
     }

@@ -3,64 +3,72 @@
 #
 Database:
   # Host of your database server
-  # Required
+  # Status: Required
   Host: 127.0.0.1
   # User of your database server
-  # Required
-  Username:
+  # Status: Required
+  Username: root
   # Password of your database server
-  # Required
+  # Status: Required
   Password:
   # Port of your database server
-  # Optional
+  # Status: Optional
   Port: 3306
   # Database name
-  # Required
+  # Status: Required
   Name: gerrit
 
 #
-# Gerrit server
+# SSH settings
+#
+SSH:
+  # SSH-Key which will be used for the SSH-API
+  # Status: Optional
+  KeyFile:
+
+#
+# Gerrit server / instances / projects
 # n server can be configured
-# Required
+# Status: Required
 #
 Gerrit:
 
-  # Name of the Gerrit server. Only internal use (database)
-  # Required
+  # Name of the project.
+  # Only internal use (database, logging, etc.).
+  #
+  # You can define as many projects as you want.
+  #
+  # Status: Required
   TYPO3:
 
-    # Kind of connection / API. Which api should be used?
-    # Valid options: SSH, HTTP
-    # Notice: At the moment, only SSH is fully supported
-    # Required
-    DataService: SSH
+    # List of Gerrit instances / projects.
+    # You can define as many instances or projects you want.
+    #
+    # Format: scheme://username[:password]@host[:port]/
+    # Examples:
+    #  * ssh://max.mustermann@review.typo3.org:29418/';
+    #  * ssh://review.typo3.org:29418/';
+    #  * https://max.mustermann:dummyPassword@review.typo3.org/
+    #  * http://review.typo3.org:80/
+    #
+    # There are many different ways to define the instances.
+    # A few are listed here.
+    # Currently only complete instances are supported and listed.
+    #
+    # If a general KeyFile is given (see SSH.KeyFile above) the general KeyFile will be used.
+    # If a local / instance KeyFile is given, the local / instance KeyFile will overwrite the general KeyFile.
+    #
+    - Instance: ssh://max.mustermann@review.typo3.org:29418/
+      KeyFile: /Users/max/.ssh/id_rsa
 
-    # Usage of SSH API
-    # Required
-    SSH:
-      # Host of the Gerrit server
-      # Required
-      Host: review.typo3.org
-      # Port of the Gerrit server
-      # Required
-      Port: 29418
-      # Username of the Gerrit account
-      # Required
-      Username:
-      # SSH-Key which will be used for the SSH-API
-      # Optional
-      KeyFile:
+    - { Instance: ssh://max.mustermann@review.typo3.org:29418/, KeyFile: /Users/max/.ssh/id_rsa }
 
-    # Usage of the REST API (currently not fully implemented)
-    # Only to reveive the API query limit
-    # Required
-    HTTP:
-      # Host of the Gerrit server
-      # Required
-      Host: https://review.typo3.org/
-      # Username of your account at Gerrit server
-      # Optional
-      Username:
-      # Password of your account at Gerrit server
-      # Optional
-      Password:
+    - Instance: ssh://max.mustermann@review.typo3.org:29418/
+
+    - { Instance: ssh://max.mustermann@review.typo3.org:29418/ }
+
+    - ssh://max.mustermann@review.typo3.org:29418/
+
+  # Second project
+  Wikimedia:
+    - https://max:password@gerrit.wikimedia.org/

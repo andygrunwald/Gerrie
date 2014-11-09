@@ -50,6 +50,8 @@ class CrawlCommand extends GerrieBaseCommand
             ->setDescription('Crawls a Gerrit review system and stores the into a database');
         $this->addConfigFileOption();
         $this->addDatabaseOptions();
+        $this->addSSHKeyOption();
+        $this->addInstancesArgument();
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
@@ -57,7 +59,7 @@ class CrawlCommand extends GerrieBaseCommand
         /** @var InputExtendedInterface $input */
 
         $configFile = $input->getOption('config-file');
-        $this->configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptions($configFile, $input);
+        $this->configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptionsAndArguments($configFile, $input);
 
         $databaseConfig = $this->configuration->getConfigurationValue('Database');
         $this->database = new Database($databaseConfig);
@@ -67,6 +69,63 @@ class CrawlCommand extends GerrieBaseCommand
     {
         $this->outputStartMessage($output);
 
+        $this->setupDatabaseCommand($output);
+
+        // Start the importer for each configured project
+        $gerritSystems = $this->configuration->getConfigurationValue('Gerrit');
+        $defaultSSHKeyFile = $this->configuration->getConfigurationValue('SSH.KeyFile');
+
+        foreach ($gerritSystems as $name => $gerrieProject) {
+
+            $gerritSystem['Name'] = $name;
+
+            foreach ($gerrieProject as $gerritInstance) {
+
+                // Get instance url
+                // If the instance is a string, we only got a url path like scheme://user@url:port/
+                if (is_string($gerritInstance)) {
+                    $instanceConfig = [
+                        'Instance' => $gerritInstance,
+                        'KeyFile' => $defaultSSHKeyFile
+                    ];
+
+                // If the instance is an array, we get a key => value structure with an Instance key
+                } elseif (is_array($gerritInstance) && isset($gerritInstance['Instance'])) {
+                    $instanceConfig = [
+                        'Instance' => $gerritInstance['Instance'],
+                        'KeyFile' => $defaultSSHKeyFile
+                    ];
+
+                    if (array_key_exists('KeyFile', $gerritInstance) === true) {
+                        $instanceConfig['KeyFile'] = $gerritInstance['KeyFile'];
+                    }
+                } else {
+                    throw new \RuntimeException('No Gerrit instance config given', 1415451921);
+                }
+
+                $dataService = DataServiceFactory::getDataService($instanceConfig);
+
+                // Bootstrap the importer
+                $gerrit = new Gerrie($this->database, $dataService, $gerritSystem);
+                $gerrit->setOutput($output);
+
+                // Start the crawling action
+                $gerrit->crawl();
+            }
+        }
+
+        $this->outputEndMessage($output);
+    }
+
+    /**
+     * Executed the "gerrie:create-database" command to setup the database.
+     *
+     * @param OutputInterface $output
+     * @throws \Exception
+     * @return void
+     */
+    protected function setupDatabaseCommand(OutputInterface $output)
+    {
         // Run gerrie:create-database-Command
         $output->writeln('<info>Check database ...</info>');
 
@@ -76,24 +135,6 @@ class CrawlCommand extends GerrieBaseCommand
         );
         $input = new ArrayInput($arguments);
         $command->run($input, $output);
-
-        // Start the importer for each configured project
-        $gerritSystems = $this->configuration->getConfigurationValue('Gerrit');
-
-        foreach ($gerritSystems as $name => $gerritSystem) {
-            $gerritSystem['Name'] = $name;
-
-            $dataService = DataServiceFactory::getDataService($this->configuration, $name);
-
-            // Bootstrap the importer
-            $gerrit = new Gerrie($this->database, $dataService, $gerritSystem);
-            $gerrit->setOutput($output);
-
-            // Start the crawling action
-            $gerrit->crawl();
-        }
-
-        $this->outputEndMessage($output);
     }
 
     protected function outputStartMessage(OutputInterface $output)

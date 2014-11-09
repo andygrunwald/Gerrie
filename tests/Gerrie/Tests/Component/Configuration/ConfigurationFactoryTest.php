@@ -15,10 +15,11 @@ use Gerrie\Component\Configuration\ConfigurationFactory;
 class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
 {
 
-    protected function getPathOfFixtureConfigFile()
+    protected function getFixtureConfigFilePath()
     {
         $configFile  = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
-        $configFile .= 'Fixture' . DIRECTORY_SEPARATOR . 'Config.yml';
+        $configFile .= 'Fixture' . DIRECTORY_SEPARATOR . 'DummyConfig.yml';
+        $configFile = realpath($configFile);
 
         return $configFile;
     }
@@ -34,16 +35,17 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetConfigurationByConfigFileWithValidConfigFile()
     {
-        $configFile = $this->getPathOfFixtureConfigFile();
+        $configFile = $this->getFixtureConfigFilePath();
         $configuration = ConfigurationFactory::getConfigurationByConfigFile($configFile);
 
         $this->assertInstanceOf('Gerrie\Component\Configuration\Configuration', $configuration);
         $this->assertEquals('root', $configuration->getConfigurationValue('Database.Username'));
     }
 
-    public function testGetConfigurationByConfigFileAndCommandOptions()
+    public function testGetConfigurationByConfigFileAndCommandOptionsAndArguments()
     {
-        $argvInputExtended = $this->getMock('Gerrie\Component\Console\ArgvInputExtended', ['isOptionSet', 'getOption']);
+        $mockedMethods = ['isOptionSet', 'getOption', 'getArgument'];
+        $argvInputExtended = $this->getMock('Gerrie\Component\Console\ArgvInputExtended', $mockedMethods);
         $argvInputExtended->expects($this->any())
                           ->method('isOptionSet')
                           ->withConsecutive(
@@ -78,8 +80,13 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
                               //$this->returnValue('NAME')
                           );
 
-        $configFile = $this->getPathOfFixtureConfigFile();
-        $configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptions($configFile, $argvInputExtended);
+        $argvInputExtended->expects($this->any())
+                          ->method('getArgument')
+                          ->with($this->equalTo('instances'))
+                          ->will($this->returnValue(array()));
+
+        $configFile = $this->getFixtureConfigFilePath();
+        $configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptionsAndArguments($configFile, $argvInputExtended);
 
         $this->assertInstanceOf('Gerrie\Component\Configuration\Configuration', $configuration);
 

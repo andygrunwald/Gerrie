@@ -33,7 +33,8 @@ class ConfigFileCheckTest extends \PHPUnit_Framework_TestCase
     protected function getPathOfFixtureConfigFile()
     {
         $configFile  = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
-        $configFile .= 'Fixture' . DIRECTORY_SEPARATOR . 'Config.yml';
+        $configFile .= 'Fixture' . DIRECTORY_SEPARATOR . 'DummyConfig.yml';
+        $configFile = realpath($configFile);
 
         return $configFile;
     }

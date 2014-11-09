@@ -139,7 +139,7 @@ abstract class BaseDataService
     {
         $config = $this->getConfig();
 
-        return $config['Host'];
+        return $config['host'];
     }
 
     /**
