@@ -13,6 +13,7 @@ Contents:
 
    introduction/index
    getting_started/index
+   installation/index
    configuration/index
    commands/index
    database/index
