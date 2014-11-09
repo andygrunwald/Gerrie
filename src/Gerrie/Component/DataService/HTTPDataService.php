@@ -226,13 +226,18 @@ class HTTPDataService extends BaseDataService
     /**
      * Returns the version of the Gerrit server
      *
-     * @link https://review.typo3.org/Documentation/cmd-version.html
+     * @link https://review.typo3.org/Documentation/rest-api-config.html
      *
-     * @throws \Exception
      * @return string
      */
     public function getVersion()
     {
-        throw new \Exception(__METHOD__ . ' not implemented yet. Will you help me?', 1412026240);
+        $url = $this->getBaseUrl() . 'config/server/version';
+        $response = $this->getConnector()->get($url);
+        $response = $this->verifyResult($response, $url);
+
+        $content = $this->transformJsonResponse($response->getContent());
+
+        return $content;
     }
 }
