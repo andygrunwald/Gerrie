@@ -18,7 +18,8 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
     protected function getFixtureConfigFilePath()
     {
         $configFile  = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
-        $configFile .= 'Fixture' . DIRECTORY_SEPARATOR . 'Config.yml';
+        $configFile .= 'Fixture' . DIRECTORY_SEPARATOR . 'DummyConfig.yml';
+        $configFile = realpath($configFile);
 
         return $configFile;
     }

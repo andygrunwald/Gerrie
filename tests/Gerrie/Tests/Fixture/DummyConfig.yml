@@ -1,0 +1,21 @@
+Database:
+  Host: 127.0.0.1
+  Username: root
+  Password:
+  Port: 3306
+  Name: gerrie
+
+Gerrit:
+  Project:
+
+    DataService: SSH
+    SSH:
+      Host: my.host.org
+      Port: 29418
+      Username: my.user
+      KeyFile: /Users/foo/.ssh/id_bar
+
+    HTTP:
+      Host: my.host.org
+      Username:
+      Password:
