@@ -61,6 +61,8 @@ class CheckCommand extends GerrieBaseCommand
             ->setDescription('Checks if the setup is working');
         $this->addConfigFileOption();
         $this->addDatabaseOptions();
+        $this->addSSHKeyOption();
+        $this->addInstancesArgument();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
