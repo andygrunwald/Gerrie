@@ -40,7 +40,12 @@ The source code can be found at [*andygrunwald/Gerrie @ GitHub*](https://github.
 
 ## Contributing
 
-TODO add documentation link
+Contribution is welcome at every time.
+
+Contribution is not limited to source code. Also documentation, issues (bugs, new features, nice improvements), talks at usergroups or conferences and so on.
+In our documentation you can find more detailed information about contribution.
+
+See [*Gerrie: Contribution* @ Read the Docs](http://gerrie.readthedocs.org/en/latest/contributing/).
 
 ## License
 
