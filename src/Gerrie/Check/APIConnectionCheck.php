@@ -48,8 +48,15 @@ class APIConnectionCheck implements CheckInterface
     {
         $result = false;
 
-        $this->version = $this->dataService->getVersion();
-        if ($this->version) {
+        $version = $this->dataService->getVersion();
+
+        // Check the version. If this is > 0 then it seems to be a version number like 1.2.3
+        // Because the getVersion method can return an error like
+        //      Warning: Identity file /Users/agrunwald/.ssh/id_rsa_config not accessible: No such file or directory.
+        //      Permission denied (publickey).
+        //
+        if ($version && version_compare($version, 0, '>')) {
+            $this->version = $version;
             $result = true;
         }
 
@@ -77,7 +84,7 @@ class APIConnectionCheck implements CheckInterface
     public function getFailureMessage()
     {
         $message  = 'Connection to Gerrit "%s" via %s-DataService was not successful. ';
-        $message .= 'Please check your credentials or setup';
+        $message .= 'Please check your credentials or setup.';
         $message = sprintf($message, $this->dataService->getHost(), $this->dataService->getName());
 
         return $message;
