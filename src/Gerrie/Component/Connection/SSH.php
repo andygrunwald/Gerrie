@@ -60,6 +60,15 @@ class SSH
      */
     public function setKeyFile($keyFile)
     {
+        /*
+         * TODO Implement a kind of existence check of SSH key
+        if (file_exists($keyFile) === false) {
+            $exceptionMessage = 'SSH keyfile "%s" does not exists.';
+            $exceptionMessage = sprintf($exceptionMessage, $keyFile);
+            throw new \RuntimeException($exceptionMessage, 1415536217);
+        }
+        */
+
         $this->keyFile = $keyFile;
     }
 
