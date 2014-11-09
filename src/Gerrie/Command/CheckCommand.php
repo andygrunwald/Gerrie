@@ -16,8 +16,10 @@ use Gerrie\Check\ConfigFileCheck;
 use Gerrie\Check\PDOMySqlExtensionCheck;
 use Gerrie\Check\SSHCheck;
 use Gerrie\Check\CheckInterface;
+use Gerrie\Check\DatabaseConnectionCheck;
 use Gerrie\Component\Configuration\Configuration;
 use Gerrie\Component\Configuration\ConfigurationFactory;
+use Gerrie\Component\Database\Database;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -114,9 +116,17 @@ class CheckCommand extends GerrieBaseCommand
 
         $output->writeln('');
         $output->writeln('<comment>Connection:</comment>');
+
+        // Check database connection
+        $databaseConfig = $configuration->getConfigurationValue('Database');
+        $database = new Database($databaseConfig, false);
+
+        $databaseConnectionCheck = new DatabaseConnectionCheck($database);
+        $this->checkProperty($output, $databaseConnectionCheck);
+
         // SSH Connection works (only with host, request Gerrie version)
         // Curl Connection works (only with host, request Gerrie version)
-        // MySQL Connection works
+
 
         /**
          * Message end result

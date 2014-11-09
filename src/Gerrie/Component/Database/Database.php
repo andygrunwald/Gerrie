@@ -313,13 +313,22 @@ class Database
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
     );
 
-    public function __construct(array $config)
+    /**
+     * Constructor
+     *
+     * @param array $config
+     * @param bool $connectImmediately
+     */
+    public function __construct(array $config, $connectImmediately = true)
     {
         $this->setConfig($config);
-        $this->connect($config);
+
+        if ($connectImmediately === true) {
+            $this->connect($config);
+        }
     }
 
-    private function connect($config)
+    public function connect($config)
     {
         // Build the port part of DSN
         $portPart = (isset($config['Port']) === true) ? intval($config['Port']) : null;
