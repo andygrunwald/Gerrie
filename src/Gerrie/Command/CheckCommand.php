@@ -174,7 +174,9 @@ class CheckCommand extends GerrieBaseCommand
     protected function outputFixMessage(OutputInterface $output)
     {
         $output->writeln('');
-        $output->writeln("<info>Sadly, not all checks went well \xF0\x9F\x98\xA2</info>");
+        $output->writeln("<error>    Oh dear \xF0\x9F\x98\xA2     </error>");
+        $output->writeln('');
+        $output->writeln("<info>Sadly, not all checks went well</info>");
         $output->writeln('<info>But this is no reason to give up!</info>');
         $output->writeln('<info>Remember: This check was to verifiy if Gerrie is working to avoid unnecessary problems.</info>');
         $output->writeln("<info>So get up, grab a \xE2\x98\x95  and try to fix the failing checks.</info>");
