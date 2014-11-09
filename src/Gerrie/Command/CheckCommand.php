@@ -102,7 +102,7 @@ class CheckCommand extends GerrieBaseCommand
         // Check if the config file is valid
         $configFile = $input->getOption('config-file');
         try {
-            $configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptions($configFile, $input);
+            $configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptionsAndArguments($configFile, $input);
         } catch (\Exception $e) {
             $configuration = new Configuration();
         }

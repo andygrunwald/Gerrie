@@ -53,7 +53,7 @@ class CreateDatabaseCommand extends GerrieBaseCommand
         /** @var InputExtendedInterface $input */
 
         $configFile = $input->getOption('config-file');
-        $this->configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptions($configFile, $input);
+        $this->configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptionsAndArguments($configFile, $input);
 
         $databaseConfig = $this->configuration->getConfigurationValue('Database');
         $this->database = new Database($databaseConfig);
