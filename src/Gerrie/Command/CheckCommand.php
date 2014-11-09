@@ -10,6 +10,7 @@
 
 namespace Gerrie\Command;
 
+use Gerrie\Check\APIConnectionCheck;
 use Gerrie\Check\ConfigFileValidationCheck;
 use Gerrie\Check\CurlExtensionCheck;
 use Gerrie\Check\ConfigFileCheck;
@@ -20,6 +21,7 @@ use Gerrie\Check\DatabaseConnectionCheck;
 use Gerrie\Component\Configuration\Configuration;
 use Gerrie\Component\Configuration\ConfigurationFactory;
 use Gerrie\Component\Database\Database;
+use Gerrie\Component\DataService\DataServiceFactory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -124,9 +126,44 @@ class CheckCommand extends GerrieBaseCommand
         $databaseConnectionCheck = new DatabaseConnectionCheck($database);
         $this->checkProperty($output, $databaseConnectionCheck);
 
-        // SSH Connection works (only with host, request Gerrie version)
-        // Curl Connection works (only with host, request Gerrie version)
+        // TODO Refactor this. This is copy / paste from CrawlCommand
+        $gerritSystems = $configuration->getConfigurationValue('Gerrit');
+        $defaultSSHKeyFile = $configuration->getConfigurationValue('SSH.KeyFile');
 
+        foreach ($gerritSystems as $name => $gerrieProject) {
+            $gerritSystem['Name'] = $name;
+
+            foreach ($gerrieProject as $gerritInstance) {
+                // Get instance url
+                // If the instance is a string, we only got a url path like scheme://user@url:port/
+                if (is_string($gerritInstance)) {
+                    $instanceConfig = [
+                        'Instance' => $gerritInstance,
+                        'KeyFile' => $defaultSSHKeyFile
+                    ];
+
+                    // If the instance is an array, we get a key => value structure with an Instance key
+                } elseif (is_array($gerritInstance) && isset($gerritInstance['Instance'])) {
+                    $instanceConfig = [
+                        'Instance' => $gerritInstance['Instance'],
+                        'KeyFile' => $defaultSSHKeyFile
+                    ];
+
+                    if (array_key_exists('KeyFile', $gerritInstance) === true) {
+                        $instanceConfig['KeyFile'] = $gerritInstance['KeyFile'];
+                    }
+                } else {
+                    throw new \RuntimeException('No Gerrit instance config given', 1415451921);
+                }
+
+                $dataService = DataServiceFactory::getDataService($instanceConfig);
+
+                // Check the API (SSH / HTTP) connection
+                // TODO Authentification
+                $apiConnectionCheck = new APIConnectionCheck($dataService);
+                $this->checkProperty($output, $apiConnectionCheck);
+            }
+        }
 
         /**
          * Message end result
