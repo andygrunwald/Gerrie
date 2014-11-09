@@ -315,7 +315,7 @@ class Database
 
     public function __construct(array $config)
     {
-        $this->config = $config;
+        $this->setConfig($config);
         $this->connect($config);
     }
 
@@ -353,7 +353,7 @@ class Database
         // Here we try to reconnect to the database and execute the statement again
         $errorInfo = $statement->errorInfo();
         if ($errorInfo[1] && $errorInfo[1] == 2006) {
-            $this->connect($this->config);
+            $this->connect($this->getConfig());
             if (count($prepareSet) > 0) {
                 $statement->execute($prepareSet);
             } else {
@@ -488,5 +488,26 @@ class Database
 
         $statement = $this->checkQueryError($statement, $executeResult, $valueSet);
         return $dbHandle->lastInsertId();
+    }
+
+    /**
+     * Sets the database configuration
+     *
+     * @param array $config
+     * @return void
+     */
+    public function setConfig(array $config)
+    {
+        $this->config = $config;
+    }
+
+    /**
+     * Returns the database configuration
+     *
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 }
