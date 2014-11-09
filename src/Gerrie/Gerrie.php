@@ -26,6 +26,7 @@
 namespace Gerrie;
 
 use Gerrie\Component\Database\Database;
+use Gerrie\Component\DataService\DataServiceInterface;
 
 class Gerrie
 {
@@ -47,14 +48,14 @@ class Gerrie
     /**
      * Database helper object
      *
-     * @var \Gerrie\Component\Database\Database
+     * @var Database
      */
     protected $database = null;
 
     /**
      * Storage for data services.
      *
-     * @var \Gerrie\Component\DataService\BaseDataService
+     * @var DataServiceInterface
      */
     protected $dataService = null;
 
@@ -123,12 +124,12 @@ class Gerrie
     /**
      * Constructor
      *
-     * @param \Gerrie\Component\Database\Database $database The database helper object
-     * @param \Gerrie\Component\DataService\BaseDataService $dataService The data service object
+     * @param Database $database The database helper object
+     * @param DataServiceInterface $dataService The data service object
      * @param array $config The configuration array
      * @return \Gerrie\Gerrie
      */
-    public function __construct(Database $database, \Gerrie\Component\DataService\BaseDataService $dataService, array $config)
+    public function __construct(Database $database, DataServiceInterface $dataService, array $config)
     {
         $this->setDatabase($database);
         $this->setDataService($dataService);
@@ -178,10 +179,10 @@ class Gerrie
     /**
      * Sets the data service
      *
-     * @param \Gerrie\Component\DataService\BaseDataService $dataService Data service object
+     * @param DataServiceInterface $dataService Data service object
      * @return void
      */
-    public function setDataService(\Gerrie\Component\DataService\BaseDataService $dataService)
+    public function setDataService(DataServiceInterface $dataService)
     {
         $this->dataService = $dataService;
     }
@@ -189,7 +190,7 @@ class Gerrie
     /**
      * Gets a data service
      *
-     * @return \Gerrie\Component\DataService\BaseDataService
+     * @return DataServiceInterface
      */
     public function getDataService()
     {
