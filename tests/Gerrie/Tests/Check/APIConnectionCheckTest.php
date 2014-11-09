@@ -33,7 +33,7 @@ class APIConnectionCheckTest extends \PHPUnit_Framework_TestCase
     protected function getDataServiceMock($getVersionReturnValue = '1.2.3')
     {
         $apiConnectionMock = $this->getMock('Gerrie\Component\DataService\DataServiceInterface');
-        $apiConnectionMock->expects($this->once())
+        $apiConnectionMock->expects($this->any())
                           ->method('getVersion')
                           ->will($this->returnValue($getVersionReturnValue));
 
