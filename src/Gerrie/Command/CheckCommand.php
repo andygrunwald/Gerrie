@@ -25,6 +25,12 @@ use Gerrie\Component\DataService\DataServiceFactory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * TODO Add -v / -vv / -vvv to output error messages in second line
+ * TODO Add link to documentation if the "Oh dear" / fail message will be output
+ *
+ */
+
 class CheckCommand extends GerrieBaseCommand
 {
     /**
