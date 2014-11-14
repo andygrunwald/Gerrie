@@ -97,7 +97,7 @@ Here you can find a list of all supported options.
 +-----------------+----------------+----------------------------------------------------------------------------+
 | --database-name | -N             | Name of the database which should be used.                                 |
 +-----------------+----------------+----------------------------------------------------------------------------+
-| --ssh-key       | -k             | Path to SSH private key for authentication.                                |
+| --ssh-key       | -k             | Path to SSH private key for authentication via SSH API.                    |
 +-----------------+----------------+----------------------------------------------------------------------------+
 | --help          | -h             | Display this help message.                                                 |
 +-----------------+----------------+----------------------------------------------------------------------------+
@@ -158,29 +158,28 @@ Here you can find a list of all supported configuration settings.
 +-------------------+--------------------------------------------------------------------------------------------+
 | Attribute         | Description                                                                                |
 +===================+============================================================================================+
-| Database.Host     | Name / IP of the host where the database is running.\                                      |
-|                   | Example value: 127.0.0.1                                                                   |
+| Database.Host     | Name / IP of the host where the database is running.                                       |
 +-------------------+--------------------------------------------------------------------------------------------+
-| Database.Username | List of instances to crawl separated by whitespace.                                        |
+| Database.Username | Username to access the database.                                                           |
 +-------------------+--------------------------------------------------------------------------------------------+
-| Database.Password | List of instances to crawl separated by whitespace.                                        |
+| Database.Password | Password to access the database.                                                           |
 +-------------------+--------------------------------------------------------------------------------------------+
-| Database.Port     | List of instances to crawl separated by whitespace.                                        |
+| Database.Port     | Port where the database is listen.                                                         |
 +-------------------+--------------------------------------------------------------------------------------------+
-| Database.Name     | List of instances to crawl separated by whitespace.                                        |
+| Database.Name     | Name of the database which should be used.                                                 |
 +-------------------+--------------------------------------------------------------------------------------------+
-| SSH.KeyFile       | List of instances to crawl separated by whitespace.                                        |
+| SSH.KeyFile       | Path to SSH private key for authentication via SSH API.                                    |
 +-------------------+--------------------------------------------------------------------------------------------+
-| Gerrit.Name1      | List of instances to crawl separated by whitespace.\                                       |
-|                   | List of instances to crawl separated by whitespace.                                        |
+| Gerrit.Name1      | | List of instances to crawl separated by whitespace.                                      |
+|                   | | List of instances to crawl separated by whitespace.                                      |
 +-------------------+--------------------------------------------------------------------------------------------+
-| Gerrit.Name1.0    | List of instances to crawl separated by whitespace.                                        |
-|                   | List of instances to crawl separated by whitespace.                                        |
+| Gerrit.Name1.0    | | List of instances to crawl separated by whitespace.                                      |
+|                   | | List of instances to crawl separated by whitespace.                                      |
 +-------------------+--------------------------------------------------------------------------------------------+
 | Gerrit.Name1.N    | | List of instances to crawl separated by whitespace.                                      |
 |                   | | List of instances to crawl separated by whitespace.                                      |
 +-------------------+--------------------------------------------------------------------------------------------+
-| Gerrit.NameN      | List of instances to crawl separated by whitespace.                                        |
+| Gerrit.NameN      | | List of instances to crawl separated by whitespace.                                      |
 +-------------------+--------------------------------------------------------------------------------------------+
 
 .. _YAML: http://en.wikipedia.org/wiki/YAML

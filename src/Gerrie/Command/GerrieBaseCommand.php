@@ -59,7 +59,7 @@ class GerrieBaseCommand extends Command
             'ssh-key',
             'k',
             InputOption::VALUE_REQUIRED,
-            'Path to SSH private key for authentication.'
+            'Path to SSH private key for authentication via SSH API.'
         );
     }
 
