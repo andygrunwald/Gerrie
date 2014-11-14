@@ -73,7 +73,7 @@ Options can be accept a value (like *--config-file="..."*) or are standalone (li
     Please have a look at the command you want to use first which options are supported.
     **Not all options are supported by all commands**.
     You can list options by command by *./gerrie gerrie:YOUR-COMMAND --help*.
-    For available commands see :doc:`the command section</commands/>`.
+    For available commands execute *./gerrie*.
 
 Options will by added to the command like
 .. code::
@@ -112,18 +112,16 @@ Arguments are added at the end of the command separated by whitespace.
     Please have a look at the command you want to use first which arguments are supported.
     **Not all arguments are supported by all commands**.
     You can list options by command by *./gerrie gerrie:YOUR-COMMAND --help*.
-    For available commands see :doc:`the command section</commands/>`.
+    For available commands execute *./gerrie*.
 
 Here you can find a list of all supported arguments.
 
-.. list-table::
-   :widths: 20 80
-   :header-rows: 1
-
-       * - Argument
-         - Description
-       * - instances
-         - List of instances to crawl separated by whitespace. Format scheme://username[:password]@host[:port]/ (TODO)
++--------------+--------------------------------------------------------------------------------------------+
+| Argument     | Description                                                                                |
++==============+============================================================================================+
+| instances    | List of instances to crawl separated by whitespace.                                        |
+|              | Format scheme://username[:password]@host[:port]/ (TODO)                                    |
++--------------+--------------------------------------------------------------------------------------------+
 
 
 Configuration file
