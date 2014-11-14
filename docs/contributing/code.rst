@@ -27,8 +27,8 @@ This means:
 
         $ git clone https://github.com/andygrunwald/Gerrie.git
 
-2. Create a new git branch for your change (bugfix, feature, improvement, etc.)
-    .. code::.
+2. Create a new git branch for your change (bugfix, feature, improvement, etc.).
+    .. code::
 
         $ git checkout -b my-new-feature
 
