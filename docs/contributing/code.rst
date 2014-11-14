@@ -71,20 +71,53 @@ Testing
 PHPUnit
 -------
 
-TODO
+*Gerrie* uses `PHPUnit`_ to create unit and integration tests.
+The tests are located in the ``tests`` folder.
+To execute the unit tests ensure that you have installed all development dependencies via ``--dev`` and start PHPUnit:
+
+.. code::
+
+    $ composer install --dev
+    $ # Without code coverage generation
+    $ ./vendor/bin/phpunit --coverage-clover=coverage.clover
+    $ # With code coverage generation
+    $ ./vendor/bin/phpunit
+
+.. note::
+
+    To generate the code coverage you need the PHP Extension ``xDebug`` installed
+
+To create mock objects we use the standard functionality of PHPUnit.
+
+Quality services
+=================
 
 Travis CI
 ---------
 
-TODO
+`Travis CI`_ is a free hosted Continuous Integration Platform for Open Source projects.
+We make us of this service to execute our tests continuous.
+One of the biggest advantages is that all pull request will be checked with Travis CI as well.
+So if you want to contribute please do not fear to break something.
+Every pull request you create will be checked and you will be notified if something go wrong.
+So just try it :)
 
-Quality
-=======
+See `andygrunwald/Gerrie @ Travis CI`_.
 
 Scrutinizer
 -----------
 
-TODO
+`Scrutinizer`_ is a free hosted Continuous inspection Platform for Open Source projects.
+This service executes several checks for us like
+* checking the coding styleguide for us
+* observe the code documentation about possible bugs in return values
+* determine a quality score for *Gerrie*
+* and adds small tipps of how to improve the code quality of the software
+
+As a small additional feature we push the generated code coverage from our unit tests from Travis CI to Scrutinizer.
+With this Scrutinizer can determine the overall code coverage for us.
+
+See `andygrunwald/Gerrie @ Scrutinizer`_.
 
 .. _Fork A Repo: https://help.github.com/articles/fork-a-repo
 .. _Creating a pull request: https://help.github.com/articles/creating-a-pull-request/
@@ -92,3 +125,8 @@ TODO
 .. _Syncing a fork: https://help.github.com/articles/syncing-a-fork/
 .. _Merging an upstream repository into your fork: https://help.github.com/articles/merging-an-upstream-repository-into-your-fork/
 .. _Configuring a remote for a fork: https://help.github.com/articles/configuring-a-remote-for-a-fork/
+.. _Travis CI: https://travis-ci.org/
+.. _andygrunwald/Gerrie @ Travis CI: https://travis-ci.org/andygrunwald/Gerrie
+.. _Scrutinizer: https://scrutinizer-ci.com/
+.. _andygrunwald/Gerrie @ Scrutinizer: https://scrutinizer-ci.com/g/andygrunwald/Gerrie/
+.. _PHPUnit: https://phpunit.de/
