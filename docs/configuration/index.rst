@@ -87,7 +87,7 @@ Here you can find a list of all supported options.
 +=================+================+============================================================================+
 | --config-file   | -c             | Path to configuration file (default: "Config.yml").                        |
 +-----------------+----------------+----------------------------------------------------------------------------+
-| \--database-hot | -H             | Name / IP of the host where the database is running.                      |                          |
+| -\-database-hot | -H             | Name / IP of the host where the database is running.                      |                          |
 +-----------------+----------------+----------------------------------------------------------------------------+
 | --database-user | -u             | Username to access the database (TODO)                                     |
 +-----------------+----------------+----------------------------------------------------------------------------+
