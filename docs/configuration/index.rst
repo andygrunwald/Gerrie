@@ -87,19 +87,19 @@ Here you can find a list of all supported options.
 +=================+================+============================================================================+
 | --config-file   | -c             | Path to configuration file (default: "Config.yml").                        |
 +-----------------+----------------+----------------------------------------------------------------------------+
-| --database-host | -H             | Name / IP of the host where the database is running                        |
+| --database-host | -H             | Name / IP of the host where the database is running.                       |
 +-----------------+----------------+----------------------------------------------------------------------------+
-| --database-user | -u             | Username to access the database (TODO)                                     |
+| --database-user | -u             | Username to access the database.                                           |
 +-----------------+----------------+----------------------------------------------------------------------------+
-| --database-pass | -p             | Password to access the database (TODO)                                     |
+| --database-pass | -p             | Password to access the database.                                           |
 +-----------------+----------------+----------------------------------------------------------------------------+
-| --database-port | -P             | Port where the database is listen (TODO)                                   |
+| --database-port | -P             | Port where the database is listen.                                         |
 +-----------------+----------------+----------------------------------------------------------------------------+
-| --database-name | -N             | Name of the database which should be used (TODO)                           |
+| --database-name | -N             | Name of the database which should be used.                                 |
 +-----------------+----------------+----------------------------------------------------------------------------+
-| --ssh-key       | -k             | Path to SSH private key for authentication (TODO)                          |
+| --ssh-key       | -k             | Path to SSH private key for authentication.                                |
 +-----------------+----------------+----------------------------------------------------------------------------+
-| --help          | -h             | Display this help message. (TODO)                                          |
+| --help          | -h             | Display this help message.                                                 |
 +-----------------+----------------+----------------------------------------------------------------------------+
 
 Arguments
@@ -119,8 +119,15 @@ Here you can find a list of all supported arguments.
 +--------------+--------------------------------------------------------------------------------------------+
 | Argument     | Description                                                                                |
 +==============+============================================================================================+
-| instances    | List of instances to crawl separated by whitespace.                                        |
-|              | Format scheme://username[:password]@host[:port]/ (TODO)                                    |
+| instances    | | List of instances to crawl separated by whitespace.                                      |
+|              | | You can add like many instances you want separated by whitespace                         |
+|              | | Like "instance1 instance2 ... instanceN"                                                 |
+|              | |                                                                                          |
+|              | | Format: scheme://username[:password]@host[:port]/                                        |
+|              | |                                                                                          |
+|              | | Examples: scheme://username[:password]@host[:port]/                                      |
+|              | | * ssh://max.mustermann@review.typo3.org:29418/                                           |
+|              | | * https://max.mustermann:password@gerrit.wikimedia.org/                                  |
 +--------------+--------------------------------------------------------------------------------------------+
 
 
