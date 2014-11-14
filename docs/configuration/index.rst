@@ -155,46 +155,75 @@ E.g. The attributes ``Database.Host`` and ``Database.Username`` will be in confi
 
 Here you can find a list of all supported configuration settings.
 
-+-------------------+--------------------------------------------------------------------------------------------+
-| Attribute         | Description                                                                                |
-+===================+============================================================================================+
-| Database.Host     | Name / IP of the host where the database is running.                                       |
-+-------------------+--------------------------------------------------------------------------------------------+
-| Database.Username | Username to access the database.                                                           |
-+-------------------+--------------------------------------------------------------------------------------------+
-| Database.Password | Password to access the database.                                                           |
-+-------------------+--------------------------------------------------------------------------------------------+
-| Database.Port     | Port where the database is listen.                                                         |
-+-------------------+--------------------------------------------------------------------------------------------+
-| Database.Name     | Name of the database which should be used.                                                 |
-+-------------------+--------------------------------------------------------------------------------------------+
-| SSH.KeyFile       | Path to SSH private key for authentication via SSH API.                                    |
-+-------------------+--------------------------------------------------------------------------------------------+
-| Gerrit.Name1      | | Under the Gerrit namespace you can define several projects.                              |
-|                   | | The first level after ``Gerrit`` will be a name of the project.                          |
-|                   | | The name can be chosen by you and will be only used for internal.                        |
-|                   | | Internal use means for logging or store a relation between the name and n instances.     |
-|                   | | The important info: The name can be chosen by you and you can use your wording.          |
-|                   | |                                                                                          |
-|                   | | Example:                                                                                 |
-|                   | |                                                                                          |
-|                   | | .. code:: yaml                                                                           |
-|                   | |                                                                                          |
-|                   | |     Gerrit:                                                                              |
-|                   | |         TYPO3:                                                                           |
-|                   | |             ...                                                                          |
-|                   | |         Wikimedia:                                                                       |
-|                   | |             ...                                                                          |
-|                   | |                                                                                          |
-+-------------------+--------------------------------------------------------------------------------------------+
-| Gerrit.NameN      | As you can the in the example above you can define as many projects as you want.           |
-+-------------------+--------------------------------------------------------------------------------------------+
-| Gerrit.Name1.0    | | List of instances to crawl separated by whitespace.                                      |
-|                   | | List of instances to crawl separated by whitespace.                                      |
-+-------------------+--------------------------------------------------------------------------------------------+
-| Gerrit.Name1.N    | | List of instances to crawl separated by whitespace.                                      |
-|                   | | List of instances to crawl separated by whitespace.                                      |
-+-------------------+--------------------------------------------------------------------------------------------+
++-------------------+--------------------------------------------------------------------------------------------------------------------+
+| Attribute         | Description                                                                                                        |
++===================+====================================================================================================================+
+| Database.Host     | Name / IP of the host where the database is running.                                                               |
++-------------------+--------------------------------------------------------------------------------------------------------------------+
+| Database.Username | Username to access the database.                                                                                   |
++-------------------+--------------------------------------------------------------------------------------------------------------------+
+| Database.Password | Password to access the database.                                                                                   |
++-------------------+--------------------------------------------------------------------------------------------------------------------+
+| Database.Port     | Port where the database is listen.                                                                                 |
++-------------------+--------------------------------------------------------------------------------------------------------------------+
+| Database.Name     | Name of the database which should be used.                                                                         |
++-------------------+--------------------------------------------------------------------------------------------------------------------+
+| SSH.KeyFile       | Path to SSH private key for authentication via SSH API.                                                            |
++-------------------+--------------------------------------------------------------------------------------------------------------------+
+| Gerrit.Name1      | | Under the Gerrit namespace you can define several projects.                                                      |
+|                   | | The first level after ``Gerrit`` will be a name of the project.                                                  |
+|                   | | The name can be chosen by you and will be only used for internal.                                                |
+|                   | | Internal use means for logging or store a relation between the name and n instances.                             |
+|                   | | The important info: The name can be chosen by you and you can use your wording.                                  |
+|                   | |                                                                                                                  |
+|                   | | Example:                                                                                                         |
+|                   | |     Gerrit:                                                                                                      |
+|                   | |         TYPO3:                                                                                                   |
+|                   | |             ...                                                                                                  |
+|                   | |         Wikimedia:                                                                                               |
+|                   | |             ...                                                                                                  |
++-------------------+--------------------------------------------------------------------------------------------------------------------+
+| Gerrit.NameN      | As you can the in the example above you can define as many projects as you want.                                   |
++-------------------+--------------------------------------------------------------------------------------------------------------------+
+| Gerrit.Name1.0    | | The level below the project name is reserved for a list of instances per project.                                |
+|                   | | Instances can be                                                                                                 |
+|                   | | - Gerrit server                                                                                                  |
+|                   | | - Gerrit projects                                                                                                |
+|                   | |                                                                                                                  |
+|                   | | Instances can be added in several ways                                                                           |
+|                   | | - a single url                                                                                                   |
+|                   | | - a yaml array with a key ``Instance`` and a value as url                                                        |
+|                   | | - a yaml array with a key ``Instance`` and a value as url + a key ``KeyFile`` with a path to SSH key as a value  |
+|                   | |                                                                                                                  |
+|                   | | The URLs are always in format ``scheme://username[:password]@host[:port]/``                                      |
+|                   | | The KeyFile will be used to connect to the related instance only and will overwrite the general KeyFile setting. |
+|                   | | A detailed example with possible formats is displayed below.                                                     |
++-------------------+--------------------------------------------------------------------------------------------------------------------+
+| Gerrit.Name1.N    | As you can the in the example above you can define as many instances per project as you want.                      |
++-------------------+--------------------------------------------------------------------------------------------------------------------+
 
+.. note::
+
+    Gerrit projects as an instance are not supported yet.
+    This is planned for future versions.
+
+.. code:: yaml
+
+    Gerrit:
+      TYPO3:
+        - Instance: ssh://max.mustermann@review.typo3.org:29418/
+          KeyFile: /Users/max/.ssh/id_rsa
+
+        - { Instance: ssh://max.mustermann@review.typo3.org:29418/, KeyFile: /Users/max/.ssh/id_rsa }
+
+        - Instance: ssh://max.mustermann@review.typo3.org:29418/
+
+        - { Instance: ssh://max.mustermann@review.typo3.org:29418/ }
+
+        - ssh://max.mustermann@review.typo3.org:29418/
+
+      # Second project
+      Wikimedia:
+        - https://max:password@gerrit.wikimedia.org/
 
 .. _YAML: http://en.wikipedia.org/wiki/YAML
