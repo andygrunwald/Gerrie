@@ -7,11 +7,9 @@ Prerequisites
 tl;dr
 ------
 * `PHP`_ >= 5.4.0
-
     * PHP Extension `PDO`_
     * PHP Extension `pdo_mysql`_
     * PHP Extension `curl`_
-
 * `Composer`_
 * `MySQL`_ >= v5.1
 * SSH
