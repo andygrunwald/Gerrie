@@ -20,6 +20,7 @@ The options got a **higher** priority as the attributes from the configuration f
 The arguments will be **merged** with the Gerrit instances configured in the configuration file.
 
 Example configuration file:
+
 .. code:: yaml
 
     Database:
@@ -38,6 +39,7 @@ Example configuration file:
             - { Instance: ssh://max.mustermann@review.typo3.org:29418/, KeyFile: /Users/max/.ssh/id_rsa_local }
 
 Example command:
+
 .. code::
 
     $ ./gerrie gerrie:crawl --config-file=/path/to/example-conf.yml \
@@ -47,11 +49,11 @@ Example command:
 
 In this example Gerrie will use:
 
-* Database hostname: 192.168.1.10
-* Database username: operator
+* Database hostname: *192.168.1.10*
+* Database username: *operator*
 * Database password:
-* Database port: 3306
-* Database name: gerrit
+* Database port: *3306*
+* Database name: *gerrit*
 * ...
 * Instances:
     * ssh://max@review.typo3.org:29418/
@@ -80,50 +82,25 @@ Options will by added to the command like
 
 Here you can find a list of all supported options.
 
-+------------+------------+-----------+
-| Header 1   | Header 2   | Header 3  |
-+============+============+===========+
-| body row 1 | column 2   | column 3  |
-+------------+------------+-----------+
-| body row 2 | Cells may span columns.|
-+------------+------------+-----------+
-| body row 3 | Cells may  | - Cells   |
-+------------+ span rows. | - contain |
-| body row 4 |            | - blocks. |
-+------------+------------+-----------+
-
-.. list-table::
-   :widths: 20 20 60
-   :header-rows: 1
-
-       * - Long option
-         - Short option
-         - Description
-       * - --config-file
-         - -c
-         - Path to configuration file (default: "Config.yml") (TODO)
-       * - --database-host
-         - -H
-         - Name / IP of the host where the database is running (TODO)
-       * - --database-user
-         - -u
-         - Username to access the database (TODO)
-       * - --database-pass
-         - -p
-         - Password to access the database (TODO)
-       * - --database-port
-         - -P
-         - Port where the database is listen (TODO)
-       * - --database-name
-         - -N
-         - Name of the database which should be used (TODO)
-       * - --ssh-key
-         - -k
-         - Path to SSH private key for authentication (TODO)
-       * - --help
-         - -h
-         - Display this help message. (TODO)
-
++-----------------+----------------+----------------------------------------------------------------------------+
+| Long option     | Short option   | Description                                                                |
++=================+================+============================================================================+
+| --config-file   | -c             | Path to configuration file (default: "Config.yml") (TODO)                  |
++-----------------+----------------+----------------------------------------------------------------------------+
+| --database-host | -H             | Name / IP of the host where the database is running (TODO)                 |
++-----------------+----------------+----------------------------------------------------------------------------+
+| --database-user | -u             | Username to access the database (TODO)                                     |
++-----------------+----------------+----------------------------------------------------------------------------+
+| --database-pass | -p             | Password to access the database (TODO)                                     |
++-----------------+----------------+----------------------------------------------------------------------------+
+| --database-port | -P             | Port where the database is listen (TODO)                                   |
++-----------------+----------------+----------------------------------------------------------------------------+
+| --database-name | -N             | Name of the database which should be used (TODO)                           |
++-----------------+----------------+----------------------------------------------------------------------------+
+| --ssh-key       | -k             | Path to SSH private key for authentication (TODO)                          |
++-----------------+----------------+----------------------------------------------------------------------------+
+| --help          | -h             | Display this help message. (TODO)                                          |
++-----------------+----------------+----------------------------------------------------------------------------+
 
 Arguments
 ==========
