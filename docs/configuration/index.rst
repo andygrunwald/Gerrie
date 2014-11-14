@@ -15,7 +15,7 @@ Advantage of using options + arguments:
 * More flexible, because you don`t need to modify a file
 
 Next to the 0 and 1 solution you can combine both worlds.
-You can add a configuration file by option *--config-file* and overwrite attributes from the configuration file by options added to the command.
+You can add a configuration file by option ``--config-file`` and overwrite attributes from the configuration file by options added to the command.
 The options got a **higher** priority as the attributes from the configuration file.
 The arguments will be **merged** with the Gerrit instances configured in the configuration file.
 
@@ -64,16 +64,16 @@ In this example Gerrie will use:
 Options
 ========
 *Gerrie* supports a several options.
-Options are parameters prefixed by *--* or *-*.
-Example are in the long variant *--help* or in the short variant *-h*.
-Options can be accept a value (like *--config-file="..."*) or are standalone (like *--version*).
+Options are parameters prefixed by ``--`` or ``-``.
+Example are in the long variant ``--help`` or in the short variant ``-h``.
+Options can be accept a value (like ``--config-file="..."``) or are standalone (like ``--version``).
 
 .. note::
 
     Please have a look at the command you want to use first which options are supported.
     **Not all options are supported by all commands**.
-    You can list options by command by *./gerrie gerrie:YOUR-COMMAND --help*.
-    For available commands execute *./gerrie*.
+    You can list options by command by ``./gerrie gerrie:YOUR-COMMAND --help``.
+    For available commands execute ``./gerrie``.
 
 Options will by added to the command like
 .. code::
@@ -87,7 +87,7 @@ Here you can find a list of all supported options.
 +=================+================+============================================================================+
 | --config-file   | -c             | Path to configuration file (default: "Config.yml").                        |
 +-----------------+----------------+----------------------------------------------------------------------------+
-| --database-host | -H             | Name / IP of the host where the database is running.                       |                          |
+| --database-host | -H             | Name / IP of the host where the database is running                        |
 +-----------------+----------------+----------------------------------------------------------------------------+
 | --database-user | -u             | Username to access the database (TODO)                                     |
 +-----------------+----------------+----------------------------------------------------------------------------+
@@ -111,8 +111,8 @@ Arguments are added at the end of the command separated by whitespace.
 
     Please have a look at the command you want to use first which arguments are supported.
     **Not all arguments are supported by all commands**.
-    You can list options by command by *./gerrie gerrie:YOUR-COMMAND --help*.
-    For available commands execute *./gerrie*.
+    You can list options by command by ``./gerrie gerrie:YOUR-COMMAND --help``.
+    For available commands execute ``./gerrie``.
 
 Here you can find a list of all supported arguments.
 
@@ -138,7 +138,7 @@ YAML can be a little bit tricky when it comes to intention.
     In the root of *Gerrie* there is a *Config.yml.dist* which can be copied and used as a template for your configuration file.
 
 If a attribute contains a "." this means that it will be a nested attribute.
-E.g. The attributes *Database.Host* and *Database.Username* will be in configuration file
+E.g. The attributes ``Database.Host`` and ``Database.Username`` will be in configuration file
 
 .. code:: yaml
 
