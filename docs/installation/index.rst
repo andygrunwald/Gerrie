@@ -7,9 +7,11 @@ Prerequisites
 tl;dr
 ------
 * `PHP`_ >= 5.4.0
-** PHP Extension `PDO`_
-** PHP Extension `pdo_mysql`_
-** PHP Extension `curl`_
+
+    * PHP Extension `PDO`_
+    * PHP Extension `pdo_mysql`_
+    * PHP Extension `curl`_
+
 * `Composer`_
 * `MySQL`_ >= v5.1
 * SSH
@@ -123,7 +125,11 @@ Here is an example call with using options and arguments instead of an configura
 
 .. code::
 
-    $ ./gerrie gerrie:check --database-host="127.0.0.1" --database-user="gerrie" --database-pass="secret" --database-port=3306 --database-name="gerrie" --ssh-key="/Users/max/.ssh/id_rsa_gerrie" ssh://max@review.typo3.org:29418/
+    $ ./gerrie gerrie:check --database-host="127.0.0.1" --database-user="gerrie" \
+                            --database-pass="secret" --database-port=3306  \
+                            --database-name="gerrie"  \
+                            --ssh-key="/Users/max/.ssh/id_rsa_gerrie"  \
+                            ssh://max@review.typo3.org:29418/
 
 If everything works fine you will see red errors.
 If you got one or more errors please have a look at the :doc:`commands *gerrie:check* chapter</commands/check>`.
@@ -133,7 +139,7 @@ Run Gerrie, run!
 ---------------------------------
 
 If the *gerrie:check* went well, let Gerrie run.
-You have to know *Gerrie* loves crawling *Gerrit*s :)
+You have to know *Gerrie* loves crawling Gerrits :)
 
 .. _PHP: http://php.net/
 .. _PHP Download: http://php.net/downloads.php
