@@ -127,13 +127,50 @@ Here you can find a list of all supported arguments.
 Configuration file
 ======================
 
-.. list-table::
-    :widths: 20 80
-   :header-rows: 1
+The configuration file can be used to avoid long options and arguments.
+It can be located on the harddisk where *Gerrie* runs.
+The format of the configuration file is `YAML`_.
+Ensure that you write the correct YAML syntax.
+YAML can be a little bit tricky when it comes to intention.
 
-       * - Shapes
-         - Description
-       * - Square
-         - Four sides of equal length, 90 degree angles
-       * - Rectangle
-         - Four sides, 90 degree angles
+.. note::
+
+    In the root of *Gerrie* there is a *Config.yml.dist* which can be copied and used as a template for your configuration file.
+
+If a attribute contains a "." this means that it will be a nested attribute.
+E.g. The attributea *Database.Host* and *Database.Username* will be in configuration file
+
+.. code:: yaml
+
+    Database:
+        Host: 127.0.0.1
+        Username: root
+
+Here you can find a list of all supported configuration settings.
+
++-------------------+--------------------------------------------------------------------------------------------+
+| Attribute         | Description                                                                                |
++===================+============================================================================================+
+| Database.Host     | List of instances to crawl separated by whitespace.                                        |
++-------------------+--------------------------------------------------------------------------------------------+
+| Database.Username | List of instances to crawl separated by whitespace.                                        |
++-------------------+--------------------------------------------------------------------------------------------+
+| Database.Password | List of instances to crawl separated by whitespace.                                        |
++-------------------+--------------------------------------------------------------------------------------------+
+| Database.Port     | List of instances to crawl separated by whitespace.                                        |
++-------------------+--------------------------------------------------------------------------------------------+
+| Database.Name     | List of instances to crawl separated by whitespace.                                        |
++-------------------+--------------------------------------------------------------------------------------------+
+| SSH.KeyFile       | List of instances to crawl separated by whitespace.                                        |
++-------------------+--------------------------------------------------------------------------------------------+
+| Gerrit.Name1      | List of instances to crawl separated by whitespace.                                        |
++-------------------+--------------------------------------------------------------------------------------------+
+| Gerrit.Name1.0    | List of instances to crawl separated by whitespace.                                        |
++-------------------+--------------------------------------------------------------------------------------------+
+| Gerrit.Name1.N    | | List of instances to crawl separated by whitespace.                                      |
+|                   | | List of instances to crawl separated by whitespace.                                      |
++-------------------+--------------------------------------------------------------------------------------------+
+| Gerrit.NameN      | List of instances to crawl separated by whitespace.                                        |
++-------------------+--------------------------------------------------------------------------------------------+
+
+.. _YAML: http://en.wikipedia.org/wiki/YAML
