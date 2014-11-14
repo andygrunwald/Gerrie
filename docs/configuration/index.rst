@@ -207,6 +207,8 @@ Here you can find a list of all supported configuration settings.
     Gerrit projects as an instance are not supported yet.
     This is planned for future versions.
 
+Example showcase of five instances for the ``TYPO3`` and one for the ``Wikimedia`` project to display the possibility of ``Gerrit.NameN.*``:
+
 .. code:: yaml
 
     Gerrit:
