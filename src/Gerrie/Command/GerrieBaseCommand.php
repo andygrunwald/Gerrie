@@ -28,7 +28,7 @@ class GerrieBaseCommand extends Command
             'config-file',
             'c',
             InputOption::VALUE_REQUIRED,
-            'Path to configuration file',
+            'Path to configuration file.',
             'Config.yml'
         );
     }
@@ -41,11 +41,11 @@ class GerrieBaseCommand extends Command
     protected function addDatabaseOptions()
     {
         $this
-        ->addOption('database-host', 'H', InputOption::VALUE_REQUIRED, 'Name / IP of the host where the database is running')
-        ->addOption('database-user', 'u', InputOption::VALUE_REQUIRED, 'Username to access the database')
-        ->addOption('database-pass', 'p', InputOption::VALUE_REQUIRED, 'Password to access the database')
-        ->addOption('database-port', 'P', InputOption::VALUE_REQUIRED, 'Port where the database is listen')
-        ->addOption('database-name', 'N', InputOption::VALUE_REQUIRED, 'Name of the database which should be used');
+        ->addOption('database-host', 'H', InputOption::VALUE_REQUIRED, 'Name / IP of the host where the database is running.')
+        ->addOption('database-user', 'u', InputOption::VALUE_REQUIRED, 'Username to access the database.')
+        ->addOption('database-pass', 'p', InputOption::VALUE_REQUIRED, 'Password to access the database.')
+        ->addOption('database-port', 'P', InputOption::VALUE_REQUIRED, 'Port where the database is listen.')
+        ->addOption('database-name', 'N', InputOption::VALUE_REQUIRED, 'Name of the database which should be used.');
     }
 
     /**
@@ -59,7 +59,7 @@ class GerrieBaseCommand extends Command
             'ssh-key',
             'k',
             InputOption::VALUE_REQUIRED,
-            'Path to SSH private key for authentication'
+            'Path to SSH private key for authentication.'
         );
     }
 
@@ -78,7 +78,7 @@ class GerrieBaseCommand extends Command
         $this->addArgument(
             'instances',
             InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
-            'List of instances to crawl separated by whitespace. Format scheme://username[:password]@host[:port]/'
+            'List of instances to crawl separated by whitespace. Format scheme://username[:password]@host[:port]/.'
         );
     }
 }
