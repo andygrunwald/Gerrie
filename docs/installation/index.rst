@@ -95,7 +95,11 @@ Gerrie relies on several 3rd party libraries to speedup the development, make us
 Configure the application
 ----------------------------
 
-TODO
+*Gerrie* can be configured by a configuration file, options and arguments or both.
+The easiest solution is to copy the ``Config.yml.dist`` file to another location and adjust the settings in the self documented configuration file.
+This file will be added by the ``--config-file``option.
+
+If you want to learn more about configuration in Gerrie or how to apply options and arguments :doc:`see the Configuration chapter</configuration/>`.
 
 Execute the gerrie:check command
 ---------------------------------
@@ -138,6 +142,33 @@ Run Gerrie, run!
 
 If the *gerrie:check* went well, let Gerrie run.
 You have to know *Gerrie* loves crawling Gerrits :)
+
+The main command of *Gerrie* is ``gerrie:crawl``.
+Just execute it. It supports the same options and arguments as the ``gerrie:check`` command.
+
+Without configuration file:
+
+.. code::
+
+    $ ./gerrie gerrie:crawl --database-host="127.0.0.1" --database-user="gerrie" \
+                            --database-pass="secret" --database-port=3306  \
+                            --database-name="gerrie"  \
+                            --ssh-key="/Users/max/.ssh/id_rsa_gerrie"  \
+                            ssh://max@review.typo3.org:29418/
+
+or with configuration file:
+
+.. code::
+
+    $ ./gerrie gerrie:crawl --config-file="/Path/To/Config.yml"
+
+or with both:
+
+.. code::
+
+    $ ./gerrie gerrie:crawl --config-file="/Path/To/Config.yml" --database-host="127.0.0.1" \
+                            --database-user="gerrie" --database-name="gerrie" \
+                            ssh://max@review.typo3.org:29418/
 
 .. _PHP: http://php.net/
 .. _PHP Download: http://php.net/downloads.php
