@@ -87,7 +87,8 @@ Here you can find a list of all supported options.
 +=================+================+============================================================================+
 | --config-file   | -c             | Path to configuration file (default: "Config.yml") (TODO)                  |
 +-----------------+----------------+----------------------------------------------------------------------------+
-| --database-host | -H             | Name / IP of the host where the database is running (TODO)                 |
+| --database-host | -H             | Name / IP of the host where the database is running.\                      |
+| --database-host | -H             | Example value: 127.0.0.1                                                   |
 +-----------------+----------------+----------------------------------------------------------------------------+
 | --database-user | -u             | Username to access the database (TODO)                                     |
 +-----------------+----------------+----------------------------------------------------------------------------+
@@ -138,7 +139,7 @@ YAML can be a little bit tricky when it comes to intention.
     In the root of *Gerrie* there is a *Config.yml.dist* which can be copied and used as a template for your configuration file.
 
 If a attribute contains a "." this means that it will be a nested attribute.
-E.g. The attributea *Database.Host* and *Database.Username* will be in configuration file
+E.g. The attributes *Database.Host* and *Database.Username* will be in configuration file
 
 .. code:: yaml
 
@@ -151,7 +152,8 @@ Here you can find a list of all supported configuration settings.
 +-------------------+--------------------------------------------------------------------------------------------+
 | Attribute         | Description                                                                                |
 +===================+============================================================================================+
-| Database.Host     | List of instances to crawl separated by whitespace.                                        |
+| Database.Host     | Name / IP of the host where the database is running.\                                      |
+|                   | Example value: 127.0.0.1                                                                   |
 +-------------------+--------------------------------------------------------------------------------------------+
 | Database.Username | List of instances to crawl separated by whitespace.                                        |
 +-------------------+--------------------------------------------------------------------------------------------+
@@ -163,9 +165,11 @@ Here you can find a list of all supported configuration settings.
 +-------------------+--------------------------------------------------------------------------------------------+
 | SSH.KeyFile       | List of instances to crawl separated by whitespace.                                        |
 +-------------------+--------------------------------------------------------------------------------------------+
-| Gerrit.Name1      | List of instances to crawl separated by whitespace.                                        |
+| Gerrit.Name1      | List of instances to crawl separated by whitespace.\                                       |
+|                   | List of instances to crawl separated by whitespace.                                        |
 +-------------------+--------------------------------------------------------------------------------------------+
 | Gerrit.Name1.0    | List of instances to crawl separated by whitespace.                                        |
+|                   | List of instances to crawl separated by whitespace.                                        |
 +-------------------+--------------------------------------------------------------------------------------------+
 | Gerrit.Name1.N    | | List of instances to crawl separated by whitespace.                                      |
 |                   | | List of instances to crawl separated by whitespace.                                      |
