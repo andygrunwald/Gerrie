@@ -99,7 +99,7 @@ Configure the application
 The easiest solution is to copy the ``Config.yml.dist`` file to another location and adjust the settings in the self documented configuration file.
 This file will be added by the ``--config-file``option.
 
-If you want to learn more about configuration in Gerrie or how to apply options and arguments :doc:`see the Configuration chapter</configuration/>`.
+If you want to learn more about configuration in Gerrie or how to apply options and arguments :doc:`see the Configuration chapter</configuration/index>`.
 
 Execute the gerrie:check command
 ---------------------------------
