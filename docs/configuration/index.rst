@@ -83,12 +83,12 @@ Options will by added to the command like
 Here you can find a list of all supported options.
 
 +-----------------+----------------+----------------------------------------------------------------------------+
-| Long option     | Short option   | Description                                                                |
+| Long option     | Short option   | | Description                                                              |
 +=================+================+============================================================================+
 | --config-file   | -c             | Path to configuration file (default: "Config.yml") (TODO)                  |
 +-----------------+----------------+----------------------------------------------------------------------------+
-| --database-host | -H             | |Name / IP of the host where the database is running.                      |
-|                 |                | |Example value: 127.0.0.1                                                  |
+| --database-host | -H             | | Name / IP of the host where the database is running.                     |
+|                 |                | | Example value: 127.0.0.1                                                 |
 +-----------------+----------------+----------------------------------------------------------------------------+
 | --database-user | -u             | Username to access the database (TODO)                                     |
 +-----------------+----------------+----------------------------------------------------------------------------+
