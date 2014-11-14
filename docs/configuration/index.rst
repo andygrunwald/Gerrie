@@ -1,25 +1,25 @@
 Configuration
 ###############
 
-*Gerrie* supports two ways to pass a configuration in: Options + Arguments and configuration file.
-
+*Gerrie* supports two ways to pass a configuration in: **Options + Arguments** and **configuration file**.
 There is no need for a configuration file.
 All settings can be passed by options and arguments.
 
 Advantage of using a configuration file:
+
 * Shorter commands
 * Simple versioning of configuration file
 
 Advantage of using options + arguments:
+
 * More flexible, because you don`t need to modify a file
 
 Next to the 0 and 1 solution you can combine both worlds.
-You can add a configuration file by option **--config-file* and overwrite attributes from the configuration file by options added to the command.
+You can add a configuration file by option *--config-file* and overwrite attributes from the configuration file by options added to the command.
 The options got a **higher** priority as the attributes from the configuration file.
 The arguments will be **merged** with the Gerrit instances configured in the configuration file.
 
 Example configuration file:
-
 .. code:: yaml
 
     Database:
@@ -37,7 +37,8 @@ Example configuration file:
             - ssh://max@review.typo3.org:29418/
             - { Instance: ssh://max.mustermann@review.typo3.org:29418/, KeyFile: /Users/max/.ssh/id_rsa_local }
 
-.. code:: yaml
+Example command:
+.. code::
 
     $ ./gerrie gerrie:crawl --config-file=/path/to/example-conf.yml \
                             --database-host="192.168.1.10" -u="operator" \
@@ -45,6 +46,7 @@ Example configuration file:
                             https://max:secret@android-review.googlesource.com/
 
 In this example Gerrie will use:
+
 * Database hostname: 192.168.1.10
 * Database username: operator
 * Database password:
@@ -64,10 +66,12 @@ Options are parameters prefixed by *--* or *-*.
 Example are in the long variant *--help* or in the short variant *-h*.
 Options can be accept a value (like *--config-file="..."*) or are standalone (like *--version*).
 
-Please have a look at the command you want to use first which options are supported.
-**Not all options are supported by all commands**.
-You can list options by command by *./gerrie gerrie:YOUR-COMMAND --help*.
-For available commands see :doc:`the command section</commands/>`.
+.. note::
+
+    Please have a look at the command you want to use first which options are supported.
+    **Not all options are supported by all commands**.
+    You can list options by command by *./gerrie gerrie:YOUR-COMMAND --help*.
+    For available commands see :doc:`the command section</commands/>`.
 
 Options will by added to the command like
 .. code::
@@ -75,6 +79,18 @@ Options will by added to the command like
     $ ./gerrie gerrie:check --option1 --option2=value ...
 
 Here you can find a list of all supported options.
+
++------------+------------+-----------+
+| Header 1   | Header 2   | Header 3  |
++============+============+===========+
+| body row 1 | column 2   | column 3  |
++------------+------------+-----------+
+| body row 2 | Cells may span columns.|
++------------+------------+-----------+
+| body row 3 | Cells may  | - Cells   |
++------------+ span rows. | - contain |
+| body row 4 |            | - blocks. |
++------------+------------+-----------+
 
 .. list-table::
    :widths: 20 20 60
@@ -114,11 +130,14 @@ Arguments
 Next to options *Gerrie* supports arguments.
 Arguments are added at the end of the command separated by whitespace.
 
+.. note::
+
+    Please have a look at the command you want to use first which arguments are supported.
+    **Not all arguments are supported by all commands**.
+    You can list options by command by *./gerrie gerrie:YOUR-COMMAND --help*.
+    For available commands see :doc:`the command section</commands/>`.
+
 Here you can find a list of all supported arguments.
-Please have a look at the command you want to use first which arguments are supported.
-**Not all arguments are supported by all commands**.
-You can list options by command by *./gerrie gerrie:YOUR-COMMAND --help*.
-For available commands see :doc:`the command section</commands/>`.
 
 .. list-table::
    :widths: 20 80
