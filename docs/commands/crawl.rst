@@ -5,13 +5,13 @@ The `gerrie:crawl` command is the main command of the *Gerrie* application.
 The main responsibility of this command is to receive the data from the Gerrit instance and transfer the data into a RDBMS.
 This happens in several steps:
 
-# Receive all information of configuration / options + arguments
-# Query the Gerrit instance for the / a project(s)
-# Transfer the project data into a unique format
-# Proceed (insert / update) project information
-# Query the Gerrit instance for Changesets + detailed information
-# Transfer the Changeset data into a unique format
-# Proceed (insert / update) changeset information
+#. Receive all information of configuration / options + arguments
+#. Query the Gerrit instance for the / a project(s)
+#. Transfer the project data into a unique format
+#. Proceed (insert / update) project information
+#. Query the Gerrit instance for Changesets + detailed information
+#. Transfer the Changeset data into a unique format
+#. Proceed (insert / update) changeset information
 
 One requirement to execute `gerrie:crawl` is the necessary database structure.
 If this structure is not there the command `gerrie:create-database` will be executed before `gerrie:crawl` starts with its main logic.
