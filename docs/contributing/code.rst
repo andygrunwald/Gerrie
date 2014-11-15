@@ -85,7 +85,7 @@ To execute the unit tests ensure that you have installed all development depende
 
 .. note::
 
-    To generate the code coverage you need the PHP Extension ``xDebug`` installed
+    To generate the code coverage you need the PHP Extension ``xDebug`` installed.
 
 To create mock objects we use the standard functionality of PHPUnit.
 
