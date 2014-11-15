@@ -41,13 +41,25 @@ Specially the `curl Installation`_ chapter might be useful in your case.
 
 PHP extensions PDO and pdo_mysql
 =================================
-TODO
+If you see one of these messages
+
+.. code::
+
+    PHP-Extensions "PDO" and "pdo_mysql" are not installed. Please install both.
+    PHP-Extension "PDO" (v1.0.4dev) is installed, but "pdo_mysql" not. Please install it.
+
+it seems to be that the PDO or pdo_mysql extension is not installed or loaded in your environment.
+With the following commands you can check if the module(s) are loaded and in which version they are available.
 
 .. code::
 
     $ php -m
     $ php -r 'var_dump(phpversion("PDO"));'
     $ php -r 'var_dump(phpversion("pdo_mysql"));'
+
+If this leads in a negative check it would make sense to have a look at the `PHP Data Objects @ PHP.net documentation`_.
+Specially the `PDO Installation`_ chapter might be useful in your case.
+If everything is fine with PDO, but you got problems with pdo_mysql have a look at the `pdo_mysql @ PHP.net documentation`_.
 
 SSH
 ====
@@ -79,3 +91,6 @@ TODO
 
 .. _Client URL Library @ PHP.net documentation: http://php.net/manual/en/book.curl.php
 .. _curl Installation: http://php.net/manual/en/curl.installation.php
+.. _PHP Data Objects @ PHP.net documentation: http://php.net/manual/en/book.pdo.php
+.. _PDO Installation: http://php.net/manual/en/pdo.installation.php
+.. _pdo_mysql @ PHP.net documentation: http://php.net/manual/en/ref.pdo-mysql.php
