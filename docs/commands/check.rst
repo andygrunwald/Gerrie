@@ -22,11 +22,30 @@ In the next sections we provide possible solution to fix your environment if a c
 
 PHP extension curl
 ===================
-TODO
+If you see the message
+.. code::
+
+    PHP-Extension "curl" is not installed. Please install PHP-Extension "curl".
+
+it seems to be that the curl extension is not installed or loaded in your environment.
+To check if `curl` is installed please list all available PHP modules with
+.. code::
+
+    $ php -m
+
+and search for curl.
+If this is not in the list please have a detailed look in the `Client URL Library @ PHP.net documentation`_.
+Specially the `curl Installation`_ chapter might be useful in your case.
 
 PHP extensions PDO and pdo_mysql
 =================================
 TODO
+
+.. code::
+
+    $ php -m
+    $ php -r 'var_dump(phpversion("PDO"));'
+    $ php -r 'var_dump(phpversion("pdo_mysql"));'
 
 SSH
 ====
@@ -55,3 +74,6 @@ TODO
 HTTP(S)
 --------
 TODO
+
+.. _Client URL Library @ PHP.net documentation: http://php.net/manual/en/book.curl.php
+.. _curl Installation: http://php.net/manual/en/curl.installation.php
