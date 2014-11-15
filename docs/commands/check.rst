@@ -23,13 +23,11 @@ In the next sections we provide possible solution to fix your environment if a c
 PHP extension curl
 ===================
 If you see the message
-.. code::
 
     PHP-Extension "curl" is not installed. Please install PHP-Extension "curl".
 
 it seems to be that the curl extension is not installed or loaded in your environment.
 To check if `curl` is installed please list all available PHP modules with
-.. code::
 
     $ php -m
 
