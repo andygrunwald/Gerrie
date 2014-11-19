@@ -76,7 +76,7 @@ class DatabaseConnectionCheck implements CheckInterface
     public function getFailureMessage()
     {
         $databaseConfig = $this->database->getConfig();
-        $message = 'Database connection to host "%s" works not as expected. Please check your credentials or setup';
+        $message = 'Database connection to host "%s" works not as expected. Please check your credentials or setup.';
         $message = sprintf($message, $databaseConfig['Host']);
 
         return $message;
