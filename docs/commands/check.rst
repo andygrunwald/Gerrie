@@ -195,7 +195,60 @@ If you see something like "Access denied" please check your private / public key
 
 Connection via HTTP(S)
 --------
-TODO
+The HTTP(S) API is a little bit more easier to use than the SSH API.
+Mostly every current version of Gerrit supports the REST-API.
+
+.. note::
+
+    The HTTP(S) API is not fully supported by Gerrie.
+    This is planned for future versions of Gerrie.
+
+There are two ways to test the REST-API: With and without authentification.
+At first be sure that this works without authentification.
+This is easy and you can just request a special url with curl like
+
+.. code::
+
+    $ curl SCHEME://HOST/config/server/version
+    # e.g.
+    $ curl https://review.typo3.org/config/server/version
+
+A valid response should be
+
+.. code::
+
+    )]}'
+    "2.9.1"
+
+Next step would be to check the access via REST API with your user credentials.
+You can do this via curl as well:
+
+.. code::
+
+    $ curl --user USERNAME:PASSWORD SCHEME://HOST/a/accounts/self/username
+    # e.g.
+    $ curl --user max.mustermann:mypassword https://review.typo3.org/a/accounts/self/username
+
+A valid response should be
+
+.. code::
+
+    )]}'
+    "andy.grunwald"
+
+If you got a response like
+
+.. code::
+
+    Unauthorized
+
+please check your username and password at the Gerrit instance.
+
+.. note::
+
+    To crawl a Gerrit instance a authentification is not necessary for the REST-API.
+    This depends on your user account.
+    For example some instances give logged in users a higher API ratio or more rights to see more projects.
 
 .. _Client URL Library @ PHP.net documentation: http://php.net/manual/en/book.curl.php
 .. _curl Installation: http://php.net/manual/en/curl.installation.php
