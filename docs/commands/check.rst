@@ -63,29 +63,114 @@ If everything is fine with PDO, but you got problems with pdo_mysql have a look 
 
 SSH
 ====
-TODO
+If you see the message
+
+.. code::
+
+    "ssh" is not installed. Please install "ssh".
+
+it seems that the ssh executable can`t be found or used.
+SSH must be executable to make use of the SSH API by Gerrit.
+If you need more information about SSH please have a look at `OpenSSH`_.
+
+You can test your SSH by
+
+.. code::
+
+    $ ssh -V
 
 Config file location
 =====================
-TODO
+The config file location got two different error messages.
+If you see the message
+
+.. code::
+
+    Config file "X" was not found.  Please provide the correct path or all settings via command options.
+
+the config file can`t be found. The default value is *Config.yml* of the project root.
+You can just copy the *Config.yml.dist* in the same folder and adjust it.
+This would fix the problem:
+
+.. code::
+
+    $ cd /path/to/Gerrie
+    $ cp Config.yml.dist Config.yml
+
+An alternative would be to apply the *-c* / *--config-file* option.
+With this you can put the config file wherever you want.
+
+.. note::
+
+    The configuration file is not required. You can pass all settings by options and arguments.
+    If this check fail ensure that you will use the options + arguments.
+
+If you see the message
+
+.. code::
+
+    Config file "X" was found, but is not readable. Please change ownerships or all settings via command options.
+
+then your configuration file was found, but is not readable by the user which executes the Gerrie application.
+Please adjust the access rights. Maybe `Chmod`_ and `Chown`_ can help you.
 
 Config file validation
 =======================
-TODO
+If you see a message like
+
+.. code::
+
+    The configuration is not complete. Missing keys are X. Please provide them as command options.
+
+the configuration file is not complete.
+There are the mentioned settings missing.
+If you don`t know which keys need to be in the config file, please have a look at the self documented *Config.yml* in the root directory of Gerrie.
+
+.. note::
+
+    The configuration file is not required. You can pass all settings by options and arguments.
+    If this check fail ensure that you will use the options + arguments.
+
 
 Database connection
 ====================
-TODO
+If you see a message like
+
+.. code::
+
+    Database connection to host "120.0.0.1" works not as expected. Please check your credentials or setup.
+
+Gerrie can`t build a database connection.
+A database connection is required to use Gerrie.
+To check if your database is working you can try to connect with the same credentials via commandline:
+
+.. code::
+
+    $ mysql -h 127.0.0.1 -uUSER -p
+    $ # enter password here
+    $ mysql> USE DATABASENAME;
+    $ mysql> SHOW TABLES;
+
+.. note::
+
+    Only MySQL is supported.
 
 Gerrit instance connection
 ===========================
-TODO
+Depending on your configuration you will use the SSH or HTTP / REST API by Gerrit.
+Both connection kinds can fail and will output a error message like
 
-SSH
+.. code::
+
+    Connection to Gerrit "review.typo3.org" via SSH-DataService was not successful. Please check your credentials or setup.
+
+Please read further to fight against your issue.
+
+Connection via SSH
 ------
 TODO
 
-HTTP(S)
+Connection via HTTP(S)
 --------
 TODO
 
@@ -94,3 +179,6 @@ TODO
 .. _PHP Data Objects @ PHP.net documentation: http://php.net/manual/en/book.pdo.php
 .. _PDO Installation: http://php.net/manual/en/pdo.installation.php
 .. _pdo_mysql @ PHP.net documentation: http://php.net/manual/en/ref.pdo-mysql.php
+.. _OpenSSH: http://www.openssh.com/
+.. _Chmod: http://en.wikipedia.org/wiki/Chmod
+.. _Chown: http://en.wikipedia.org/wiki/Chown
