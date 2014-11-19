@@ -125,6 +125,7 @@ If you see a message like
 the configuration file is not complete.
 There are the mentioned settings missing.
 If you don`t know which keys need to be in the config file, please have a look at the self documented *Config.yml* in the root directory of Gerrie.
+The :doc:`Configuration chapter</configuration/index>` will list all available settings as well.
 
 .. note::
 
@@ -168,7 +169,29 @@ Please read further to fight against your issue.
 
 Connection via SSH
 ------
-TODO
+The SSH API is a little bit tricky.
+
+At first the Gerrit instance must support access by SSH.
+Instances like `TYPO3`_ or `Wikimedia`_ does this.
+Instances like `Android`_ (which are hosted at googlesource) does not.
+They only support HTTPS.
+
+One requirement is that you got a user account at this instance and your SSH public key was added in Gerrit at *Settings* > *SSH Public Keys*.
+After this you can test your command with
+
+.. code::
+
+    $ ssh -i /Path/To/Your/Private/.ssh/key -p 29418 USERNAME@HOST gerrit version
+    # e.g.
+    $ ssh -i /Users/max/.ssh/id_rsa_gerrie -p 29418 max.musterman@review.typo3.org gerrit version
+
+A valid response should be
+
+.. code::
+
+    gerrit version 2.9.1
+
+If you see something like "Access denied" please check your private / public key pair.
 
 Connection via HTTP(S)
 --------
@@ -182,3 +205,6 @@ TODO
 .. _OpenSSH: http://www.openssh.com/
 .. _Chmod: http://en.wikipedia.org/wiki/Chmod
 .. _Chown: http://en.wikipedia.org/wiki/Chown
+.. _Android: https://android-review.googlesource.com/
+.. _TYPO3: https://review.typo3.org/
+.. _Wikimedia: https://gerrit.wikimedia.org
