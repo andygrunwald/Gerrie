@@ -234,7 +234,7 @@ A valid response should be
 .. code::
 
     )]}'
-    "andy.grunwald"
+    "max.mustermann"
 
 If you got a response like
 
