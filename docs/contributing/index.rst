@@ -7,4 +7,5 @@ Contributing
 	code
 	documentation
 	issues
-	ideas
+	various
+	logo
