@@ -49,6 +49,7 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
         $argvInputExtended->expects($this->any())
                           ->method('isOptionSet')
                           ->withConsecutive(
+                              array($this->equalTo('config-file')),
                               array($this->equalTo('database-host')),
                               array($this->equalTo('database-user')),
                               array($this->equalTo('database-pass')),
@@ -56,6 +57,7 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
                               array($this->equalTo('database-name'))
                           )
                           ->willReturnOnConsecutiveCalls(
+                              $this->returnValue(true),
                               $this->returnValue(true),
                               $this->returnValue(true),
                               $this->returnValue(false),
