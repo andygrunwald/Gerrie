@@ -1,4 +1,4 @@
 Getting Started
 ###############
 
-@TODO Getting started
+@TODO Transfer getting started from README to docs
