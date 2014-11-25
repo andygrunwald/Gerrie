@@ -1,8 +1,16 @@
+# OS internals
 .idea
 .DS_STORE
+
+# Dependencies
 composer.phar
-Config.yml
 vendor
+
+# Application files
+Config.yml
 
 # Docs
 docs/_build
+
+# Unit test results
+coverage.clover
