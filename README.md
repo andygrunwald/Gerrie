@@ -25,9 +25,32 @@ After the transformation the data can be used to start simple queries or complex
 * Logging functionality
 * Full documented
 
-## How to start
+## Getting started
 
-TODO
+Download application and install dependencies:
+```
+$ git clone https://github.com/andygrunwald/Gerrie.git .
+$ composer install
+```
+
+Create a new database in your database with name *gerrie* and setup database scheme:
+```
+$ ./gerrie gerrie:setup-database --database-host=localhost --database-user=root --database-name=gerrie
+```
+
+Create an account (e.g. *max.mustermann*) in the Gerrit instance you want to crawl (e.g. *review.typo3.org:29418*), add your SSH public key to the Gerrit instance and execute the *gerrie:check* command to check your environment:
+```
+$ ./gerrie gerrie:check --database-host=localhost --database-user=root --database-name=gerrie --ssh-key=/Path/To/.ssh/private_key ssh://max.mustermann@review.typo3.org:29418/
+```
+
+If everything is fine start crawling:
+```
+$ ./gerrie gerrie:crawl --database-host=localhost --database-user=root --database-name=gerrie --ssh-key=/Path/To/.ssh/private_key ssh://max.mustermann@review.typo3.org:29418/
+```
+
+Now the crawler starts and is doing its job :beer:
+
+You reading can continue in the documentation in the chapters [Installation](https://gerrie.readthedocs.org/en/latest/installation/index.html), [Configuration](https://gerrie.readthedocs.org/en/latest/configuration/index.html), [Commands](https://gerrie.readthedocs.org/en/latest/commands/index.html), [Database](https://gerrie.readthedocs.org/en/latest/database/index.html) or [Contributing](https://gerrie.readthedocs.org/en/latest/contributing/index.html).
 
 ## Documentation
 
