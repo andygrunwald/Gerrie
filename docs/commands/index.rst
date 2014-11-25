@@ -6,4 +6,4 @@ Commands
 
 	crawl
 	check
-	create_database
+	setup_database

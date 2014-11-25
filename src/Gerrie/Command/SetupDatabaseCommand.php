@@ -17,7 +17,7 @@ use Gerrie\Service\DatabaseService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateDatabaseCommand extends GerrieBaseCommand
+class SetupDatabaseCommand extends GerrieBaseCommand
 {
 
     /**
@@ -25,7 +25,7 @@ class CreateDatabaseCommand extends GerrieBaseCommand
      *
      * @var string
      */
-    const COMMAND_NAME = 'Create Database';
+    const COMMAND_NAME = 'Setup Database';
 
     /**
      * Database object
@@ -37,8 +37,8 @@ class CreateDatabaseCommand extends GerrieBaseCommand
     protected function configure()
     {
         $this
-            ->setName('gerrie:create-database')
-            ->setDescription('Creates the required database scheme');
+            ->setName('gerrie:setup-database')
+            ->setDescription('Setup / Creates the required database scheme (tables only)');
 
         $this->addConfigFileOption();
         $this->addDatabaseOptions();
