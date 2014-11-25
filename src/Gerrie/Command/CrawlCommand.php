@@ -53,6 +53,7 @@ class CrawlCommand extends GerrieBaseCommand
         $this->addConfigFileOption();
         $this->addDatabaseOptions();
         $this->addSSHKeyOption();
+        $this->addSetupDatabaseOption();
         $this->addInstancesArgument();
     }
 
@@ -72,8 +73,14 @@ class CrawlCommand extends GerrieBaseCommand
         /** @var InputExtendedInterface $input */
         $this->outputStartMessage($output);
 
-        $databaseService = new DatabaseService($this->database, $output);
-        $databaseService->setupDatabaseTables();
+        // If we enable the "setup-database-tables" setting, we will check if the necessary tables
+        // are already there. If not we will try to setup / create them.
+        // Try, because this process can fail due to missing access rights of the database user.
+        // If the user got the needed rights, everything will work fine ;)
+        if ($input->getOption('setup-database-tables') === true) {
+            $databaseService = new DatabaseService($this->database, $output);
+            $databaseService->setupDatabaseTables();
+        }
 
         // Start the importer for each configured project
         $gerritSystems = $this->configuration->getConfigurationValue('Gerrit');
