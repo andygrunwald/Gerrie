@@ -17,7 +17,7 @@ use Gerrie\Component\Configuration\Configuration;
  *
  * @author Andreas Grunwald <andygrunwald@gmail.com>
  */
-class ConfigFileValidationCheck implements CheckInterface
+class ConfigurationValidationCheck implements CheckInterface
 {
 
     /**
@@ -73,7 +73,7 @@ class ConfigFileValidationCheck implements CheckInterface
      */
     public function getSuccessMessage()
     {
-        $message = 'Config file is configured properly.';
+        $message = 'Application is configured properly.';
         return $message;
     }
 

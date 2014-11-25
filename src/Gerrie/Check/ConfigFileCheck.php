@@ -80,11 +80,16 @@ class ConfigFileCheck implements CheckInterface
     {
         $message = '';
         if ($this->isFound === false && $this->isReadable === false) {
-            $message  = 'Config file "%s" was not found. ';
+            $message  = 'Configuration file';
+            if ($this->filename) {
+                $message  .= ' "%s"';
+            }
+
+            $message .= ' was not found. ';
             $message .= 'Please provide the correct path or all settings via command options.';
 
         } elseif ($this->isFound === true && $this->isReadable === false) {
-            $message  = 'Config file "%s" was found, but is not readable. ';
+            $message  = 'Configuration file "%s" was found, but is not readable. ';
             $message .= 'Please change ownerships or all settings via command options.';
         }
 

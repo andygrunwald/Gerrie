@@ -11,14 +11,13 @@
 namespace Gerrie\Command;
 
 use Gerrie\Check\APIConnectionCheck;
-use Gerrie\Check\ConfigFileValidationCheck;
+use Gerrie\Check\ConfigurationValidationCheck;
 use Gerrie\Check\CurlExtensionCheck;
 use Gerrie\Check\ConfigFileCheck;
 use Gerrie\Check\PDOMySqlExtensionCheck;
 use Gerrie\Check\SSHCheck;
 use Gerrie\Check\CheckInterface;
 use Gerrie\Check\DatabaseConnectionCheck;
-use Gerrie\Component\Configuration\Configuration;
 use Gerrie\Component\Configuration\ConfigurationFactory;
 use Gerrie\Component\Database\Database;
 use Gerrie\Component\DataService\DataServiceFactory;
@@ -113,13 +112,9 @@ class CheckCommand extends GerrieBaseCommand
 
         // Check if the config file is valid
         $configFile = $input->getOption('config-file');
-        try {
-            $configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptionsAndArguments($configFile, $input);
-        } catch (\Exception $e) {
-            $configuration = new Configuration();
-        }
+        $configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptionsAndArguments($configFile, $input);
 
-        $configFileValidationCheck = new ConfigFileValidationCheck($configuration);
+        $configFileValidationCheck = new ConfigurationValidationCheck($configuration);
         $this->checkProperty($output, $configFileValidationCheck);
 
         $output->writeln('');
