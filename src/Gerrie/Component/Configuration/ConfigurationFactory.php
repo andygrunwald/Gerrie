@@ -49,7 +49,12 @@ class ConfigurationFactory
      */
     public static function getConfigurationByConfigFileAndCommandOptionsAndArguments($configFile, InputExtendedInterface $input)
     {
-        $configuration = self::getConfigurationByConfigFile($configFile);
+        if ($input->isOptionSet('config-file') === true) {
+            $configuration = self::getConfigurationByConfigFile($configFile);
+        } else {
+            $configuration = new Configuration();
+        }
+
         $configuration = self::mergeCommandOptionsIntoConfiguration($configuration, $input);
         $configuration = self::mergeCommandArgumentsIntoConfiguration($configuration, $input);
 
@@ -83,6 +88,10 @@ class ConfigurationFactory
         foreach ($configurationMapping as $optionName => $configName) {
             if ($input->isOptionSet($optionName) === true) {
                 $config->setConfigurationValue($configName, $input->getOption($optionName));
+
+            // If the value is not set / available, set this to nothing
+            } elseif (!$config->getConfigurationValue($configName)) {
+                $config->setConfigurationValue($configName, null);
             }
         }
 

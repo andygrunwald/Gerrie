@@ -27,8 +27,7 @@ class GerrieBaseCommand extends Command
             'config-file',
             'c',
             InputOption::VALUE_REQUIRED,
-            'Path to configuration file.',
-            'Config.yml'
+            'Path to configuration file.'
         );
     }
 
