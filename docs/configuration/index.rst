@@ -85,7 +85,7 @@ Here you can find a list of all supported options.
 +-----------------+----------------+----------------------------------------------------------------------------+
 | Long option     | Short option   | Description                                                                |
 +=================+================+============================================================================+
-| --config-file   | -c             | Path to configuration file (default: "Config.yml").                        |
+| --config-file   | -c             | Path to configuration file.                        |
 +-----------------+----------------+----------------------------------------------------------------------------+
 | --database-host | -H             | Name / IP of the host where the database is running.                       |
 +-----------------+----------------+----------------------------------------------------------------------------+
@@ -143,6 +143,7 @@ YAML can be a little bit tricky when it comes to intention.
 .. note::
 
     In the root of *Gerrie* there is a *Config.yml.dist* which can be copied and used as a template for your configuration file.
+    Don`t forget to pass the path of the Gerrie.yml location as *-c* / *--config-file* option to the command.
 
 If a attribute contains a "." this means that it will be a nested attribute.
 E.g. The attributes ``Database.Host`` and ``Database.Username`` will be in configuration file

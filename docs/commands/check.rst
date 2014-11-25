@@ -88,16 +88,16 @@ If you see the message
 
     Config file "X" was not found.  Please provide the correct path or all settings via command options.
 
-the config file can`t be found. The default value is *Config.yml* of the project root.
-You can just copy the *Config.yml.dist* in the same folder and adjust it.
+the config file can`t be found.
+You can just copy the *Config.yml.dist* in the same folder, adjust it and pass it via *-c* / *--config-file* option.
 This would fix the problem:
 
 .. code::
 
     $ cd /path/to/Gerrie
     $ cp Config.yml.dist Config.yml
+    $ ./gerrie [...] --config-file="Config.yml"
 
-An alternative would be to apply the *-c* / *--config-file* option.
 With this you can put the config file wherever you want.
 
 .. note::
