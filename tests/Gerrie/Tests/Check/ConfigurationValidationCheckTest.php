@@ -10,7 +10,7 @@
 
 namespace Gerrie\Tests\Check;
 
-use Gerrie\Check\ConfigFileValidationCheck;
+use Gerrie\Check\ConfigurationValidationCheck;
 
 class ConfigFileValidationCheckTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,7 +23,7 @@ class ConfigFileValidationCheckTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $configuration = $this->getConfigurationMock();
-        $this->checkInstance = new ConfigFileValidationCheck($configuration);
+        $this->checkInstance = new ConfigurationValidationCheck($configuration);
     }
 
     public function tearDown()
@@ -57,7 +57,7 @@ class ConfigFileValidationCheckTest extends \PHPUnit_Framework_TestCase
     public function testCheckWithAllProperties()
     {
         $configuration = $this->getConfigurationMock(true);
-        $configFileValidationCheck = new ConfigFileValidationCheck($configuration);
+        $configFileValidationCheck = new ConfigurationValidationCheck($configuration);
         $this->assertTrue($configFileValidationCheck->check());
     }
 

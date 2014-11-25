@@ -114,8 +114,8 @@ class CheckCommand extends GerrieBaseCommand
         $configFile = $input->getOption('config-file');
         $configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptionsAndArguments($configFile, $input);
 
-        $configFileValidationCheck = new ConfigurationValidationCheck($configuration);
-        $this->checkProperty($output, $configFileValidationCheck);
+        $configurationValidationCheck = new ConfigurationValidationCheck($configuration);
+        $this->checkProperty($output, $configurationValidationCheck);
 
         $output->writeln('');
         $output->writeln('<comment>Connection:</comment>');
