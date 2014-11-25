@@ -1,8 +1,8 @@
-gerrie:create-database
+gerrie:setup-database
 ########################
 
-The `gerrie:create-database` command is responsible to setup the database scheme for the `gerrie:crawl` command.
-The `gerrie:create-database` command won`t create the database it selfs.
+The `gerrie:setup-database` command is responsible to setup the database scheme (tables only) for the `gerrie:crawl` command.
+The `gerrie:setup-database` command won`t create the database it selfs.
 The database have to already exist.
 
 If the database contains tables the command won`t overwrite something.
@@ -14,6 +14,6 @@ What does this mean?
 This means that if you will upgrade from an old version of Gerrie to a newer one and you know that there were database schema changes that this changes won`t be applied to your already existing scheme.
 Database scheme changes has to be applied by a different way.
 
-In the normal world you can apply the `gerrie:create-database` to every existing database which contains various tables already.
+In the normal world you can apply the `gerrie:setup-database` to every existing database which contains various tables already.
 All tables which will be created by *Gerrie* as prefixed by *gerrie_*.
 If you do not get any tables which got the prefix *gerrie_* you can just apply this command to your database.

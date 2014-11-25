@@ -14,7 +14,8 @@ This happens in several steps:
 #. Proceed (insert / update) changeset information
 
 One requirement to execute `gerrie:crawl` is the necessary database structure.
-If this structure is not there the command `gerrie:create-database` will be executed before `gerrie:crawl` starts with its main logic.
+You can setup the table scheme with the command `gerrie:setup-database`.
+An alternative way can be the *--setup-database-tables* option of the `gerrie:crawl` command.
 
 .. note::
 
