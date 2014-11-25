@@ -16,7 +16,6 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class GerrieBaseCommand extends Command
 {
-
     /**
      * Adds the --config-file / -c option to the command.
      *
@@ -41,11 +40,11 @@ class GerrieBaseCommand extends Command
     protected function addDatabaseOptions()
     {
         $this
-        ->addOption('database-host', 'H', InputOption::VALUE_REQUIRED, 'Name / IP of the host where the database is running.')
-        ->addOption('database-user', 'u', InputOption::VALUE_REQUIRED, 'Username to access the database.')
-        ->addOption('database-pass', 'p', InputOption::VALUE_REQUIRED, 'Password to access the database.')
-        ->addOption('database-port', 'P', InputOption::VALUE_REQUIRED, 'Port where the database is listen.')
-        ->addOption('database-name', 'N', InputOption::VALUE_REQUIRED, 'Name of the database which should be used.');
+            ->addOption('database-host', 'H', InputOption::VALUE_REQUIRED, 'Name / IP of the host where the database is running.')
+            ->addOption('database-user', 'u', InputOption::VALUE_REQUIRED, 'Username to access the database.')
+            ->addOption('database-pass', 'p', InputOption::VALUE_REQUIRED, 'Password to access the database.')
+            ->addOption('database-port', 'P', InputOption::VALUE_REQUIRED, 'Port where the database is listen.')
+            ->addOption('database-name', 'N', InputOption::VALUE_REQUIRED, 'Name of the database which should be used.');
     }
 
     /**
@@ -60,6 +59,21 @@ class GerrieBaseCommand extends Command
             'k',
             InputOption::VALUE_REQUIRED,
             'Path to SSH private key for authentication via SSH API.'
+        );
+    }
+
+    /**
+     * Adds the "setup-database-tables" option.
+     *
+     * @return void
+     */
+    protected function addSetupDatabaseOption()
+    {
+        $this->addOption(
+            'setup-database-tables',
+            's',
+            InputOption::VALUE_NONE,
+            'Checks if necessary tables are already there. If not this tables will be setted up.'
         );
     }
 

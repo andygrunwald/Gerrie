@@ -101,6 +101,10 @@ class ConfigurationFactory
      */
     protected static function mergeCommandArgumentsIntoConfiguration(Configuration $config, InputExtendedInterface $input)
     {
+        if ($input->hasArgument('instances') === false) {
+            return $config;
+        }
+
         $argumentInstances = $input->getArgument('instances');
 
         if (count($argumentInstances) === 0) {

@@ -11,7 +11,9 @@
 namespace Gerrie\Command;
 
 use Gerrie\Component\Configuration\ConfigurationFactory;
+use Gerrie\Component\Configuration\CommandConfiguration;
 use Gerrie\Component\Database\Database;
+use Gerrie\Service\DatabaseService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -28,22 +30,16 @@ class CreateDatabaseCommand extends GerrieBaseCommand
     /**
      * Database object
      *
-     * @var \Gerrie\Component\Database\Database
+     * @var \Gerrie\Service\DatabaseService
      */
-    protected $database = null;
-
-    /**
-     * Configuration object
-     *
-     * @var \Gerrie\Component\Configuration\Configuration
-     */
-    protected $configuration = null;
+    protected $databaseService = null;
 
     protected function configure()
     {
         $this
             ->setName('gerrie:create-database')
             ->setDescription('Creates the required database scheme');
+
         $this->addConfigFileOption();
         $this->addDatabaseOptions();
     }
@@ -53,58 +49,22 @@ class CreateDatabaseCommand extends GerrieBaseCommand
         /** @var InputExtendedInterface $input */
 
         $configFile = $input->getOption('config-file');
-        $this->configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptionsAndArguments($configFile, $input);
+        $configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptionsAndArguments($configFile, $input);
 
-        $databaseConfig = $this->configuration->getConfigurationValue('Database');
-        $this->database = new Database($databaseConfig);
+        $databaseConfig = $configuration->getConfigurationValue('Database');
+        $database = new Database($databaseConfig);
+
+        $this->databaseService = new DatabaseService($database, $output);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->outputStartMessage($output);
-        $output->writeln('');
-
-        $databaseHandle = $this->database->getDatabaseConnection();
-        $tableDefinition = $this->database->getTableDefinition();
-
-        $tables = array_keys($tableDefinition);
-        foreach ($tables as $tableName) {
-            $output->writeln('<info>Table "' . $tableName . '"</info>');
-
-            $statement = $databaseHandle->prepare('SHOW TABLES LIKE :table');
-            $statement->bindParam(':table', $tableName, \PDO::PARAM_STR);
-            $statement->execute();
-
-            if ($statement->rowCount() == 1) {
-                $output->writeln('<info>=> Exists. Skip it</info>');
-                continue;
-            }
-
-            // Table does not exists. Try to create it
-            $createTableResult = $databaseHandle->query($tableDefinition[$tableName]);
-
-            if ($createTableResult === false) {
-                $databaseError = $databaseHandle->errorInfo();
-                $message = 'Table "%s" could not be created. %s (%s)';
-                $message = sprintf($message, $tableName, $databaseError[2], $databaseError[1]);
-                throw new \Exception($message, 1398100879);
-
-            } else {
-                $output->writeln('<info>Not exists. Created</info>');
-            }
-        }
-
-        $this->outputEndMessage($output);
-    }
-
-    protected function outputStartMessage(OutputInterface $output)
-    {
         $output->writeln('');
         $output->writeln('<comment>Starting application "' . self::COMMAND_NAME . '"</comment>');
-    }
+        $output->writeln('');
 
-    protected function outputEndMessage(OutputInterface $output)
-    {
+        $this->databaseService->setupDatabaseTables();
+
         $output->writeln('');
         $output->writeln('<comment>Application "' . self::COMMAND_NAME . '" finished</comment>');
         $output->writeln('');

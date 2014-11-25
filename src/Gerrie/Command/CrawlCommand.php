@@ -12,10 +12,11 @@ namespace Gerrie\Command;
 
 use Gerrie\Gerrie;
 use Gerrie\Component\Configuration\ConfigurationFactory;
+use Gerrie\Component\Configuration\CommandConfiguration;
 use Gerrie\Component\Database\Database;
 use Gerrie\Component\DataService\DataServiceFactory;
 use Gerrie\Component\Console\InputExtendedInterface;
-use Symfony\Component\Console\Input\ArrayInput;
+use Gerrie\Service\DatabaseService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -48,6 +49,7 @@ class CrawlCommand extends GerrieBaseCommand
         $this
             ->setName('gerrie:crawl')
             ->setDescription('Crawls a Gerrit review system and stores the into a database');
+
         $this->addConfigFileOption();
         $this->addDatabaseOptions();
         $this->addSSHKeyOption();
@@ -67,9 +69,11 @@ class CrawlCommand extends GerrieBaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        /** @var InputExtendedInterface $input */
         $this->outputStartMessage($output);
 
-        $this->setupDatabaseCommand($output);
+        $databaseService = new DatabaseService($this->database, $output);
+        $databaseService->setupDatabaseTables();
 
         // Start the importer for each configured project
         $gerritSystems = $this->configuration->getConfigurationValue('Gerrit');
@@ -114,26 +118,6 @@ class CrawlCommand extends GerrieBaseCommand
         }
 
         $this->outputEndMessage($output);
-    }
-
-    /**
-     * Executed the "gerrie:create-database" command to setup the database.
-     *
-     * @param OutputInterface $output
-     * @throws \Exception
-     * @return void
-     */
-    protected function setupDatabaseCommand(OutputInterface $output)
-    {
-        // Run gerrie:create-database-Command
-        $output->writeln('<info>Check database ...</info>');
-
-        $command = $this->getApplication()->find('gerrie:create-database');
-        $arguments = array(
-            'command' => 'gerrie:create-database',
-        );
-        $input = new ArrayInput($arguments);
-        $command->run($input, $output);
     }
 
     protected function outputStartMessage(OutputInterface $output)
