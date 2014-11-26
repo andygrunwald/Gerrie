@@ -6,6 +6,12 @@ Database
 TODO:
 * Add a note that we currently support MySQL only
 
+.. image:: ./../_static/eer-diagram.png
+
+Foo
+
+.. image:: ./../_static/eer-diagram.svg
+
 .. note::
 
     This is optional. You can load some base data for development usage (i.e. not in production):
