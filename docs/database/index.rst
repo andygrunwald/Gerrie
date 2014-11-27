@@ -33,4 +33,9 @@ Below you will find a visualisation of the database scheme as entity relationshi
 .. image:: ./../_static/eer-diagram.png
     :target: ./../_static/eer-diagram.svg
 
+This entity relationship model was created with `MySQLWorkbench`_.
+If you want to get a deeper look at this schema to investigate it, you can install MySQLWorkbench and load the source file `eer-diagram.mwb`_.
+
 .. _MySQL: http://www.mysql.com/
+.. _MySQLWorkbench: http://www.mysql.com/products/workbench/
+.. _eer-diagram.mwb: https://github.com/andygrunwald/Gerrie/raw/master/docs/database/EER-Diagram.mwb
