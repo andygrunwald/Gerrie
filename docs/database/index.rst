@@ -1,23 +1,36 @@
 Database
 ###############
 
-@TODO Database
-
-TODO:
-* Add a note that we currently support MySQL only
-
-.. image:: ./../_static/eer-diagram.png
-
-Foo
-
-.. image:: ./../_static/eer-diagram.svg
+Supported databases
+=====================
+Currently *Gerrie* supports only `MySQL`_.
 
 .. note::
 
-    This is optional. You can load some base data for development usage (i.e. not in production):
+    You want to support another database like PostgreSQL or a NoSQL database?
+    Feel free to :doc:`contribute</contributing/index>`. This is _very_ welcome!
 
-    .. sourcecode:: bash
+Setup the schema
+=====================
+To setup the schema the database itselfs has to be exists.
+Please create this database before using *Gerrie*.
+A command can look like
 
-        python manage.py load_dev_data
+.. sourcecode:: sql
 
-    Grids will not be listed on the homepage, but they are available on /grids/
+        CREATE DATABASE gerrie;
+
+Based upon this you can create the database schema.
+The :doc:`gerrie:setup-database command</commands/setup_database>` will help you to setup the database schema.
+
+Schema
+=======
+To query the database and answer questions based on this data it is important that you will understand how the data is structured.
+MySQL is a typical RDBMS.
+So we use a typical table / column schema to reflect the complex data structure of Gerrit.
+Below you will find a visualisation of the database scheme as entity relationship model.
+
+.. image:: ./../_static/eer-diagram.png
+    :target: ./../_static/eer-diagram.svg
+
+.. _MySQL: http://www.mysql.com/
