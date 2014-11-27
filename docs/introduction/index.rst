@@ -32,7 +32,7 @@ The :doc:`commands section</commands/index>` will explain the functionality of a
 
 As a business analyst / data science engineer / math or numbers lover you can retrieve data and get an understanding of the database structure in the :doc:`database chapter</database/index>`.
 
-You want to contribute? Great! Get more information in the :doc:`contribution chapter</contribution/index>`.
+You want to contribute? Great! Get more information in the :doc:`contribution chapter</contributing/index>`.
 
 .. _Gerrie: https://andygrunwald.github.io/Gerrie/
 .. _Gerrit: https://code.google.com/p/gerrit/
