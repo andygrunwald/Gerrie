@@ -10,7 +10,7 @@ Current checks are:
 
 * if the PHP extension `curl` is installed
 * if the PHP extension `PDO` is installed
-* if the PHP extension `pdo_mysql`is installed
+* if the PHP extension `pdo_mysql` is installed
 * if SSH is installed and usable
 * if the config file can be found
 * if the config file is valid
@@ -168,7 +168,7 @@ Both connection kinds can fail and will output a error message like
 Please read further to fight against your issue.
 
 Connection via SSH
-------
+-------------------
 The SSH API is a little bit tricky.
 
 At first the Gerrit instance must support access by SSH.
@@ -194,7 +194,7 @@ A valid response should be
 If you see something like "Access denied" please check your private / public key pair.
 
 Connection via HTTP(S)
---------
+-----------------------
 The HTTP(S) API is a little bit more easier to use than the SSH API.
 Mostly every current version of Gerrit supports the REST-API.
 
