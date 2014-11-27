@@ -12,6 +12,7 @@
 After the transformation the data can be used to start simple queries or complex analysis. One usecase is to analyze communites which use *Gerrit* like [TYPO3](https://review.typo3.org/), [Wikimedia](https://gerrit.wikimedia.org/), [Android](https://android-review.googlesource.com/), [Qt](https://codereview.qt-project.org/), [Eclipse](https://git.eclipse.org/r/) and [many more](http://en.wikipedia.org/wiki/Gerrit_(software)#Notable_users).
 
 * Website: [andygrunwald.github.io/Gerrie](https://andygrunwald.github.io/Gerrie/)
+* Source code: [Gerrie @ GitHub](https://github.com/andygrunwald/Gerrie)
 * Documentation: [*Gerrie* @ Read the Docs](https://gerrie.readthedocs.org/en/latest/)
 
 ## Features
