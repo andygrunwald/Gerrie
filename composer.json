@@ -24,9 +24,9 @@
     },
     "require": {
         "php": ">=5.4.0",
-        "symfony/class-loader": "2.5.*",
-        "symfony/console": "2.5.*",
-        "symfony/yaml": "2.5.*",
+        "symfony/class-loader": "2.6.*",
+        "symfony/console": "2.6.*",
+        "symfony/yaml": "2.6.*",
         "kriswallsmith/buzz": "0.13"
     },
     "require-dev": {
