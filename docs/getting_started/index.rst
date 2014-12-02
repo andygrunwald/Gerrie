@@ -65,7 +65,7 @@ If everything is fine start crawling:
 
 .. code::
 
-    ./gerrie gerrie:crawl --config-file="./Config.yml"
+    $ ./gerrie gerrie:crawl --config-file="./Config.yml"
 
 
 Now the crawler starts and is doing its job :beer:
