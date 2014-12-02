@@ -16,7 +16,7 @@ Database:
   Port: 3306
   # Database name
   # Status: Required
-  Name: gerrit
+  Name: gerrie
 
 #
 # SSH settings
