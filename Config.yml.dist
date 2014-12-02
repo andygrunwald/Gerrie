@@ -28,7 +28,14 @@ SSH:
 
 #
 # Gerrit server / instances / projects
-# n server can be configured
+# You can configure as much server / instances as you want per project.
+# See the 5 dummy instances in the TYPO3 project below.
+#
+# The same rule applies on the project itselfs.
+# You can add as much projects you want.
+# Just open a new namespace and go for it.
+# As an example have a look at TYPO3 and Wikimedia
+#
 # Status: Required
 #
 Gerrit:
