@@ -25,7 +25,7 @@ Copy config file and adjust configuration (*Database*, *SSH*, *Gerrit*):
 
 A minimalistic configuration for the *TYPO3 Gerrit instance* with the user *max.mustermann* can look like:
 
-.. code::yaml
+.. code:: yaml
 
     Database:
       Host: 127.0.0.1
