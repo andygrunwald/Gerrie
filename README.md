@@ -34,24 +34,48 @@ $ git clone https://github.com/andygrunwald/Gerrie.git .
 $ composer install
 ```
 
+Copy config file and adjust configuration (*Database*, *SSH*, *Gerrit*):
+```
+$ cp Config.yml.dist Config.yml
+$ vim Config.yml
+```
+
+A minimalistic configuration for the *TYPO3 Gerrit instance* with the user *max.mustermann* can look like:
+```yaml
+Database:
+  Host: 127.0.0.1
+  Username: root
+  Password:
+  Port: 3306
+  Name: gerrie
+
+SSH:
+  KeyFile: /Users/max/.ssh/id_rsa_gerrie
+
+Gerrit:
+  TYPO3:
+    - ssh://max.mustermann@review.typo3.org:29418/
+```
+
 Create a new database in your database with name *gerrie* and setup database scheme:
 ```
-$ ./gerrie gerrie:setup-database --database-host=localhost --database-user=root --database-name=gerrie
+$ mysql -u root -e "CREATE DATABASE gerrie;"
+$ ./gerrie gerrie:setup-database --config-file="./Config.yml"
 ```
 
 Create an account (e.g. *max.mustermann*) in the Gerrit instance you want to crawl (e.g. *review.typo3.org:29418*), add your SSH public key to the Gerrit instance and execute the *gerrie:check* command to check your environment:
 ```
-$ ./gerrie gerrie:check --database-host=localhost --database-user=root --database-name=gerrie --ssh-key=/Path/To/.ssh/private_key ssh://max.mustermann@review.typo3.org:29418/
+$ ./gerrie gerrie:check --config-file="./Config.yml"
 ```
 
-**Important:**
+> **Important:**
 If your SSH key is protected by a passphrase this check will ask you to enter your passphrase to use the private key for this connection.
 Gerrie does not save or transfer this passphrase to any foreign server.
 The private key is only necessary to authenticate against the Gerrit instance.
 
 If everything is fine start crawling:
 ```
-$ ./gerrie gerrie:crawl --database-host=localhost --database-user=root --database-name=gerrie --ssh-key=/Path/To/.ssh/private_key ssh://max.mustermann@review.typo3.org:29418/
+$ ./gerrie gerrie:crawl --config-file="./Config.yml"
 ```
 
 Now the crawler starts and is doing its job :beer:
