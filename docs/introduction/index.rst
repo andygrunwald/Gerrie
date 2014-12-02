@@ -15,7 +15,7 @@ Features
 
 * Full imports
 * Incremental imports
-* Full support of SSH-API
+* Full support of SSH API
 * Command line interface
 * MySQL as storage backend
 * Debugging functionality

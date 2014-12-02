@@ -19,7 +19,7 @@ After the transformation the data can be used to start simple queries or complex
 
 * Full imports
 * Incremental imports
-* Full support of SSH-API
+* Full support of SSH API
 * Command line interface
 * MySQL as storage backend
 * Debugging functionality

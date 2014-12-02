@@ -22,7 +22,7 @@ Database:
 # SSH settings
 #
 SSH:
-  # SSH-Key which will be used for the SSH-API
+  # SSH-Key which will be used for the SSH API
   # Status: Optional
   KeyFile:
 
