@@ -44,6 +44,11 @@ Create an account (e.g. *max.mustermann*) in the Gerrit instance you want to cra
 $ ./gerrie gerrie:check --database-host=localhost --database-user=root --database-name=gerrie --ssh-key=/Path/To/.ssh/private_key ssh://max.mustermann@review.typo3.org:29418/
 ```
 
+**Important:**
+If your SSH key is protected by a passphrase this check will ask you to enter your passphrase to use the private key for this connection.
+Gerrie does not save or transfer this passphrase to any foreign server.
+The private key is only necessary to authenticate against the Gerrit instance.
+
 If everything is fine start crawling:
 ```
 $ ./gerrie gerrie:crawl --database-host=localhost --database-user=root --database-name=gerrie --ssh-key=/Path/To/.ssh/private_key ssh://max.mustermann@review.typo3.org:29418/
