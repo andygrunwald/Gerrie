@@ -29,13 +29,13 @@ After the transformation the data can be used to start simple queries or complex
 ## Getting started
 
 Download application and install dependencies:
-```
+```bash
 $ git clone https://github.com/andygrunwald/Gerrie.git .
 $ composer install
 ```
 
 Copy config file and adjust configuration (*Database*, *SSH*, *Gerrit*):
-```
+```bash
 $ cp Config.yml.dist Config.yml
 $ vim Config.yml
 ```
@@ -58,13 +58,13 @@ Gerrit:
 ```
 
 Create a new database in your database with name *gerrie* and setup database scheme:
-```
+```bash
 $ mysql -u root -e "CREATE DATABASE gerrie;"
 $ ./gerrie gerrie:setup-database --config-file="./Config.yml"
 ```
 
 Create an account (e.g. *max.mustermann*) in the Gerrit instance you want to crawl (e.g. *review.typo3.org:29418*), add your SSH public key to the Gerrit instance and execute the *gerrie:check* command to check your environment:
-```
+```bash
 $ ./gerrie gerrie:check --config-file="./Config.yml"
 ```
 
@@ -74,7 +74,7 @@ Gerrie does not save or transfer this passphrase to any foreign server.
 The private key is only necessary to authenticate against the Gerrit instance.
 
 If everything is fine start crawling:
-```
+```bash
 $ ./gerrie gerrie:crawl --config-file="./Config.yml"
 ```
 
