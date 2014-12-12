@@ -39,5 +39,8 @@
     },
     "bin": [
         "gerrie"
-    ]
+    ],
+    "config": {
+        "bin-dir": "bin"
+    }
 }
