@@ -7,14 +7,23 @@ php:
     - hhvm
     - hhvm-nightly
 
+# Faster builds on new travis setup not using sudo
+sudo: false
+
+# Cache dependencies
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
+
 matrix:
     allow_failures:
         - php: hhvm
         - php: hhvm-nightly
 
 before_script:
-    - composer self-update
-    - composer install --dev
+    - travis_retry composer self-update && composer --version
+    - travis_retry composer install --dev --prefer-dist --no-interaction
 
 script:
     - ./bin/phpunit --coverage-clover=coverage.clover
