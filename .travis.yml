@@ -26,7 +26,8 @@ before_script:
     - travis_retry composer install --dev --prefer-dist --no-interaction
 
 script:
-    - ./bin/phpunit --coverage-clover=coverage.clover
+    - sh -c "if [ '$TRAVIS_PHP_VERSION' != '5.6' ]; then ./bin/phpunit; fi"
+    - sh -c "if [ '$TRAVIS_PHP_VERSION' = '5.6' ]; then  ./bin/phpunit --coverage-clover=coverage.clover; fi"
 
 after_script:
   - sh -c "if [ '$TRAVIS_PHP_VERSION' = '5.6' ]; then wget https://scrutinizer-ci.com/ocular.phar; fi"
