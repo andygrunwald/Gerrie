@@ -2003,19 +2003,13 @@ class Gerrie
      */
     public function importProject(array $info, array &$parentMapping)
     {
-        $this->output('Project "' . $info['_name'] . '"');
+        $this->output('Project "' . $info['name'] . '"');
 
-        $row = $this->existsGerritProject($info['_name'], $this->getServerId());
+        $row = $this->existsGerritProject($info['name'], $this->getServerId());
 
-        // TODO remove if transformer is finished
-        $projectRow = array(
-            'server_id' => $this->getServerId(),
-            'identifier' => ((isset($info['id']) === true) ? $info['id'] : ''),
-            'name' => $info['_name'],
-            'description' => ((isset($info['description']) === true) ? $info['description'] : ''),
-            'kind' => ((isset($info['kind']) === true) ? $info['kind'] : ''),
-            'state' => ((isset($info['state']) === true) ? $info['state'] : '')
-        );
+        // TODO remove obsolete assignment
+        $projectRow = $info;
+        $projectRow['server_id'] = $this->getServerId();
 
         // If we don`t know this project, save this!
         if ($row === false) {
