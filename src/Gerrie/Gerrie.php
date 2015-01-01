@@ -1105,7 +1105,10 @@ class Gerrie
     }
 
     /**
-     * Unsets an amount of keys in goven $data
+     * Unsets an amount of keys in given $data
+     *
+     * TODO If every API source / data set will be transformed, this function is not necessary anymore
+     * See Gerrie\Transformer\DebugTransformDecorator
      *
      * @param array $data Data array where the keys will be unset
      * @param array $keyList List of keys which will be unset
@@ -1385,6 +1388,9 @@ class Gerrie
      * c) a bug, because not all values are exported / proceeded
      *
      * This methods help to detect this :)
+     *
+     * TODO If every API source / data set will be transformed, this function is not necessary anymore
+     * See Gerrie\Transformer\DebugTransformDecorator
      *
      * @param array $data Data to inspect
      * @param string $level Level of data. e.g. patchset, comment, etc.
