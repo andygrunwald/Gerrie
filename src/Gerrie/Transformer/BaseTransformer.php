@@ -41,6 +41,15 @@ abstract class BaseTransformer implements TransformerInterface
     }
 
     /**
+     * Returns the supported index names by the Gerrit API.
+     *
+     * @return array
+     */
+    public function getSupportedKeys() {
+        return $this->supportedKeys;
+    }
+
+    /**
      * Checks if the current data transformer is responsible to transform the given data.
      *
      * @return boolean

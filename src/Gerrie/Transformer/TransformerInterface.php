@@ -29,6 +29,13 @@ interface TransformerInterface
     public function getData();
 
     /**
+     * Returns the supported index names by the Gerrit API.
+     *
+     * @return array
+     */
+    public function getSupportedKeys();
+
+    /**
      * Checks if the current data transformer is responsible to transform the given data.
      *
      * @return boolean

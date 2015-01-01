@@ -14,6 +14,19 @@ class ProjectTransformer extends BaseTransformer
 {
 
     /**
+     * Supported index names returned by the Gerrie API.
+     *
+     * @var array
+     */
+    protected $supportedKeys = [
+        'description',
+        'parent',
+        'id',
+        'kind',
+        'state'
+    ];
+
+    /**
      * Transforms the data into one unique format
      *
      * @return array
