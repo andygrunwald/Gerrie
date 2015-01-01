@@ -22,6 +22,7 @@ class ProjectTransformer extends BaseTransformer
     {
         $data = $this->getData();
 
+        // TODO Check "parent" key
         $transformedData = array(
             'identifier' => ((isset($data['id']) === true) ? $data['id'] : ''),
             'name' => $data['_name'],
