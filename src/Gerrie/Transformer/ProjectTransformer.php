@@ -19,9 +19,11 @@ class ProjectTransformer extends BaseTransformer
      * @var array
      */
     protected $supportedKeys = [
-        'description',
-        'parent',
         'id',
+        // _name is a self added key by Gerrie. This is not a key received by the Gerrit API!
+        '_name',
+        'description',
+        // 'parent',
         'kind',
         'state'
     ];
