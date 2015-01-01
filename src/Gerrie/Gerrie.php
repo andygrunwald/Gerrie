@@ -435,7 +435,7 @@ class Gerrie
             throw new \Exception('No projects found on "' . $host . '"!', 1363894633);
         }
 
-        $projectTransformer = TransformerFactory::getTransformer('Project', false);
+        $projectTransformer = TransformerFactory::getTransformer('Project', $this->isDebugFunctionalityEnables());
 
         $transformedProjects = [];
         foreach ($projects as $name => $project) {
