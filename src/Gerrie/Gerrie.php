@@ -27,7 +27,7 @@ namespace Gerrie;
 
 use Gerrie\Component\Database\Database;
 use Gerrie\Component\DataService\DataServiceInterface;
-use Gerrie\Transformer\ProjectTransformer;
+use Gerrie\Transformer\TransformerFactory;
 
 class Gerrie
 {
@@ -428,7 +428,7 @@ class Gerrie
             throw new \Exception('No projects found on "' . $host . '"!', 1363894633);
         }
 
-        $projectTransformer = new ProjectTransformer();
+        $projectTransformer = TransformerFactory::getTransformer('Project', false);
 
         $transformedProjects = [];
         foreach ($projects as $name => $project) {
