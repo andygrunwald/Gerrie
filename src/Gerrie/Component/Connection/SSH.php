@@ -145,7 +145,6 @@ class SSH
      */
     private function execCommand($command, array $data)
     {
-
         exec($command, $data);
 
         return $data;
