@@ -123,6 +123,13 @@ class Gerrie
     const OUTPUT_ERROR = 3;
 
     /**
+     * Switch for debug functionality
+     *
+     * @var bool
+     */
+    protected $debug = false;
+
+    /**
      * Constructor
      *
      * @param Database $database The database helper object
@@ -2170,5 +2177,35 @@ class Gerrie
 
         $query = 'TRUNCATE ' . Database::TABLE_TMP_DEPENDS_NEEDED;
         $dbHandle->query($query);
+    }
+
+    /**
+     * Enables the debug functionality.
+     *
+     * @return void
+     */
+    public function enableDebugFunctionality()
+    {
+        $this->debug = true;
+    }
+
+    /**
+     * Disables the debug functionality.
+     *
+     * @return void
+     */
+    public function disableDebugFunctionality()
+    {
+        $this->debug = false;
+    }
+
+    /**
+     * Returns true if the debug functionality is enabled.
+     *
+     * @return bool
+     */
+    public function isDebugFunctionalityEnables()
+    {
+        return $this->debug;
     }
 }

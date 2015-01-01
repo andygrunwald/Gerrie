@@ -54,6 +54,7 @@ class CrawlCommand extends GerrieBaseCommand
         $this->addDatabaseOptions();
         $this->addSSHKeyOption();
         $this->addSetupDatabaseOption();
+        $this->addDebugOption();
         $this->addInstancesArgument();
     }
 
@@ -116,11 +117,16 @@ class CrawlCommand extends GerrieBaseCommand
                 $dataService = DataServiceFactory::getDataService($instanceConfig);
 
                 // Bootstrap the importer
-                $gerrit = new Gerrie($this->database, $dataService, $gerritSystem);
-                $gerrit->setOutput($output);
+                $gerrie = new Gerrie($this->database, $dataService, $gerritSystem);
+                $gerrie->setOutput($output);
+                if ($input->getOption('debug') === true) {
+                    $gerrie->enableDebugFunctionality();
+                } else {
+                    $gerrie->disableDebugFunctionality();
+                }
 
                 // Start the crawling action
-                $gerrit->crawl();
+                $gerrie->crawl();
             }
         }
 

@@ -77,6 +77,24 @@ class GerrieBaseCommand extends Command
     }
 
     /**
+     * Adds the "debug" option.
+     * This option enables various debug functionalities like
+     * * Check if every data key received by Gerrit is proceeded by Gerrie
+     * * Check if an update was processed if the server is crawled the first time
+     *
+     * @return void
+     */
+    protected function addDebugOption()
+    {
+        $this->addOption(
+            'debug',
+            'd',
+            InputOption::VALUE_NONE,
+            'Enables debug functionality.'
+        );
+    }
+
+    /**
      * Adds a argument of a possible list of instances.
      *
      * Format: scheme://username[:password]@host[:port]/
