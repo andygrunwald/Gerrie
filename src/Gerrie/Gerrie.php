@@ -435,7 +435,7 @@ class Gerrie
             throw new \Exception('No projects found on "' . $host . '"!', 1363894633);
         }
 
-        $projectTransformer = TransformerFactory::getTransformer('Project', $this->isDebugFunctionalityEnables());
+        $projectTransformer = TransformerFactory::getTransformer('Project', $this->isDebugFunctionalityEnabled());
 
         $transformedProjects = [];
         foreach ($projects as $name => $project) {
@@ -2204,7 +2204,7 @@ class Gerrie
      *
      * @return bool
      */
-    public function isDebugFunctionalityEnables()
+    public function isDebugFunctionalityEnabled()
     {
         return $this->debug;
     }
