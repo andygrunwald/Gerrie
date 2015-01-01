@@ -1985,8 +1985,8 @@ class Gerrie
         $parentMapping = array();
 
         // Loop over projects to proceed every single project
-        foreach ($projects as $name => $info) {
-            $this->importProject($name, $info, $parentMapping);
+        foreach ($projects as $project) {
+            $this->importProject($project, $parentMapping);
         }
 
         // Correct parent / child relation of projects
@@ -1997,22 +1997,21 @@ class Gerrie
      * Imports a single project.
      * We save name, description and parent project.
      *
-     * @param string $name Project name
      * @param array $info Project info like description or parent project
      * @param array $parentMapping Array where parent / child releation will be saved
      * @return int
      */
-    public function importProject($name, array $info, array &$parentMapping)
+    public function importProject(array $info, array &$parentMapping)
     {
-        $this->output('Project "' . $name . '"');
+        $this->output('Project "' . $info['_name'] . '"');
 
-        $row = $this->existsGerritProject($name, $this->getServerId());
+        $row = $this->existsGerritProject($info['_name'], $this->getServerId());
 
         // TODO remove if transformer is finished
         $projectRow = array(
             'server_id' => $this->getServerId(),
             'identifier' => ((isset($info['id']) === true) ? $info['id'] : ''),
-            'name' => $name,
+            'name' => $info['_name'],
             'description' => ((isset($info['description']) === true) ? $info['description'] : ''),
             'kind' => ((isset($info['kind']) === true) ? $info['kind'] : ''),
             'state' => ((isset($info['state']) === true) ? $info['state'] : '')
