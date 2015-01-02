@@ -37,14 +37,14 @@ class ProjectTransformer extends BaseTransformer
     {
         $data = $this->getData();
 
-        $transformedData = array(
+        $transformedData = [
             'identifier' => ((isset($data['id']) === true) ? $data['id'] : ''),
             'name' => $data['_name'],
             'description' => ((isset($data['description']) === true) ? $data['description'] : ''),
             'kind' => ((isset($data['kind']) === true) ? $data['kind'] : ''),
             'state' => ((isset($data['state']) === true) ? $data['state'] : ''),
             'parent' => ((isset($data['parent']) === true) ? $data['parent'] : '')
-        );
+        ];
 
         return $transformedData;
     }
