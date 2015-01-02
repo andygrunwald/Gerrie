@@ -6,6 +6,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'Bootstrap.php';
 use Gerrie\Command\SetupDatabaseCommand;
 use Gerrie\Command\CrawlCommand;
 use Gerrie\Command\CheckCommand;
+use Gerrie\Command\ListProjectsCommand;
 use Symfony\Component\Console\Application;
 
 // Use extended version of ArgvInput,
@@ -16,4 +17,5 @@ $application = new Application('Gerrie', '0.2.0-dev');
 $application->add(new SetupDatabaseCommand());
 $application->add(new CrawlCommand());
 $application->add(new CheckCommand());
+$application->add(new ListProjectsCommand());
 $application->run($argvInputExtended);

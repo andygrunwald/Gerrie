@@ -10,32 +10,13 @@
 
 namespace Gerrie\Command;
 
-use Gerrie\Gerrie;
 use Gerrie\Component\Configuration\ConfigurationFactory;
-use Gerrie\Component\Configuration\CommandConfiguration;
-use Gerrie\Component\Database\Database;
 use Gerrie\Component\DataService\DataServiceFactory;
-use Gerrie\Component\Console\InputExtendedInterface;
-use Gerrie\Service\DatabaseService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CrawlCommand extends GerrieBaseCommand
+class ListProjectsCommand extends GerrieBaseCommand
 {
-
-    /**
-     * Command name
-     *
-     * @var string
-     */
-    const COMMAND_NAME = 'Crawl';
-
-    /**
-     * Database object
-     *
-     * @var \Gerrie\Component\Database\Database
-     */
-    protected $database = null;
 
     /**
      * Configuration object
@@ -47,14 +28,11 @@ class CrawlCommand extends GerrieBaseCommand
     protected function configure()
     {
         $this
-            ->setName('gerrie:crawl')
-            ->setDescription('Crawls a Gerrit review system and stores the into a database');
+            ->setName('gerrie:list-projects')
+            ->setDescription('List/Displays all projects of a Gerrit instance');
 
         $this->addConfigFileOption();
-        $this->addDatabaseOptions();
         $this->addSSHKeyOption();
-        $this->addSetupDatabaseOption();
-        $this->addDebugOption();
         $this->addInstancesArgument();
     }
 
@@ -64,35 +42,24 @@ class CrawlCommand extends GerrieBaseCommand
 
         $configFile = $input->getOption('config-file');
         $this->configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptionsAndArguments($configFile, $input);
-
-        $databaseConfig = $this->configuration->getConfigurationValue('Database');
-        $this->database = new Database($databaseConfig);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /** @var InputExtendedInterface $input */
-        $this->outputStartMessage($output);
-
-        // If we enable the "setup-database-tables" setting, we will check if the necessary tables
-        // are already there. If not we will try to setup / create them.
-        // Try, because this process can fail due to missing access rights of the database user.
-        // If the user got the needed rights, everything will work fine ;)
-        if ($input->getOption('setup-database-tables') === true) {
-            $databaseService = new DatabaseService($this->database, $output);
-            $databaseService->setupDatabaseTables();
-        }
 
         // Start the importer for each configured project
         $gerritSystems = $this->configuration->getConfigurationValue('Gerrit');
         $defaultSSHKeyFile = $this->configuration->getConfigurationValue('SSH.KeyFile');
 
+        $i = 0;
         foreach ($gerritSystems as $name => $gerrieProject) {
             $gerritSystem['Name'] = $name;
 
             foreach ($gerrieProject as $gerritInstance) {
+                $path = parse_url($gerritInstance);
 
-                // TODO Extract this Instance Key part here. This is the same as in "ListProjectsCommand".
+                // TODO Extract this Instance Key part here. This is the same as in "CrawlCommand".
                 // Get instance url
                 // If the instance is a string, we only got a url path like scheme://user@url:port/
                 if (is_string($gerritInstance)) {
@@ -116,35 +83,29 @@ class CrawlCommand extends GerrieBaseCommand
                 }
 
                 $dataService = DataServiceFactory::getDataService($instanceConfig);
+                $projects = $dataService->getProjects();
 
-                // Bootstrap the importer
-                $gerrie = new Gerrie($this->database, $dataService, $gerritSystem);
-                $gerrie->setOutput($output);
-                if ($input->getOption('debug') === true) {
-                    $gerrie->enableDebugFunctionality();
-                } else {
-                    $gerrie->disableDebugFunctionality();
+                if (is_array($projects) === false) {
+                    throw new \Exception('No projects found on "' . $path['host'] . '"!', 1363894633);
                 }
 
-                // Start the crawling action
-                $gerrie->crawl();
+                if ($i >= 1) {
+                    $output->writeln('');
+                }
+
+                $headline = '<comment>Instance: %s (via %s)</comment>';
+                $headline = sprintf($headline, $path['host'], $dataService->getName());
+                $output->writeln($headline);
+                $output->writeln('<comment>' . str_repeat('=', 40) . '</comment>');
+
+                foreach ($projects as $name => $project) {
+                    $message = '<info>%s</info>';
+                    $message = sprintf($message, $name);
+                    $output->writeln($message);
+                }
+
+                $i++;
             }
         }
-
-        $this->outputEndMessage($output);
-    }
-
-    protected function outputStartMessage(OutputInterface $output)
-    {
-        $output->writeln('');
-        $output->writeln('<comment>Starting application "' . self::COMMAND_NAME . '"</comment>');
-        $output->writeln('');
-    }
-
-    protected function outputEndMessage(OutputInterface $output)
-    {
-        $output->writeln('');
-        $output->writeln('<comment>Application "' . self::COMMAND_NAME . '" finished</comment>');
-        $output->writeln('');
     }
 }
