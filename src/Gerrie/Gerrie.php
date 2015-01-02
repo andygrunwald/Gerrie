@@ -2057,9 +2057,6 @@ class Gerrie
             $parentMapping[$info['parent']][] = intval($id);
         }
 
-        $info = $this->unsetKeys($info, array('description', 'parent', 'id', 'kind', 'state'));
-        $this->checkIfAllValuesWereProceeded($info, 'Project');
-
         return $id;
     }
 
