@@ -2010,18 +2010,17 @@ class Gerrie
      * Imports a single project.
      * We save name, description and parent project.
      *
-     * @param array $info Project info like description or parent project
+     * @param array $project Project info like description or parent project
      * @param array $parentMapping Array where parent / child releation will be saved
      * @return int
      */
-    public function importProject(array $info, array &$parentMapping)
+    public function importProject(array $project, array &$parentMapping)
     {
-        $this->output('Project "' . $info['name'] . '"');
+        $this->output('Project "' . $project['name'] . '"');
 
-        $row = $this->existsGerritProject($info['name'], $this->getServerId());
+        $row = $this->existsGerritProject($project['name'], $this->getServerId());
 
-        // TODO remove obsolete assignment
-        $projectRow = $info;
+        $projectRow = $project;
         $projectRow['server_id'] = $this->getServerId();
 
         // If we don`t know this project, save this!
@@ -2053,8 +2052,8 @@ class Gerrie
         }
 
         // We have to save the parent / child relations of projects to execute bulk updates afterwards
-        if (isset($info['parent']) === true) {
-            $parentMapping[$info['parent']][] = intval($id);
+        if (isset($project['parent']) === true) {
+            $parentMapping[$project['parent']][] = intval($id);
         }
 
         return $id;
