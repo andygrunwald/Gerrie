@@ -23,7 +23,7 @@ class ProjectTransformer extends BaseTransformer
         // _name is a self added key by Gerrie. This is not a key received by the Gerrit API!
         '_name',
         'description',
-        // 'parent',
+        'parent',
         'kind',
         'state'
     ];
