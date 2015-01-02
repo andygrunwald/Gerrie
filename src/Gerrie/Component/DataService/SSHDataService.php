@@ -61,6 +61,7 @@ class SSHDataService extends BaseDataService
         $connector->addArgument('--tree', '', '');
         $connector->addArgument('--type', 'all', ' ');
         $connector->addArgument('--all', '', '');
+        // TODO
         // The ls-projects command supports a "limit" argument
         // The default limit from Gerrit is 500.
         // What happen when the Gerrit system got more then 500 projects?
