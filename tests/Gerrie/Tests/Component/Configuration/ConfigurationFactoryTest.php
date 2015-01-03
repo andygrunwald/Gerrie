@@ -24,6 +24,16 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
         return $configFile;
     }
 
+    protected function getDummyInstances()
+    {
+        $instances = [
+            'ssh://max.mustermann@review.typo3.org:29418/',
+            'https://max.mustermann:password@gerrit.wikimedia.org/r/'
+        ];
+
+        return $instances;
+    }
+
     /**
      * @expectedException     \RuntimeException
      * @expectedExceptionCode 1415381521
@@ -42,9 +52,9 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('root', $configuration->getConfigurationValue('Database.Username'));
     }
 
-    protected function getArgvInputExtendedMockObject($isConfigFileOptionSet)
+    protected function getArgvInputExtendedMockObject($withConfigFileOption, $withInstancesArguments = false, $dummyInstances = false)
     {
-        $mockedMethods = ['isOptionSet', 'getOption', 'getArgument'];
+        $mockedMethods = ['isOptionSet', 'getOption', 'getArgument', 'hasArgument'];
         $argvInputExtended = $this->getMock('Gerrie\Component\Console\ArgvInputExtended', $mockedMethods);
         $argvInputExtended->expects($this->any())
             ->method('isOptionSet')
@@ -57,7 +67,7 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
                 array($this->equalTo('database-name'))
             )
             ->willReturnOnConsecutiveCalls(
-                $this->returnValue($isConfigFileOptionSet),
+                $this->returnValue($withConfigFileOption),
                 $this->returnValue(true),
                 $this->returnValue(true),
                 $this->returnValue(false),
@@ -79,10 +89,31 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
             );
 
         $argvInputExtended->expects($this->any())
-            ->method('getArgument')
+            ->method('hasArgument')
             ->with($this->equalTo('instances'))
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue($withInstancesArguments));
 
+        if ($withInstancesArguments === true && $dummyInstances === true) {
+            $instances = $this->getDummyInstances();
+            $argvInputExtended->expects($this->any())
+                ->method('getArgument')
+                ->with($this->equalTo('instances'))
+                ->will($this->returnValue($instances));
+        }
+        /*
+        if ($withInstancesArguments === false) {
+
+
+
+
+
+        } else {
+            $argvInputExtended->expects($this->any())
+                ->method('hasArgument')
+                ->with($this->equalTo('instances'))
+                ->will($this->returnValue(true));
+        }
+*/
         return $argvInputExtended;
     }
 
@@ -115,5 +146,40 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('USER', $configuration->getConfigurationValue('Database.Username'));
         $this->assertEquals(null, $configuration->getConfigurationValue('Database.Password'));
         $this->assertEquals('PORT', $configuration->getConfigurationValue('Database.Port'));
+    }
+
+    public function testGetConfigurationByConfigFileAndCommandOptionsAndArgumentsWitZeroInstanceArgument()
+    {
+        $argvInputExtended = $this->getArgvInputExtendedMockObject(false, true);
+
+        $configFile = $this->getFixtureConfigFilePath();
+        $configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptionsAndArguments($configFile, $argvInputExtended);
+
+        $this->assertInstanceOf('Gerrie\Component\Configuration\Configuration', $configuration);
+
+        $this->assertEquals('HOST', $configuration->getConfigurationValue('Database.Host'));
+        $this->assertEquals('USER', $configuration->getConfigurationValue('Database.Username'));
+        $this->assertEquals(null, $configuration->getConfigurationValue('Database.Password'));
+        $this->assertEquals('PORT', $configuration->getConfigurationValue('Database.Port'));
+        $this->assertEquals(null, $configuration->getConfigurationValue('Gerrit.Gerrie'));
+    }
+
+    public function testGetConfigurationByConfigFileAndCommandOptionsAndArgumentsWitDummyInstanceArgument()
+    {
+        $argvInputExtended = $this->getArgvInputExtendedMockObject(false, true, true);
+
+        $configFile = $this->getFixtureConfigFilePath();
+        $configuration = ConfigurationFactory::getConfigurationByConfigFileAndCommandOptionsAndArguments($configFile, $argvInputExtended);
+
+        $this->assertInstanceOf('Gerrie\Component\Configuration\Configuration', $configuration);
+
+        $this->assertEquals('HOST', $configuration->getConfigurationValue('Database.Host'));
+        $this->assertEquals('USER', $configuration->getConfigurationValue('Database.Username'));
+        $this->assertEquals(null, $configuration->getConfigurationValue('Database.Password'));
+        $this->assertEquals('PORT', $configuration->getConfigurationValue('Database.Port'));
+        $this->assertInternalType('array', $configuration->getConfigurationValue('Gerrit.Gerrie'));
+
+        $instances = $this->getDummyInstances();
+        $this->assertEquals($instances, $configuration->getConfigurationValue('Gerrit.Gerrie'));
     }
 }
