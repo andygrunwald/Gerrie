@@ -4,6 +4,7 @@ Commands
 .. toctree::
 	:maxdepth: 1
 
-	crawl
 	check
+	crawl
+	list_projects
 	setup_database
