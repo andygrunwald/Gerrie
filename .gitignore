@@ -5,6 +5,7 @@
 # Dependencies
 composer.phar
 vendor
+bin/*
 
 # Application files
 Config.yml
