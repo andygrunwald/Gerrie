@@ -10,12 +10,6 @@ php:
 # Faster builds on new travis setup not using sudo
 sudo: false
 
-# Cache dependencies
-#cache:
-#  directories:
-#    - vendor
-#    - $HOME/.composer/cache
-
 matrix:
     allow_failures:
         - php: hhvm
@@ -28,8 +22,9 @@ install:
     - travis_retry composer --dev --no-interaction install
 
 script:
-    - ./bin/phpunit --coverage-clover=coverage.clover
+    - sh -c "if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then ./bin/phpunit; fi"
+    - sh -c "if [ "$TRAVIS_PULL_REQUEST" = "false" ];  then ./bin/phpunit --coverage-clover=coverage.clover; fi"
 
 after_script:
-  - sh -c "if [ '$TRAVIS_PHP_VERSION' = '5.6' ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi"
-  - sh -c "if [ '$TRAVIS_PHP_VERSION' = '5.6' ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi"
+    - sh -c "if [ "$TRAVIS_PHP_VERSION" = "5.6" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi"
+    - sh -c "if [ "$TRAVIS_PHP_VERSION" = "5.6" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi"
