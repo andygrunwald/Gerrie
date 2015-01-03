@@ -46,7 +46,7 @@ class DatabaseConnectionCheckTest extends \PHPUnit_Framework_TestCase
 
     public function testCheckWithDatabaseConnection()
     {
-       $this->assertTrue($this->checkInstance->check());
+        $this->assertTrue($this->checkInstance->check());
     }
 
     public function testCheckWithoutDatabaseConnection()

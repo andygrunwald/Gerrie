@@ -42,7 +42,7 @@ class APIConnectionCheckTest extends \PHPUnit_Framework_TestCase
 
     public function testCheckWithVersion()
     {
-       $this->assertTrue($this->checkInstance->check());
+        $this->assertTrue($this->checkInstance->check());
     }
 
     public function testCheckWithoutVersion()

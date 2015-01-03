@@ -36,7 +36,7 @@ class PDOMySqlExtensionCheckTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('PHP Extensions "PDO" and "pdo_mysql" are required, but not available');
         }
 
-       $this->assertTrue($this->checkInstance->check());
+        $this->assertTrue($this->checkInstance->check());
     }
 
     public function testGetFailureMessage()

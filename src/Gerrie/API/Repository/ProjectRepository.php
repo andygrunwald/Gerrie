@@ -31,7 +31,8 @@ class ProjectRepository
      * @param DataServiceInterface $dataService
      * @param TransformerFactory $transformerFactory
      */
-    public function __construct(DataServiceInterface $dataService, TransformerFactory $transformerFactory) {
+    public function __construct(DataServiceInterface $dataService, TransformerFactory $transformerFactory)
+    {
         $this->setDataService($dataService);
         $this->setTransformerFactory($transformerFactory);
     }
@@ -41,7 +42,8 @@ class ProjectRepository
      *
      * @return DataServiceInterface
      */
-    public function getDataService() {
+    public function getDataService()
+    {
         return $this->dataService;
     }
 
@@ -51,7 +53,8 @@ class ProjectRepository
      * @param DataServiceInterface $dataService
      * @return void
      */
-    public function setDataService(DataServiceInterface $dataService) {
+    public function setDataService(DataServiceInterface $dataService)
+    {
         $this->dataService = $dataService;
     }
 
@@ -60,7 +63,8 @@ class ProjectRepository
      *
      * @return TransformerFactory
      */
-    public function getTransformerFactory() {
+    public function getTransformerFactory()
+    {
         return $this->transformerFactory;
     }
 
@@ -70,7 +74,8 @@ class ProjectRepository
      * @param TransformerFactory $transformerFactory
      * @return void
      */
-    public function setTransformerFactory(TransformerFactory $transformerFactory) {
+    public function setTransformerFactory(TransformerFactory $transformerFactory)
+    {
         $this->transformerFactory = $transformerFactory;
     }
 
@@ -82,7 +87,8 @@ class ProjectRepository
      * @return array
      * @throws \RuntimeException
      */
-    public function getProjects($debuggingEnabled = false) {
+    public function getProjects($debuggingEnabled = false)
+    {
         $dataService = $this->getDataService();
         $projects = $dataService->getProjects();
 

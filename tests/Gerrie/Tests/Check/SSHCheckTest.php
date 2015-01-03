@@ -32,7 +32,7 @@ class SSHCheckTest extends \PHPUnit_Framework_TestCase
 
     public function testCheck()
     {
-       $this->assertTrue($this->checkInstance->check());
+        $this->assertTrue($this->checkInstance->check());
     }
 
     public function testGetFailureMessage()
