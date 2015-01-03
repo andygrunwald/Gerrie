@@ -21,9 +21,11 @@ matrix:
         - php: hhvm
         - php: hhvm-nightly
 
-before_script:
+before_install:
     - travis_retry composer self-update && composer --version
-    - travis_retry composer install --dev --prefer-dist --no-interaction
+
+install:
+    - travis_retry composer --dev --no-interaction install
 
 script:
     - ./bin/phpunit --coverage-clover=coverage.clover
