@@ -27,6 +27,7 @@ namespace Gerrie;
 
 use Gerrie\Component\Database\Database;
 use Gerrie\API\DataService\DataServiceInterface;
+use Gerrie\API\Repository\ProjectRepository;
 use Gerrie\Transformer\TransformerFactory;
 
 class Gerrie
@@ -429,43 +430,9 @@ class Gerrie
     {
         $this->outputHeadline('Proceed Projects');
 
-        $projects = $this->getDataService()->getProjects();
-
-        if (is_array($projects) === false) {
-            throw new \Exception('No projects found on "' . $host . '"!', 1363894633);
-        }
-
-        $projectTransformer = TransformerFactory::getTransformer('Project', $this->isDebugFunctionalityEnabled());
-
-        $transformedProjects = [];
-        foreach ($projects as $name => $project) {
-            if (array_key_exists('_name', $project)) {
-                /**
-                 * In "$project" we do not get the name of the project.
-                 * The array index is the key.
-                 * We want to transform this name as well, so we add this information with a kind of
-                 * "reserved" keyword (prefixed with "_").
-                 * But if this key is already taken (maybe in feature versions) this exception
-                 * will be thrown and we have to take care about it and apply a change.
-                 * Maybe get rid of $name, because this information is already in $project?
-                 * Depends on the context.
-                 *
-                 * If you saw this exception during using Gerrie, please
-                 * * fix the bug described above yourself and make a pull request
-                 * * or open an issue on the github project that we can take care of this.
-                 *
-                 * Thanks.
-                 */
-                $exceptionMessage  = 'Key "_name" already exists. Maybe we can get rid of the $name var?';
-                $exceptionMessage .= 'Please search for this exception and read the comments.';
-                throw new \RuntimeException($exceptionMessage, 1420132548);
-            }
-            $project['_name'] = $name;
-
-            // Transform
-            $projectTransformer->setData($project);
-            $transformedProjects[$name] = $projectTransformer->transform();
-        }
+        $transformerFactory = new TransformerFactory();
+        $projectRepository = new ProjectRepository($this->getDataService(), $transformerFactory);
+        $transformedProjects = $projectRepository->getProjects($this->isDebugFunctionalityEnabled());
 
         $this->importProjects($transformedProjects);
     }
