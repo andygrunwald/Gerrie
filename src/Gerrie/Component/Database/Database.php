@@ -495,7 +495,7 @@ class Database
         $statement = $dbHandle->prepare($query);
         $executeResult = $statement->execute($valueSet);
 
-        $statement = $this->checkQueryError($statement, $executeResult, $valueSet);
+        $this->checkQueryError($statement, $executeResult, $valueSet);
         return $dbHandle->lastInsertId();
     }
 

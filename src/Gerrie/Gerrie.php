@@ -510,7 +510,7 @@ class Gerrie
         $this->cleanupTempTables();
 
         // Query the data till we receive all data
-        $startNum = $endNum = 0;
+        $startNum = 0;
 
         $sortKey = null;
         $changeSetQueryLimit = $dataService->getQueryLimit();

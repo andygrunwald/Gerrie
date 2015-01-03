@@ -27,8 +27,6 @@ function GerrieErrrorHandler($code, $message, $file, $line)
 {
     $message = $file . ' (Line: ' . $line . '): ' . $message . ' (' . $code . ')';
     throw new \RuntimeException($message, 1364035754);
-
-    return false;
 }
 
 set_error_handler('GerrieErrrorHandler');
