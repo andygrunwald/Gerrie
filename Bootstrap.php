@@ -34,5 +34,5 @@ function GerrieErrrorHandler($code, $message, $file, $line)
 set_error_handler('GerrieErrrorHandler');
 
 $loader = new UniversalClassLoader();
-$loader->registerNamespace('Gerrie', 'src');
+$loader->registerNamespace('Gerrie', ['src', 'tests']);
 $loader->register();
