@@ -70,16 +70,12 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
                           ->withConsecutive(
                               array($this->equalTo('database-host')),
                               array($this->equalTo('database-user')),
-                              //array($this->equalTo('database-pass')),
                               array($this->equalTo('database-port'))
-                              //array($this->equalTo('database-name'))
                           )
                           ->willReturnOnConsecutiveCalls(
                               $this->returnValue('HOST'),
                               $this->returnValue('USER'),
-                              //$this->returnValue('PASS'),
                               $this->returnValue('PORT')
-                              //$this->returnValue('NAME')
                           );
 
         $argvInputExtended->expects($this->any())
