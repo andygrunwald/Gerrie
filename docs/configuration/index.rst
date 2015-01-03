@@ -101,6 +101,14 @@ Here you can find a list of all supported options.
 +---------------------------+----------------+--------------------------------------------------------------------------------------+
 | --setup-database-tables   | -s             | Checks if necessary tables are already there. If not this tables will be setted up.  |
 +---------------------------+----------------+--------------------------------------------------------------------------------------+
+| --debug                   | -d             |  | Enables debug functionality.                                                      |
+|                           |                |  |                                                                                   |
+|                           |                |  | Debug functionality in this case means:.                                          |
+|                           |                |  | * If the API delivers more / additional data then expected / supported            |
+|                           |                |  |   Gerrie will check if the data is already handled.                               |
+|                           |                |  |   If not an exception will be thrown. In this case please open an issue with      |
+|                           |                |  |   detailed information about the Gerrit instance (e.g. URL, version)              |
++---------------------------+----------------+--------------------------------------------------------------------------------------+
 | --help                    | -h             | Display this help message.                                                           |
 +---------------------------+----------------+--------------------------------------------------------------------------------------+
 
