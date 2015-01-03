@@ -25,7 +25,7 @@ class Database
      *
      * @var array
      */
-    private $config = array();
+    private $config = [];
 
     /**
      * Table constants
@@ -79,7 +79,7 @@ class Database
      *
      * @var array
      */
-    protected $tableDefinition = array(
+    protected $tableDefinition = [
         // @todo add unique stuff
         'gerrie_server' => "
 			CREATE TABLE `gerrie_server` (
@@ -311,7 +311,7 @@ class Database
 				PRIMARY KEY (`id`),
 				UNIQUE KEY `changeset_needed` (`changeset`,`needed_by`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
-    );
+    ];
 
     /**
      * Constructor
