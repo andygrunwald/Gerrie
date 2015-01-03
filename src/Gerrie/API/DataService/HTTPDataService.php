@@ -36,7 +36,11 @@ class HTTPDataService extends BaseDataService
     protected function getBaseUrl($withAuthentication = false)
     {
         $config = $this->getConfig();
-        $baseUrl = rtrim($config['host'], '/') . '/';
+        $baseUrl = $config['scheme'] . '://' . rtrim($config['host'], '/') . '/';
+
+        if (isset($config['path'])) {
+            $baseUrl .= trim($config['path'], '/') . '/';
+        }
 
         if ($withAuthentication === true
             && $this->getConnector()->getListener() instanceof \Buzz\Listener\BasicAuthListener) {
@@ -128,6 +132,7 @@ class HTTPDataService extends BaseDataService
         );
 
         $url = $this->getBaseUrl() . 'projects/?' . http_build_query($urlParts);
+
         $response = $this->getConnector()->get($url);
         $response = $this->verifyResult($response, $url);
 
