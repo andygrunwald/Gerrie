@@ -20,7 +20,7 @@ class TransformerFactory
      * @param bool $debug
      * @return TransformerInterface
      */
-    public static function getTransformer($entity, $debug = false)
+    public function getTransformer($entity, $debug = false)
     {
         $className = 'Gerrie\\Transformer\\' . $entity . 'Transformer';
         $transformer = new $className();
