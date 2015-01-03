@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Gerrie\Component\DataService;
+namespace Gerrie\API\DataService;
 
 interface DataServiceInterface
 {

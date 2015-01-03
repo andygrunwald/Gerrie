@@ -14,7 +14,7 @@ use Gerrie\Gerrie;
 use Gerrie\Component\Configuration\ConfigurationFactory;
 use Gerrie\Component\Configuration\CommandConfiguration;
 use Gerrie\Component\Database\Database;
-use Gerrie\Component\DataService\DataServiceFactory;
+use Gerrie\API\DataService\DataServiceFactory;
 use Gerrie\Component\Console\InputExtendedInterface;
 use Gerrie\Service\DatabaseService;
 use Symfony\Component\Console\Input\InputInterface;

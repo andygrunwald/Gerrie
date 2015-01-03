@@ -26,7 +26,7 @@
 namespace Gerrie;
 
 use Gerrie\Component\Database\Database;
-use Gerrie\Component\DataService\DataServiceInterface;
+use Gerrie\API\DataService\DataServiceInterface;
 use Gerrie\Transformer\TransformerFactory;
 
 class Gerrie

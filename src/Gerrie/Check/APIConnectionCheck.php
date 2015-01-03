@@ -10,7 +10,7 @@
 
 namespace Gerrie\Check;
 
-use Gerrie\Component\DataService\DataServiceInterface;
+use Gerrie\API\DataService\DataServiceInterface;
 
 /**
  * Checks if the API connection via SSH or REST works as expected.

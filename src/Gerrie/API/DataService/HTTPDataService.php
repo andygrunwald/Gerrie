@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Gerrie\Component\DataService;
+namespace Gerrie\API\DataService;
 
 class HTTPDataService extends BaseDataService
 {
@@ -18,7 +18,7 @@ class HTTPDataService extends BaseDataService
      *
      * @param \Buzz\Browser $connector
      * @param array $config
-     * @return \Gerrie\Component\DataService\HTTPDataService
+     * @return \Gerrie\API\DataService\HTTPDataService
      */
     public function __construct(\Buzz\Browser $connector, array $config)
     {

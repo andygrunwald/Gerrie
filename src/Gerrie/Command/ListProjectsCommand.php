@@ -11,7 +11,7 @@
 namespace Gerrie\Command;
 
 use Gerrie\Component\Configuration\ConfigurationFactory;
-use Gerrie\Component\DataService\DataServiceFactory;
+use Gerrie\API\DataService\DataServiceFactory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

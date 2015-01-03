@@ -10,7 +10,7 @@
 
 namespace Gerrie\Tests\Component\DataService;
 
-use Gerrie\Component\DataService\DataServiceFactory;
+use Gerrie\API\DataService\DataServiceFactory;
 
 class DataServiceFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -66,7 +66,7 @@ class DataServiceFactoryTest extends \PHPUnit_Framework_TestCase
         ];
         $sshDataService = DataServiceFactory::getDataService($instanceConfig);
 
-        $this->assertInstanceOf('Gerrie\Component\DataService\SSHDataService', $sshDataService);
+        $this->assertInstanceOf('Gerrie\API\DataService\SSHDataService', $sshDataService);
     }
 
     public function testGetHTTPDataService()
@@ -76,7 +76,7 @@ class DataServiceFactoryTest extends \PHPUnit_Framework_TestCase
         ];
         $httpDataService = DataServiceFactory::getDataService($instanceConfig);
 
-        $this->assertInstanceOf('Gerrie\Component\DataService\HTTPDataService', $httpDataService);
+        $this->assertInstanceOf('Gerrie\API\DataService\HTTPDataService', $httpDataService);
     }
 
     public function testGetHTTPSDataService()
@@ -86,6 +86,6 @@ class DataServiceFactoryTest extends \PHPUnit_Framework_TestCase
         ];
         $httpDataService = DataServiceFactory::getDataService($instanceConfig);
 
-        $this->assertInstanceOf('Gerrie\Component\DataService\HTTPDataService', $httpDataService);
+        $this->assertInstanceOf('Gerrie\API\DataService\HTTPDataService', $httpDataService);
     }
 }
