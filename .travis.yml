@@ -22,9 +22,7 @@ install:
     - travis_retry composer --dev --no-interaction install
 
 script:
-    #- sh -c "if [ '$TRAVIS_PULL_REQUEST' != 'false' ]; then ./bin/phpunit; fi"
     - sh -c "if [ '$TRAVIS_PHP_VERSION' != '5.6' ]; then ./bin/phpunit; fi"
-    #- sh -c "if [ '$TRAVIS_PULL_REQUEST' = 'false' ];  then ./bin/phpunit --coverage-clover=coverage.clover; fi"
     - sh -c "if [ '$TRAVIS_PHP_VERSION' = '5.6' ];  then ./bin/phpunit --coverage-clover=coverage.clover; fi"
 
 after_script:
