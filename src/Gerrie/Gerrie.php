@@ -422,11 +422,9 @@ class Gerrie
     /**
      * Queries all projects from the given $host and insert them to our database.
      *
-     * @param string $host Gerrit host
      * @return void
-     * @throws \Exception
      */
-    protected function proceedProjects($host)
+    protected function proceedProjects()
     {
         $this->outputHeadline('Proceed Projects');
 
@@ -434,7 +432,15 @@ class Gerrie
         $projectRepository = new ProjectRepository($this->getDataService(), $transformerFactory);
         $transformedProjects = $projectRepository->getProjects($this->isDebugFunctionalityEnabled());
 
-        $this->importProjects($transformedProjects);
+        $parentMapping = [];
+
+        // Loop over projects to proceed every single project
+        foreach ($transformedProjects as $project) {
+            $this->importProject($project, $parentMapping);
+        }
+
+        // Correct parent / child relation of projects
+        $this->proceedProjectParentChildRelations($parentMapping);
     }
 
     /**
@@ -456,7 +462,7 @@ class Gerrie
 
         // After this, lets start to save all projects.
         // We need the projects first, because this is our "entry point" for the data mining.
-        $this->proceedProjects($host);
+        $this->proceedProjects();
 
         $this->output('');
         $this->outputHeadline('Export changesets per project');
@@ -1951,26 +1957,6 @@ class Gerrie
             $exceptionMessage .= 'There must not be an update in level ' . $level . '.';
             throw new \Exception($exceptionMessage, $exceptionCode);
         }
-    }
-
-    /**
-     * Imports all incoming projects.
-     * We save name, description and parent project.
-     *
-     * @param array $projects Projects from Gerrit API call
-     * @return void
-     */
-    protected function importProjects(array $projects)
-    {
-        $parentMapping = array();
-
-        // Loop over projects to proceed every single project
-        foreach ($projects as $project) {
-            $this->importProject($project, $parentMapping);
-        }
-
-        // Correct parent / child relation of projects
-        $this->proceedProjectParentChildRelations($parentMapping);
     }
 
     /**
