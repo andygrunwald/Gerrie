@@ -83,6 +83,7 @@ class SSHDataService extends BaseDataService
     {
         $config = $this->getConfig();
         $connector = $this->getConnector();
+        /** @var \Gerrie\Component\Connection\SSH $connector  */
 
         $connector->reset();
 
