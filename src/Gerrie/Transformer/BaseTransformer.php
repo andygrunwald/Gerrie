@@ -36,7 +36,8 @@ abstract class BaseTransformer implements TransformerInterface
      *
      * @return array
      */
-    public function getData() {
+    public function getData()
+    {
         return $this->data;
     }
 
@@ -45,7 +46,8 @@ abstract class BaseTransformer implements TransformerInterface
      *
      * @return array
      */
-    public function getSupportedKeys() {
+    public function getSupportedKeys()
+    {
         return $this->supportedKeys;
     }
 

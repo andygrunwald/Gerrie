@@ -15,7 +15,8 @@ use Gerrie\API\DataService\HTTPDataService;
 class HTTPDataServiceTest extends DataServiceTestBase
 {
 
-    protected function getServiceMock() {
+    protected function getServiceMock()
+    {
         $config = [];
         $buzzMock = $this->getMock('\Buzz\Browser');
 

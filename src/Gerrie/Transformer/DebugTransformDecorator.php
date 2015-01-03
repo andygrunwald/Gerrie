@@ -28,7 +28,8 @@ class DebugTransformDecorator extends BaseTransformer
     /**
      * @param TransformerInterface $transformer
      */
-    public function __construct(TransformerInterface $transformer) {
+    public function __construct(TransformerInterface $transformer)
+    {
         $this->transformer = $transformer;
     }
 
@@ -48,7 +49,8 @@ class DebugTransformDecorator extends BaseTransformer
      *
      * @return array
      */
-    public function getData() {
+    public function getData()
+    {
         return $this->transformer->getData();
     }
 

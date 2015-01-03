@@ -15,7 +15,8 @@ use Gerrie\API\DataService\SSHDataService;
 class SSHDataServiceTest extends DataServiceTestBase
 {
 
-    protected function getServiceMock() {
+    protected function getServiceMock()
+    {
         $config = [
             'KeyFile' => '/Users/Dummy/.ssh/id_rsa_foo',
             'Port' => 29418

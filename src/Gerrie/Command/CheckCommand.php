@@ -132,7 +132,6 @@ class CheckCommand extends GerrieBaseCommand
         $defaultSSHKeyFile = $configuration->getConfigurationValue('SSH.KeyFile');
 
         foreach ($gerritSystems as $name => $gerrieProject) {
-            $gerritSystem['Name'] = $name;
 
             foreach ($gerrieProject as $gerritInstance) {
                 // Get instance url
@@ -187,7 +186,7 @@ class CheckCommand extends GerrieBaseCommand
     {
         $result = $property->check();
 
-        if($result === false) {
+        if ($result === false) {
             $outputLevel = 'error';
             $sign = self::EMOJI_FAILURE;
 

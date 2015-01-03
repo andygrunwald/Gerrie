@@ -13,7 +13,8 @@ namespace Gerrie\Tests\API\DataService;
 class DataServiceTestBase extends \PHPUnit_Framework_TestCase
 {
 
-    public function testGetAndSetName() {
+    public function testGetAndSetName()
+    {
         $instance = $this->getServiceMock();
 
         $name = 'UnitTest Test name';

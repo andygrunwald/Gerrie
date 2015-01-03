@@ -54,7 +54,6 @@ class ListProjectsCommand extends GerrieBaseCommand
 
         $i = 0;
         foreach ($gerritSystems as $name => $gerrieProject) {
-            $gerritSystem['Name'] = $name;
 
             foreach ($gerrieProject as $gerritInstance) {
                 $path = parse_url($gerritInstance);

@@ -88,7 +88,9 @@ class CrawlCommand extends GerrieBaseCommand
         $defaultSSHKeyFile = $this->configuration->getConfigurationValue('SSH.KeyFile');
 
         foreach ($gerritSystems as $name => $gerrieProject) {
-            $gerritSystem['Name'] = $name;
+            $gerritSystem = [
+                'Name' => $name
+            ];
 
             foreach ($gerrieProject as $gerritInstance) {
 
