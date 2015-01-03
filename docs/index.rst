@@ -1,8 +1,3 @@
-.. Gerrie documentation master file, created by
-   sphinx-quickstart on Wed Oct 15 22:18:53 2014.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Welcome to Gerrie's documentation!
 ==================================
 
@@ -19,6 +14,14 @@ Contents:
    database/index
    contributing/index
    license/index
+
+.. note::
+
+    If you got questions about *Gerrie*, this documentation or if a sentence is not clear or not fully described,
+    please do not hesitate to open an issue.
+    This is the only way how we can improve this document.
+    How you do this can be read in the :doc:`contributing/issues chapter</contributing/issues>`.
+    Thanks in advance.
 
 
 Indices and tables
