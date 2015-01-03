@@ -49,7 +49,7 @@ abstract class BaseDataService implements DataServiceInterface
      */
     public function setName($name)
     {
-        $this->name = (string)$name;
+        $this->name = (string) $name;
     }
 
     /**
