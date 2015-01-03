@@ -13,16 +13,50 @@ namespace Gerrie\Component\Connection;
 class SSH
 {
 
+    /**
+     * SSH Key file for authentification
+     *
+     * @var string
+     */
     protected $keyFile = '';
 
+    /**
+     * SSH port
+     *
+     * @var int
+     */
     protected $port = 0;
 
-    protected $commandParts = array();
+    /**
+     * SSH commands.
+     *
+     * In command "ssh example.com ls-projects --format 'JSON' --description" reflects "ls-projects" a command part.
+     *
+     * @var array
+     */
+    protected $commandParts = [];
 
-    protected $arguments = array();
+    /**
+     * SSH arguments.
+     *
+     * In command "ssh example.com ls-projects --format 'JSON' --description" reflects "--format 'JSON"
+     * and "--description" the argument parts.
+     *
+     * @var array
+     */
+    protected $arguments = [];
 
+    /**
+     * SSH executable
+     *
+     * @var string
+     */
     protected $executable = '';
 
+    /**
+     * @param $executable
+     * @param array $config
+     */
     public function __construct($executable, array $config)
     {
         $this->setExecutable($executable);
@@ -109,7 +143,11 @@ class SSH
 
         $command .= implode(' ', $this->getCommandParts()) . ' ';
         $command .= implode(' ', $this->getArguments());
-        $command .= ' 2>&1';
+
+        $command = trim($command);
+        if ($command) {
+            $command .= ' 2>&1';
+        }
 
         return $command;
     }
@@ -123,7 +161,7 @@ class SSH
      */
     public function execute($implodeReturnValue = true)
     {
-        $data = array();
+        $data = [];
         $command = $this->getCommand();
 
         $data = $this->execCommand($command, $data);
@@ -262,7 +300,7 @@ class SSH
      */
     public function reset()
     {
-        $this->commandParts = array();
-        $this->arguments = array();
+        $this->commandParts = [];
+        $this->arguments = [];
     }
 }
