@@ -19,6 +19,7 @@ use Gerrie\Check\SSHCheck;
 use Gerrie\Check\CheckInterface;
 use Gerrie\Check\DatabaseConnectionCheck;
 use Gerrie\Component\Configuration\ConfigurationFactory;
+use Gerrie\Component\Console\InputExtendedInterface;
 use Gerrie\Component\Database\Database;
 use Gerrie\API\DataService\DataServiceFactory;
 use Symfony\Component\Console\Input\InputInterface;
