@@ -105,18 +105,6 @@ class HTTPDataService extends BaseDataService
     }
 
     /**
-     * Gets the Host
-     *
-     * @return string
-     */
-    public function getHost()
-    {
-        $config = $this->getConfig();
-
-        return $config['host'];
-    }
-
-    /**
      * Requests projects at the Gerrit server
      *
      * @return array|null

@@ -11,17 +11,33 @@
 namespace Gerrie\Tests\API\DataService;
 
 use Gerrie\API\DataService\HTTPDataService;
+use Gerrie\API\DataService\DataServiceInterface;
 
 class HTTPDataServiceTest extends DataServiceTestBase
 {
 
-    protected function getServiceMock()
+    /**
+     * @param array $configArgument
+     * @return DataServiceInterface
+     */
+    protected function getServiceMock($configArgument = [])
     {
         $config = [];
+        $config = array_merge($config, $configArgument);
+
         $buzzMock = $this->getMock('\Buzz\Browser');
 
         $instance = new HTTPDataService($buzzMock, $config);
 
         return $instance;
     }
+
+    /**
+     * TODO: Create tests for:
+     *  * testSetterAndGetterQueryLimitWithoutInitialisation
+     *  * transformJsonResponse
+     *  * getProjects
+     *  * getChangesets($projectName, $resumeKey = null, $start = 0);
+     *  * getVersion
+     */
 }
