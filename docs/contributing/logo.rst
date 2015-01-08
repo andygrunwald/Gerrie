@@ -13,8 +13,6 @@ We don`t get a special briefing.
 But here are some small words.
 Maybe they help to develop an idea:
 
-      A crawler for .
-
     Gerrie is a data mining tool / crawler to retrieve data from Googles code review system "Gerrit".
     Data mining is a more general word about retrieving, cleaning and analyze data to get new information out of it.
     The data which is mind is related to developer who spend (mostly) spare time to improve a software system by fixing bugs or adding new features.
