@@ -1964,7 +1964,7 @@ class Gerrie
      * We save name, description and parent project.
      *
      * @param array $project Project info like description or parent project
-     * @param array $parentMapping Array where parent / child releation will be saved
+     * @param array $parentMapping Array where parent / child relation will be saved
      * @return int
      */
     public function importProject(array $project, array &$parentMapping)
