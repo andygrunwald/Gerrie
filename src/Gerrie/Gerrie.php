@@ -791,10 +791,13 @@ class Gerrie
             'commit_message' => $changeSet['commitMessage'],
             'created_on' => $changeSet['createdOn'],
             'last_updated' => $changeSet['lastUpdated'],
-            'sort_key' => $changeSet['sortKey'],
             'open' => intval($changeSet['open']),
             'status' => $changeSet['status'],
         );
+
+        if (isset($changeSet['sortKey']) === true) {
+            $changeSetData['sort_key'] = $changeSet['sortKey'];
+        }
 
         // A changeset don`t have a unique identifier.
         // The Gerrit documentation says that "<project>~<branch>~<Change-Id>" will be enough
@@ -1558,7 +1561,7 @@ class Gerrie
     {
         $lastChangeSet = $this->transferJsonToArray(array_pop($data));
 
-        return $lastChangeSet['sortKey'];
+        return (isset($lastChangeSet['sortKey']) === true) ? $lastChangeSet['sortKey'] : null;
     }
 
     /**
