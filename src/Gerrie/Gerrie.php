@@ -1644,7 +1644,7 @@ class Gerrie
         $nameList = implode(',', $names);
 
         $query = 'SELECT `id`, `name` FROM ' . Database::TABLE_PROJECT . '
-                  WHERE `server_id` = :server_id AND FIND_IN_SET(`name`, :names) > 0';
+                  WHERE `server_id` = :server_id AND FIND_IN_SET(BINARY `name`, :names) > 0';
         $statement = $dbHandle->prepare($query);
 
         $statement->bindParam(':server_id', $serverId, \PDO::PARAM_INT);
