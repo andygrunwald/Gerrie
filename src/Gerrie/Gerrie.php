@@ -791,10 +791,13 @@ class Gerrie
             'commit_message' => $changeSet['commitMessage'],
             'created_on' => $changeSet['createdOn'],
             'last_updated' => $changeSet['lastUpdated'],
-            'sort_key' => $changeSet['sortKey'],
             'open' => intval($changeSet['open']),
             'status' => $changeSet['status'],
         );
+
+        if (isset($changeSet['sortKey']) === true) {
+            $changeSetData['sort_key'] = $changeSet['sortKey'];
+        }
 
         // A changeset don`t have a unique identifier.
         // The Gerrit documentation says that "<project>~<branch>~<Change-Id>" will be enough
@@ -1211,7 +1214,8 @@ class Gerrie
             'sizeInsertions',
             'sizeDeletions',
             'isDraft',
-            'createdOn'
+            'createdOn',
+            'kind'
         );
         $patchset = $this->unsetKeys($patchset, $keysToDelete);
 
@@ -1558,7 +1562,7 @@ class Gerrie
     {
         $lastChangeSet = $this->transferJsonToArray(array_pop($data));
 
-        return $lastChangeSet['sortKey'];
+        return (isset($lastChangeSet['sortKey']) === true) ? $lastChangeSet['sortKey'] : null;
     }
 
     /**
@@ -1644,7 +1648,7 @@ class Gerrie
         $nameList = implode(',', $names);
 
         $query = 'SELECT `id`, `name` FROM ' . Database::TABLE_PROJECT . '
-                  WHERE `server_id` = :server_id AND FIND_IN_SET(`name`, :names) > 0';
+                  WHERE `server_id` = :server_id AND FIND_IN_SET(BINARY `name`, :names) > 0';
         $statement = $dbHandle->prepare($query);
 
         $statement->bindParam(':server_id', $serverId, \PDO::PARAM_INT);
@@ -1964,7 +1968,7 @@ class Gerrie
      * We save name, description and parent project.
      *
      * @param array $project Project info like description or parent project
-     * @param array $parentMapping Array where parent / child releation will be saved
+     * @param array $parentMapping Array where parent / child relation will be saved
      * @return int
      */
     public function importProject(array $project, array &$parentMapping)

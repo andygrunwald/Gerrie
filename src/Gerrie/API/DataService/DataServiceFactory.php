@@ -48,6 +48,10 @@ class DataServiceFactory
             throw new \RuntimeException($exceptionMessage, 1415453791);
         }
 
+        if (!array_key_exists('port', $instanceDetails)) {
+            $instanceDetails['port'] = null;
+        }
+
         $instanceConfig['Instance'] = $instanceDetails;
 
         $scheme = strtoupper($instanceConfig['Instance']['scheme']);
