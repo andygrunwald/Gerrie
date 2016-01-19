@@ -1214,7 +1214,8 @@ class Gerrie
             'sizeInsertions',
             'sizeDeletions',
             'isDraft',
-            'createdOn'
+            'createdOn',
+            'kind'
         );
         $patchset = $this->unsetKeys($patchset, $keysToDelete);
 
