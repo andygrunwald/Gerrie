@@ -15,6 +15,9 @@ After the transformation the data can be used to start simple queries or complex
 * Source code: [Gerrie @ GitHub](https://github.com/andygrunwald/Gerrie)
 * Documentation: [*Gerrie* @ Read the Docs](https://gerrie.readthedocs.org/en/latest/)
 
+**Gerrie is deprecated**: [watson](https://github.com/andygrunwald/watson) will be replace *Gerrie*. Watson benefits from our learnings of developing and maintaing Gerrie in a larger (crawling) scale. Checkout [https://github.com/andygrunwald/Gerrie/pull/17](#17) for some more information.
+**Neverless we still merge and support contributions to Gerrie**.
+
 ## Features
 
 * Full imports
